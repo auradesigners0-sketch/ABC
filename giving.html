@@ -12,14 +12,17 @@
             height: 100%; 
             scroll-behavior: smooth; 
             overflow-x: hidden;
-            overflow-y: scroll;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox - hide scrollbar */
+            -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
         }
+        html::-webkit-scrollbar { display: none; /* Chrome/Safari - hide scrollbar */ }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #E0E0E0;
             display: flex; flex-direction: column; align-items: center;
             position: relative; min-height: 100%; 
-            overflow-x: clip;
+            overflow-x: hidden;
             padding: 20px 20px 60px 20px;
         }
 
@@ -124,8 +127,7 @@
             display: flex; align-items: center; justify-content: center;
             padding: 15px; 
             flex-shrink: 0;
-            background: #ffffff; 
-            border-right: 1px solid #f3f4f6;
+            background: #ffffff;
         }
         
         /* Specific Colors for the 40% Left Side */
@@ -255,14 +257,14 @@
         <div id="bank" class="tab-content">
             
             <!-- CRDB Bank Card -->
-            <div class="payment-card card-crdb" data-copy="015234567890">
+            <div class="payment-card card-crdb" data-copy="10369920068">
                 <div class="card-logo-container">
                     <img src="images/crdb.png" alt="CRDB Bank Logo" class="card-logo">
                 </div>
                 <div class="payment-info">
                     <span class="payment-type">CRDB Bank</span>
-                    <span class="payment-number">0152 3456 7890</span>
-                    <span class="payment-name">ABC GLOBAL CHURCH</span>
+                    <span class="payment-number">1036 9920 068</span>
+                    <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
                 <div class="copy-icon-area"><i data-lucide="copy" style="width: 18px; height: 18px;"></i></div>
             </div>

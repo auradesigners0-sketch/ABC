@@ -3,143 +3,737 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - ABC GLOBAL Church</title>
+    <title>Our Branches - ABC GLOBAL Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { height: 100%; scroll-behavior: smooth; overflow: hidden; }
+        html { height: 100%; scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        html::-webkit-scrollbar { display: none; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Deep Dark Grey Background */
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; min-height: 100%; overflow: hidden;
-            padding: 20px;
+            background-color: #f4f4f5;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; min-height: 100%;
+            overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
+            padding: 20px 16px 60px 16px;
         }
+        body::-webkit-scrollbar { display: none; }
 
-        /* Subtle Red Ambient Glow */
         body::before {
-            content: ''; position: absolute; width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(196, 30, 58, 0.15) 0%, transparent 70%);
-            border-radius: 50%; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            content: ''; position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(55, 65, 81, 0.05) 0%, transparent 70%);
+            border-radius: 50%; top: 10%; left: 50%; transform: translate(-50%, -50%);
             pointer-events: none; z-index: 0;
-            animation: breathe 6s ease-in-out infinite;
         }
 
-        /* Vignette for premium cinematic feel */
-        body::after {
-            content: ''; position: fixed; inset: 0; 
-            background: radial-gradient(circle at center, transparent 0%, #111827 90%);
-            pointer-events: none; z-index: 1;
+        .back-nav {
+            position: fixed; top: 24px; left: 24px; z-index: 100;
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: #333333; font-weight: 700; font-size: 0.85rem;
+            background: rgba(255,255,255,0.9); padding: 8px 16px; border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;
+        }
+        .back-nav:hover { background: #ffffff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); color: #374151; }
+
+        .container {
+            width: 100%; max-width: 1200px; position: relative; z-index: 10;
+            animation: fadeInUp 0.6s ease-out forwards; opacity: 0;
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 15px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+
+        .top-logo {
+            width: 60px; height: 60px; object-fit: contain; margin: 10px auto 15px auto; display: block;
+            filter: drop-shadow(0 4px 10px rgba(55, 65, 81, 0.15));
+            animation: fadeInUp 0.6s ease-out 0.1s forwards; opacity: 0;
         }
 
-        /* Main Container */
-        .coming-soon-container {
-            width: 100%; max-width: 500px; position: relative; z-index: 10;
-            animation: fadeIn 1s ease-out forwards; opacity: 0;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
+        .page-header {
+            text-align: center; margin-bottom: 25px;
+            animation: fadeInUp 0.6s ease-out 0.2s forwards; opacity: 0;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes breathe { 0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+        .page-header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #111827; line-height: 1.2; text-transform: uppercase; }
+        .page-header p { color: #6b7280; font-size: 0.85rem; margin-top: 6px; line-height: 1.5; font-weight: 500; }
 
-        /* Logo */
-        .cs-logo {
-            width: 70px; height: 70px; object-fit: contain; margin-bottom: 40px; display: block;
-            filter: brightness(0) invert(1); /* Makes logo white for dark mode */
-            opacity: 0.9;
+        /* --- SEARCH BAR --- */
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            animation: fadeInUp 0.6s ease-out 0.3s forwards; opacity: 0;
         }
-
-        /* Animated Progress Visual */
-        .cs-progress-wrapper {
-            display: flex; align-items: center; gap: 6px; margin-bottom: 30px;
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: #9ca3af;
+            pointer-events: none;
         }
-        .cs-dot {
-            width: 6px; height: 6px; background: #4b5563; border-radius: 50%;
-            animation: dotPulse 2s ease-in-out infinite;
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #111827;
+            background: #ffffff;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
-        .cs-dot.active { background: #C41E3A; box-shadow: 0 0 10px rgba(196, 30, 58, 0.5); }
-        .cs-dot:nth-child(1) { animation-delay: 0s; }
-        .cs-dot:nth-child(2) { animation-delay: 0.3s; }
-        .cs-dot:nth-child(3) { animation-delay: 0.6s; }
-        .cs-dot:nth-child(4) { animation-delay: 0.9s; }
-        .cs-dot:nth-child(5) { animation-delay: 1.2s; }
-        @keyframes dotPulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
-
-        /* Typography */
-        .cs-title {
-            font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #F9FAFB;
-            line-height: 1; margin-bottom: 15px; letter-spacing: -0.02em;
-        }
-        .cs-subtitle {
-            font-weight: 800; font-size: 0.7rem; color: #C41E3A;
-            text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 25px;
-        }
-        .cs-text {
-            color: #9ca3af; font-size: 0.9rem; line-height: 1.7; font-weight: 400;
-            max-width: 85%; margin-bottom: 40px;
+        .search-input::placeholder { color: #9ca3af; }
+        .search-input:focus {
+            border-color: #374151;
+            box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
         }
 
-        /* Home Button (Ghost Style) */
-        .home-btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px 32px; background: transparent; color: #F9FAFB; 
-            border: 1.5px solid rgba(255, 255, 255, 0.15); border-radius: 50px;
-            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.8rem;
-            letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s ease;
-            text-decoration: none; text-transform: uppercase;
+        /* --- GRID LAYOUT --- */
+        .branch-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
-        .home-btn:hover {
-            background: #C41E3A; border-color: #C41E3A; color: #ffffff; transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(196, 30, 58, 0.3);
-        }
-        .home-btn:active { transform: scale(0.98); }
 
-        /* Scripture Footer */
+        @media (min-width: 768px) {
+            .branch-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* --- CARD STYLES --- */
+        .branch-card {
+            display: flex;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease-out forwards; opacity: 0;
+        }
+        .branch-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-color: #d1d5db;
+        }
+        .branch-card.hidden {
+            display: none;
+        }
+
+        .card-left {
+            width: 40%;
+            flex-shrink: 0;
+            background: #f8f9fa;
+            border-right: 1px solid #e5e7eb;
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .card-left {
+                aspect-ratio: 16 / 9;
+            }
+        }
+
+        .card-map-img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: saturate(0.8) contrast(1.05);
+            transition: filter 0.3s ease;
+        }
+        .branch-card:hover .card-map-img { filter: saturate(1) contrast(1); }
+
+        .map-placeholder {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            color: #9ca3af;
+            padding: 10px;
+            text-align: center;
+        }
+        .map-placeholder i { margin-bottom: 4px; }
+
+        .card-right {
+            flex: 1;
+            display: flex; flex-direction: column;
+            padding: 14px 16px;
+            gap: 4px;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        @media (min-width: 768px) {
+            .card-right {
+                padding: 16px 20px;
+                gap: 5px;
+            }
+        }
+
+        .branch-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1.2;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+        @media (min-width: 768px) {
+            .branch-title { font-size: 1.05rem; }
+        }
+
+        .branch-pastor {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 4px;
+        }
+        @media (min-width: 768px) {
+            .branch-pastor { font-size: 0.75rem; margin-bottom: 6px; }
+        }
+
+        .detail-item {
+            display: flex; align-items: flex-start; gap: 6px;
+            font-size: 0.75rem; color: #4b5563; font-weight: 500;
+            line-height: 1.35;
+        }
+        @media (min-width: 768px) {
+            .detail-item { font-size: 0.82rem; gap: 8px; line-height: 1.4; }
+        }
+
+        .detail-item i {
+            flex-shrink: 0;
+            width: 13px; height: 13px;
+            color: #9ca3af;
+            margin-top: 1px;
+        }
+        @media (min-width: 768px) {
+            .detail-item i { width: 15px; height: 15px; margin-top: 2px; }
+        }
+
+        .detail-item strong { color: #111827; font-weight: 700; }
+
+        .phone-link { color: #111827; text-decoration: none; font-weight: 700; transition: color 0.2s; }
+        .phone-link:hover { color: #374151; text-decoration: underline; }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px solid #f3f4f6;
+        }
+        .btn-action {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+        @media (min-width: 768px) {
+            .btn-action {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+                gap: 6px;
+                border-radius: 8px;
+            }
+        }
+
+        .btn-action i {
+            width: 12px; height: 12px; flex-shrink: 0;
+        }
+        @media (min-width: 768px) {
+            .btn-action i { width: 14px; height: 14px; }
+        }
+
+        .btn-call {
+            background: #374151;
+            color: #ffffff;
+        }
+        .btn-call:hover {
+            background: #1f2937;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(55, 65, 81, 0.35);
+        }
+
+        .btn-map {
+            background: transparent;
+            color: #374151;
+            border: 1.5px solid #d1d5db;
+        }
+        .btn-map:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            color: #111827;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
         .scripture-footer {
-            position: absolute; bottom: 30px; left: 0; right: 0; text-align: center;
-            color: #4b5563; font-size: 0.7rem; font-weight: 500; font-style: italic; z-index: 10;
+            text-align: center; margin-top: 30px; color: #9ca3af; font-size: 0.7rem; font-weight: 500;
+            font-style: italic; animation: fadeInUp 0.6s ease-out 0.5s forwards; opacity: 0; grid-column: 1 / -1;
         }
 
-        @media (max-width: 480px) {
-            .cs-title { font-size: 2.5rem; }
-            .cs-text { font-size: 0.85rem; }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="coming-soon-container">
-        <!-- Logo (White version for dark background) -->
-        <img src="images/logo.png" alt="ABC Global Logo" class="cs-logo">
+    <a href="index.html" onclick="window.location.href='index.html'; return false;" class="back-nav">
+        <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+        <span>Back</span>
+    </a>
 
-        <!-- Minimalist Animated Dots -->
-        <div class="cs-progress-wrapper">
-            <div class="cs-dot active"></div>
-            <div class="cs-dot active"></div>
-            <div class="cs-dot"></div>
-            <div class="cs-dot"></div>
-            <div class="cs-dot"></div>
+    <div class="container">
+        <img src="https://z-cdn-media.chatglm.cn/files/ab950aef-8df1-4860-9378-fd4b12f22f29.png?auth_key=1879091774-4158beba2b394829a510bcdd3963beeb-0-d4ac47b63a4e2cef651c8efc56c5942b" alt="ABC Global Logo" class="top-logo">
+
+        <div class="page-header">
+            <h1>Our Branches</h1>
+            <p>Find a location near you and join us for worship.</p>
         </div>
 
-        <!-- Text Content -->
-        <h2 class="cs-title">Coming Soon</h2>
-        <p class="cs-subtitle">Under Construction</p>
-        <p class="cs-text">We are working on something great. This page will be available soon. Thank you for your patience!</p>
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="branchSearch" placeholder="Search by pastor or location details..." class="search-input">
+        </div>
 
-        <!-- Button -->
-        <a href="index.html" class="home-btn">
-            <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
-            <span>Back to Home</span>
-        </a>
-    </div>
+        <div class="branch-list" id="branchList">
 
-    <div class="scripture-footer">
-        "But those who hope in the Lord will renew their strength." — Isaiah 40:31
+            <!-- 1. SHINYANGA -->
+            <div class="branch-card" data-pastor-details="BISHOP IBRAHIM AMASI" data-location-details="KAHAMA NYAHANGA KIVULINI SHINYANGA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">SHINYANGA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Shinyanga</div>
+                    <div class="branch-pastor">BISHOP IBRAHIM AMASI</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255763706469" class="phone-link">+255 763 706 469</a></span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="map-pin"></i>
+                        <span><strong>Kahama</strong> - Nyahanga Kivulini</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255763706469" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=-3.8373,32.9175" target="_blank" rel="noopener noreferrer" class="btn-action btn-map"><i data-lucide="navigation"></i>Map</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. DODOMA -->
+            <div class="branch-card" data-pastor-details="APOSTLE JOHNSON FRANCIS MZINGU" data-location-details="DODOMA MJINI NKUHUNGU CHAMA DODOMA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DODOMA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Dodoma</div>
+                    <div class="branch-pastor">APOSTLE JOHNSON FRANCIS MZINGU</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255762575325" class="phone-link">+255 762 575 325</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255762575325" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. MWANZA -->
+            <div class="branch-card" data-pastor-details="PASTOR CHARLES TB KABIGUMILA" data-location-details="NYAMAGANA NYEGEZI NYABULUGOYA MWANZA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">MWANZA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Mwanza</div>
+                    <div class="branch-pastor">PASTOR CHARLES TB KABIGUMILA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255746192605" class="phone-link">+255 746 192 605</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255746192605" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. DAR ES SALAAM - HQ -->
+            <div class="branch-card" data-pastor-details="PASTOR JOSEPH MAKINDI" data-location-details="UBUNGO KINZUDI GOBA DAR ES SALAAM" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DAR ES SALAAM</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL HQ</div>
+                    <div class="branch-pastor">PASTOR JOSEPH MAKINDI</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255759625673" class="phone-link">0759 625 673</a></span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="map-pin"></i>
+                        <span><strong>Ubungo</strong> - Kinzudi Goba</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255759625673" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=-6.7783,39.2456" target="_blank" rel="noopener noreferrer" class="btn-action btn-map"><i data-lucide="navigation"></i>Map</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. MBEYA -->
+            <div class="branch-card" data-pastor-details="PASTOR ESKAKA CHAULA" data-location-details="MBEYA MJINI NZOVWE MBEYA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">MBEYA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Mbeya</div>
+                    <div class="branch-pastor">PASTOR ESKAKA CHAULA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255767244432" class="phone-link">0767 244 432</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255767244432" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. KILIMANJARO -->
+            <div class="branch-card" data-pastor-details="APOSTLE ALLEN KIPANGULA" data-location-details="MOSHI MJOHORONI KILIMANJARO" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">KILIMANJARO</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Kilimanjaro</div>
+                    <div class="branch-pastor">APOSTLE ALLEN KIPANGULA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255756057068" class="phone-link">+255 756 057 068</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255756057068" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. DAR ES SALAAM (BUNJU) -->
+            <div class="branch-card" data-pastor-details="PASTOR SAIMON MASHA" data-location-details="BUNJU USALAMA DAR ES SALAAM" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DAR ES SALAAM</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Bunju</div>
+                    <div class="branch-pastor">PASTOR SAIMON MASHA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255753131247" class="phone-link">0753 131 247</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255753131247" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. DAR ES SALAAM (GONGO LA MBOTO) -->
+            <div class="branch-card" data-pastor-details="PASTOR PROFESSOR EBENEZA CHAULA" data-location-details="GONGO LA MBOTO DAR ES SALAAM" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DAR ES SALAAM</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Gongo La Mboto</div>
+                    <div class="branch-pastor">PASTOR (PROF.) EBENEZA CHAULA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255621579858" class="phone-link">+255 621 579 858</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255621579858" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. PWANI -->
+            <div class="branch-card" data-pastor-details="PASTOR PHINIAS FRANC" data-location-details="CHALINZE PWANI" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">PWANI</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Pwani</div>
+                    <div class="branch-pastor">PASTOR PHINIAS FRANC</div>
+                    <div class="card-actions">
+                        <a href="tel:" class="btn-action btn-call" style="opacity: 0.5; pointer-events: none;"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. SONGWE -->
+            <div class="branch-card" data-pastor-details="PASTOR SOSPETER JAPHET NDABAHA" data-location-details="SONGWE MBOZI VWAWA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">SONGWE</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Songwe</div>
+                    <div class="branch-pastor">PASTOR SOSPETER JAPHET NDABAHA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255747762476" class="phone-link">+255 747 762 476</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255747762476" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. ARUSHA -->
+            <div class="branch-card" data-pastor-details="PASTOR GEOFREY EPHRAEM KAIJAGE" data-location-details="TENGERU ARUSHA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">ARUSHA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Arusha</div>
+                    <div class="branch-pastor">PASTOR GEOFREY EPHRAEM KAIJAGE</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255752801180" class="phone-link">0752 801 180</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255752801180" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. DAR ES SALAAM (MBAGALA) -->
+            <div class="branch-card" data-pastor-details="PASTOR NICHOLAUS CHIDUO" data-location-details="MBAGALA MISSION KWA NGOSHA DAR ES SALAAM" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DAR ES SALAAM</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Mbagala</div>
+                    <div class="branch-pastor">PASTOR NICHOLAUS CHIDUO</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255763420285" class="phone-link">+255 763 420 285</a> / <a href="tel:+255746418481" class="phone-link">0746 418 481</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255763420285" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. DODOMA (CHAMWINO) -->
+            <div class="branch-card" data-pastor-details="PASTOR FRANK N KASELE" data-location-details="CHAMWINO MLOWA BARABARANI DODOMA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DODOMA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Chamwino</div>
+                    <div class="branch-pastor">PASTOR FRANK N KASELE</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255682164969" class="phone-link">0682 164 969</a> / <a href="tel:+255684696966" class="phone-link">0684 696 966</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255682164969" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. DODOMA (MICESE) -->
+            <div class="branch-card" data-pastor-details="PASTOR DISHON NDAYANSE" data-location-details="DODOMA MICESE DODOMA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DODOMA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Dodoma Michese</div>
+                    <div class="branch-pastor">PASTOR DISHON NDAYANSE</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255762007543" class="phone-link">0762 007 543</a> / <a href="tel:+255629107543" class="phone-link">0629 107 543</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255762007543" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15. KAKOLA -->
+            <div class="branch-card" data-pastor-details="PASTOR CHARLES LESLEY WAMBURA" data-location-details="KAKOLA" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">KAKOLA</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Kakola</div>
+                    <div class="branch-pastor">PASTOR CHARLES LESLEY WAMBURA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255746846807" class="phone-link">0746 846 807</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255746846807" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16. MAJOHE -->
+            <div class="branch-card" data-pastor-details="PASTOR EMANUEL CLEMENT MALOGO" data-location-details="MAJOHE CHUO RADA MKONGWE PUB" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">MAJOHE</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Majohe</div>
+                    <div class="branch-pastor">PASTOR EMANUEL CLEMENT MALOGO</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255755788312" class="phone-link">0755 788 312</a></span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255755788312" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17. DAR ES SALAAM (MADALE) -->
+            <div class="branch-card" data-pastor-details="PASTOR CRIASON FRED MBUNDA" data-location-details="MADALE DAR ES SALAAM" style="animation-delay: 0.3s;">
+                <div class="card-left">
+                    <div class="map-placeholder">
+                        <i data-lucide="map" style="width: 24px; height: 24px;"></i>
+                        <span style="font-size: 0.55rem; font-weight: 600;">DAR ES SALAAM</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="branch-title">ABC GLOBAL Madale</div>
+                    <div class="branch-pastor">PASTOR CRIASON FRED MBUNDA</div>
+                    <div class="detail-item">
+                        <i data-lucide="phone"></i>
+                        <span><a href="tel:+255655259004" class="phone-link">0655 259 004</a> / <a href="tel:+255628572101" class="phone-link">0628 572 101</a></span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="map-pin"></i>
+                        <span><strong>Madale</strong> - Dar es Salaam</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="tel:+255655259004" class="btn-action btn-call"><i data-lucide="phone"></i>Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults">
+                No branches found matching your search.
+            </div>
+
+        </div>
+
+        <div class="scripture-footer">
+            "For where two or three gather in my name, there am I with them." — Matthew 18:20
+        </div>
     </div>
 
     <script>
-        // Initialize Lucide Icons
         lucide.createIcons();
+
+        // Targeted Search Functionality
+        const searchInput = document.getElementById('branchSearch');
+        const branchCards = document.querySelectorAll('.branch-card');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            branchCards.forEach(card => {
+                const pastorDetails = card.getAttribute('data-pastor-details').toLowerCase();
+                const locationDetails = card.getAttribute('data-location-details').toLowerCase();
+
+                if (pastorDetails.includes(searchTerm) || locationDetails.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>

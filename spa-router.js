@@ -1,0 +1,373 @@
+/**
+ * SPA Router for ABC GLOBAL Church
+ * 
+ * - Intercepts all internal navigation links and loads page content
+ *   via fetch() WITHOUT reloading the page.
+ * - This keeps the <audio> element alive so the radio NEVER stops.
+ * - On sub-pages: hides nav, hamburger, radio player, give button
+ *   (sub-pages look like standalone pages with back buttons).
+ * - On home page: shows all homepage-only elements.
+ */
+
+(function () {
+    'use strict';
+
+    // The container where dynamic page content will be injected
+    const contentArea = document.getElementById('spa-content');
+    if (!contentArea) {
+        console.error('SPA Router: #spa-content container not found!');
+        return;
+    }
+
+    // Homepage-only elements (shown on home, hidden on sub-pages)
+    const floatingWidgets = document.getElementById('floatingWidgets');
+    const desktopNav = document.getElementById('desktopNav');
+    const hamburger = document.getElementById('hamburger');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const rippleContainer = document.getElementById('ripple-container');
+
+    // Track current page for caching
+    let currentPage = 'home';
+    const pageCache = {};
+    const pageStyles = {};
+    const pageScripts = {};
+
+    // Store the home page content (already in the DOM on first load)
+    pageCache['home'] = contentArea.innerHTML;
+    pageStyles['home'] = '';
+    pageScripts['home'] = '';
+
+    // Page-specific config
+    const pageConfig = {
+        'home':       { bodyClass: 'spa-home',       bg: '#E0E0E0', title: 'ABC GLOBAL Church' },
+        'giving':     { bodyClass: 'spa-giving',     bg: '#E0E0E0', title: 'Give - ABC GLOBAL Church' },
+        'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Testimonies - ABC GLOBAL Church' },
+        'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request - ABC GLOBAL Church' },
+        'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect - ABC GLOBAL Church' },
+        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - ABC GLOBAL Church' }
+    };
+
+    // Map page names to their HTML files
+    const pageFiles = {
+        'giving': 'giving.html',
+        'testimonies': 'testimonies.html',
+        'prayer': 'prayer.html',
+        'connect': 'connect.html',
+        'branches': 'branches.html'
+    };
+
+    // Reverse map: filename -> page name
+    const fileToPage = {};
+    for (const [page, file] of Object.entries(pageFiles)) {
+        fileToPage[file] = page;
+    }
+
+    /**
+     * Get page name from an href string
+     */
+    function getPageFromHref(href) {
+        if (!href || href === 'index.html' || href === '/' || href === './' || href === '') return 'home';
+        const filename = href.split('/').pop().split('?')[0].split('#')[0];
+        return fileToPage[filename] || null;
+    }
+
+    /**
+     * Show homepage-only elements
+     */
+    function showHomeElements() {
+        // Clear ALL inline styles so CSS rules take full control again
+        if (floatingWidgets) {
+            floatingWidgets.removeAttribute('style');
+        }
+        if (desktopNav) {
+            desktopNav.removeAttribute('style');
+        }
+        if (hamburger) {
+            hamburger.removeAttribute('style');
+            // Reset hamburger to closed state (remove .active so dots show, not X)
+            hamburger.classList.remove('active');
+        }
+        if (rippleContainer) {
+            rippleContainer.removeAttribute('style');
+        }
+    }
+
+    /**
+     * Hide homepage-only elements (sub-pages look like standalone pages)
+     */
+    function hideHomeElements() {
+        // Hide radio player + give button
+        if (floatingWidgets) {
+            floatingWidgets.style.cssText = 'display: none !important;';
+        }
+        // Hide desktop bottom nav
+        if (desktopNav) {
+            desktopNav.style.cssText = 'display: none !important;';
+        }
+        // Hide hamburger and reset its state (remove .active so it shows dots, not X)
+        if (hamburger) {
+            hamburger.classList.remove('active');
+            hamburger.style.cssText = 'display: none !important; opacity: 0 !important; pointer-events: none !important;';
+        }
+        // Hide ripple container
+        if (rippleContainer) {
+            rippleContainer.style.cssText = 'display: none !important;';
+        }
+        // Close menu overlay if open
+        if (menuOverlay && menuOverlay.classList.contains('active')) {
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    /**
+     * Prepare content for SPA mode:
+     * - Keep back buttons (they navigate back to home via SPA)
+     * - Fix onclick attributes that do window.location
+     */
+    function cleanContent(html, pageName) {
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+
+        // Fix back-nav links to work with SPA
+        temp.querySelectorAll('.back-nav').forEach(el => {
+            el.setAttribute('href', 'index.html');
+            el.removeAttribute('onclick');
+        });
+
+        // Fix "Back to Home" buttons
+        temp.querySelectorAll('a.home-btn, a[href="index.html"]').forEach(el => {
+            el.setAttribute('href', 'index.html');
+            el.removeAttribute('onclick');
+        });
+
+        // Fix any other onclick="window.location..." attributes
+        temp.querySelectorAll('[onclick]').forEach(el => {
+            const onclick = el.getAttribute('onclick') || '';
+            if (onclick.includes('window.location')) {
+                el.removeAttribute('onclick');
+            }
+        });
+
+        return temp.innerHTML;
+    }
+
+    /**
+     * Fetch a page's HTML and extract its content, styles, and scripts
+     */
+    async function fetchPageContent(pageName) {
+        if (pageCache[pageName]) return; // Already cached
+
+        const file = pageFiles[pageName];
+        if (!file) return;
+
+        try {
+            const response = await fetch(file);
+            if (!response.ok) throw new Error('Failed to load page');
+            const html = await response.text();
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract styles
+            let styles = '';
+            doc.querySelectorAll('style').forEach(style => {
+                styles += style.textContent;
+            });
+
+            // Extract body content (remove <script> and <style> tags)
+            const bodyContent = doc.body.cloneNode(true);
+            bodyContent.querySelectorAll('script, style').forEach(el => el.remove());
+
+            // Clean content for SPA
+            const cleanedHTML = cleanContent(bodyContent.innerHTML, pageName);
+
+            // Extract scripts (strip lucide.createIcons() lines instead of skipping entire scripts)
+            let scripts = '';
+            doc.querySelectorAll('script').forEach(script => {
+                let text = script.textContent.trim();
+                if (!text || text.length < 10) return;
+                // Remove lucide.createIcons() lines so we don't double-call it
+                text = text.split('\n')
+                    .filter(line => !line.trim().startsWith('lucide.createIcons()') && !(line.trim() === 'lucide.createIcons();'))
+                    .join('\n').trim();
+                if (text.length < 10) return;
+                scripts += text + '\n';
+            });
+
+            pageCache[pageName] = cleanedHTML;
+            pageStyles[pageName] = styles;
+            pageScripts[pageName] = scripts;
+        } catch (error) {
+            console.error('SPA Router: Failed to fetch page', pageName, error);
+            pageCache[pageName] = '<div style="text-align:center;padding:60px 20px;"><h2 style="color:#111827;margin-bottom:10px;">Failed to load page</h2><p style="color:#6b7280;">Please check your connection and try again.</p></div>';
+            pageStyles[pageName] = '';
+            pageScripts[pageName] = '';
+        }
+    }
+
+    /**
+     * Dynamic style container
+     */
+    let dynamicStyleEl = document.getElementById('spa-dynamic-styles');
+    if (!dynamicStyleEl) {
+        dynamicStyleEl = document.createElement('style');
+        dynamicStyleEl.id = 'spa-dynamic-styles';
+        document.head.appendChild(dynamicStyleEl);
+    }
+
+    /**
+     * Navigate to a page
+     */
+    async function navigateTo(pageName, pushState = true) {
+        if (pageName === currentPage) return;
+
+        const config = pageConfig[pageName] || pageConfig['home'];
+        const isHome = (pageName === 'home');
+
+        // Fade out content
+        contentArea.style.opacity = '0';
+        contentArea.style.transform = 'translateY(10px)';
+
+        // Wait for content
+        await fetchPageContent(pageName);
+
+        // Brief delay for fade-out transition
+        await new Promise(r => setTimeout(r, 200));
+
+        // === SHOW/HIDE HOMEPAGE-ONLY ELEMENTS ===
+        if (isHome) {
+            showHomeElements();
+        } else {
+            hideHomeElements();
+        }
+
+        // Update body background
+        document.body.style.backgroundColor = config.bg;
+
+        // Update body classes
+        document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches');
+        document.body.classList.add(config.bodyClass);
+
+        // Update page title
+        document.title = config.title;
+
+        // Adjust content area layout
+        if (isHome) {
+            contentArea.style.justifyContent = 'center';
+            contentArea.style.padding = '';
+            contentArea.style.minHeight = '100vh';
+        } else {
+            contentArea.style.justifyContent = 'flex-start';
+            contentArea.style.padding = '20px 20px 60px 20px';
+            contentArea.style.minHeight = '100vh';
+        }
+
+        // Inject page-specific styles
+        dynamicStyleEl.textContent = pageStyles[pageName] || '';
+
+        // Swap content
+        contentArea.innerHTML = pageCache[pageName];
+
+        // Execute page-specific scripts
+        if (pageScripts[pageName]) {
+            try {
+                const scriptFn = new Function(pageScripts[pageName]);
+                scriptFn();
+            } catch (e) {
+                console.error('SPA Router: Error executing page script for', pageName, e);
+            }
+        }
+
+        // Re-initialize lucide icons for new content
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+
+        // Fade in
+        contentArea.style.opacity = '1';
+        contentArea.style.transform = 'translateY(0)';
+
+        // Update current page
+        currentPage = pageName;
+
+        // Update browser URL
+        if (pushState) {
+            const url = isHome ? 'index.html' : pageFiles[pageName];
+            history.pushState({ page: pageName }, '', url);
+        }
+
+        // Dispatch custom event
+        window.dispatchEvent(new CustomEvent('spa-navigate', { detail: { page: pageName } }));
+    }
+
+    /**
+     * Intercept all clicks on anchor tags
+     */
+    document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        // Skip external links, anchors, and special protocols
+        if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+
+        const pageName = getPageFromHref(href);
+        if (pageName === null) return; // Not a recognized SPA page
+
+        // PREVENT DEFAULT — This is what keeps the radio alive!
+        e.preventDefault();
+        e.stopPropagation();
+
+        navigateTo(pageName);
+    }, true);
+
+    /**
+     * Handle browser back/forward buttons
+     */
+    window.addEventListener('popstate', function (e) {
+        if (e.state && e.state.page) {
+            const targetPage = e.state.page;
+            if (targetPage !== currentPage) {
+                const prevPage = currentPage;
+                currentPage = '_navigating';
+                navigateTo(targetPage, false).catch(() => {
+                    currentPage = prevPage;
+                });
+            }
+        } else {
+            navigateTo('home', false);
+        }
+    });
+
+    /**
+     * Pre-fetch all pages in the background for instant navigation
+     */
+    function prefetchPages() {
+        for (const pageName of Object.keys(pageFiles)) {
+            fetchPageContent(pageName);
+        }
+    }
+
+    // Pre-fetch after a short delay
+    setTimeout(prefetchPages, 2000);
+
+    // Set initial history state
+    history.replaceState({ page: 'home' }, '', window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') ? 'index.html' : window.location.pathname);
+
+    // Set initial body class and background
+    document.body.classList.add('spa-home');
+    document.body.style.backgroundColor = '#E0E0E0';
+
+    // Add transition styles to content area
+    contentArea.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+
+    // Expose navigateTo globally
+    window.spaNavigate = navigateTo;
+
+})();
