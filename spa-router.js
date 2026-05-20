@@ -39,15 +39,15 @@
 
     // Page-specific config
     const pageConfig = {
-        'home':       { bodyClass: 'spa-home',       bg: '#E0E0E0', title: 'ABC GLOBAL Church' },
-        'giving':     { bodyClass: 'spa-giving',     bg: '#E0E0E0', title: 'Give - ABC GLOBAL Church' },
-        'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Testimonies - ABC GLOBAL Church' },
-        'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request - ABC GLOBAL Church' },
-        'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect - ABC GLOBAL Church' },
-        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - ABC GLOBAL Church' }
+        'home':       { bodyClass: 'spa-home',       bg: '#E0E0E0', title: 'abcglobal' },
+        'giving':     { bodyClass: 'spa-giving',     bg: '#E0E0E0', title: 'Give - abcglobal' },
+        'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Testimonies - abcglobal' },
+        'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request - abcglobal' },
+        'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect - abcglobal' },
+        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - abcglobal' }
     };
 
-    // Map page names to their HTML files
+    // Map page names to their HTML files (used for fetch)
     const pageFiles = {
         'giving': 'giving.html',
         'testimonies': 'testimonies.html',
@@ -56,10 +56,23 @@
         'branches': 'branches.html'
     };
 
-    // Reverse map: filename -> page name
+    // Clean URL paths (shown in browser address bar)
+    const cleanUrls = {
+        'home': '/',
+        'giving': '/giving',
+        'testimonies': '/testimonies',
+        'prayer': '/prayer',
+        'connect': '/connect',
+        'branches': '/branches'
+    };
+
+    // Reverse map: filename OR clean path -> page name
     const fileToPage = {};
     for (const [page, file] of Object.entries(pageFiles)) {
         fileToPage[file] = page;
+    }
+    for (const [page, path] of Object.entries(cleanUrls)) {
+        if (page !== 'home') fileToPage[path] = page;
     }
 
     /**
@@ -67,7 +80,12 @@
      */
     function getPageFromHref(href) {
         if (!href || href === 'index.html' || href === '/' || href === './' || href === '') return 'home';
-        const filename = href.split('/').pop().split('?')[0].split('#')[0];
+        // Strip leading dot/slash for consistent matching
+        const cleanHref = href.replace(/^\.\//, '');
+        // Check clean URL paths first (e.g. /giving, /branches)
+        if (fileToPage[cleanHref]) return fileToPage[cleanHref];
+        // Then check by filename (e.g. giving.html)
+        const filename = cleanHref.split('/').pop().split('?')[0].split('#')[0];
         return fileToPage[filename] || null;
     }
 
@@ -129,15 +147,15 @@
         const temp = document.createElement('div');
         temp.innerHTML = html;
 
-        // Fix back-nav links to work with SPA
+        // Fix back-nav links to work with SPA (use clean URL)
         temp.querySelectorAll('.back-nav').forEach(el => {
-            el.setAttribute('href', 'index.html');
+            el.setAttribute('href', '/');
             el.removeAttribute('onclick');
         });
 
-        // Fix "Back to Home" buttons
+        // Fix "Back to Home" buttons (use clean URL)
         temp.querySelectorAll('a.home-btn, a[href="index.html"]').forEach(el => {
-            el.setAttribute('href', 'index.html');
+            el.setAttribute('href', '/');
             el.removeAttribute('onclick');
         });
 
@@ -294,9 +312,9 @@
         // Update current page
         currentPage = pageName;
 
-        // Update browser URL
+        // Update browser URL (clean URLs without .html)
         if (pushState) {
-            const url = isHome ? 'index.html' : pageFiles[pageName];
+            const url = cleanUrls[pageName] || '/';
             history.pushState({ page: pageName }, '', url);
         }
 
@@ -346,19 +364,35 @@
     });
 
     /**
-     * Pre-fetch all pages in the background for instant navigation
+     * Pre-fetch pages one at a time in the background (sequential, not parallel)
+     * This avoids flooding the network and competing with the main page load
      */
-    function prefetchPages() {
-        for (const pageName of Object.keys(pageFiles)) {
-            fetchPageContent(pageName);
+    async function prefetchPages() {
+        const pageNames = Object.keys(pageFiles);
+        for (const pageName of pageNames) {
+            await fetchPageContent(pageName);
+            // Small delay between each fetch to avoid network congestion
+            await new Promise(r => setTimeout(r, 500));
         }
     }
 
-    // Pre-fetch after a short delay
-    setTimeout(prefetchPages, 2000);
+    // Pre-fetch after a longer delay so the main page loads first
+    setTimeout(prefetchPages, 4000);
 
-    // Set initial history state
-    history.replaceState({ page: 'home' }, '', window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') ? 'index.html' : window.location.pathname);
+    // Set initial history state (use clean URL — always '/' for home)
+    if (window.location.pathname.endsWith('index.html')) {
+        history.replaceState({ page: 'home' }, '', '/');
+    } else if (window.location.pathname === '/' || window.location.pathname === '') {
+        history.replaceState({ page: 'home' }, '', '/');
+    } else {
+        // If user landed on a sub-page clean URL (e.g. /giving), set appropriate state
+        const pageName = fileToPage[window.location.pathname] || null;
+        if (pageName) {
+            history.replaceState({ page: pageName }, '', window.location.pathname);
+        } else {
+            history.replaceState({ page: 'home' }, '', '/');
+        }
+    }
 
     // Set initial body class and background
     document.body.classList.add('spa-home');

@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABC GLOBAL Church</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>abcglobal</title>
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://stream.zeno.fm">
+    <!-- Load only the font weights actually used, with swap so text shows immediately -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Defer Lucide icons so it doesn't block page render -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html {
@@ -14,6 +21,9 @@
             overflow-y: auto;
             scrollbar-width: none; /* Firefox - hide scrollbar */
             -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
+            /* Prevent viewport shrink on mobile */
+            width: 100vw;
+            min-width: 100vw;
         }
         html::-webkit-scrollbar { display: none; /* Chrome/Safari - hide scrollbar */ }
         body {
@@ -28,6 +38,9 @@
             overflow-y: auto;
             scrollbar-width: none; /* Firefox - hide scrollbar */
             -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
+            /* Prevent viewport shrink on mobile */
+            width: 100vw;
+            min-width: 100vw;
         }
         body::-webkit-scrollbar { display: none; /* Chrome/Safari - hide scrollbar */ }
 
@@ -347,7 +360,7 @@
            ============================================ */
         .ripple-container { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
         .ripple {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            position: absolute; transform: translate(-50%, -50%) scale(0);
             width: 40vmin; padding-bottom: 40vmin; border-radius: 50%; pointer-events: none;
             box-shadow: 0 0 10px 2px rgba(196, 30, 58, 0.3);
         }
@@ -431,7 +444,7 @@
 
     <!-- Radio Player Widget (PERSISTENT) -->
     <aside class="floating-widgets" id="floatingWidgets">
-        <a href="giving.html" class="mobile-give-btn shockwave-affected" aria-label="Give">
+        <a href="/giving" class="mobile-give-btn shockwave-affected" aria-label="Give">
             <i data-lucide="heart-handshake" style="width: 28px; height: 28px;"></i>
             <span>Give</span>
         </a>
@@ -473,23 +486,23 @@
 
     <!-- Desktop Bottom Nav (PERSISTENT) -->
     <nav class="desktop-bottom-nav shockwave-affected" aria-label="Main Navigation" id="desktopNav">
-        <a href="giving.html" data-page="giving"><i data-lucide="heart-handshake" style="width: 24px; height: 24px;"></i><span>Give</span></a>
-        <a href="testimonies.html" data-page="testimonies"><i data-lucide="book-open" style="width: 24px; height: 24px;"></i><span>Testimonies</span></a>
-        <a href="prayer.html" data-page="prayer"><i data-lucide="hand" style="width: 24px; height: 24px;"></i><span>Prayer</span></a>
-        <a href="connect.html" data-page="connect"><i data-lucide="link" style="width: 24px; height: 24px;"></i><span>Connect</span></a>
-        <a href="branches.html" data-page="branches"><i data-lucide="map-pin" style="width: 24px; height: 24px;"></i><span>Branches</span></a>
+        <a href="/giving" data-page="giving"><i data-lucide="heart-handshake" style="width: 24px; height: 24px;"></i><span>Give</span></a>
+        <a href="/testimonies" data-page="testimonies"><i data-lucide="book-open" style="width: 24px; height: 24px;"></i><span>Testimonies</span></a>
+        <a href="/prayer" data-page="prayer"><i data-lucide="hand" style="width: 24px; height: 24px;"></i><span>Prayer</span></a>
+        <a href="/connect" data-page="connect"><i data-lucide="link" style="width: 24px; height: 24px;"></i><span>Connect</span></a>
+        <a href="/branches" data-page="branches"><i data-lucide="map-pin" style="width: 24px; height: 24px;"></i><span>Branches</span></a>
     </nav>
 
     <!-- Mobile Menu Overlay (PERSISTENT) -->
     <div class="menu-overlay" id="menuOverlay" role="dialog" aria-label="Mobile Menu">
         <div class="orbit-container">
-            <img src="images/logo.png" alt="ABC Center Logo" class="menu-center-logo">
+            <img src="images/logo.png" alt="ABC Center Logo" class="menu-center-logo" loading="lazy">
             <svg class="orbit-svg" viewBox="0 0 600 600"><circle class="orbit-ring" cx="300" cy="300" r="240" /></svg>
-            <a href="giving.html" class="menu-node node-1" data-page="giving"><i data-lucide="heart-handshake" style="width: 36px; height: 36px;"></i><span>Give</span></a>
-            <a href="testimonies.html" class="menu-node node-2" data-page="testimonies"><i data-lucide="book-open" style="width: 36px; height: 36px;"></i><span>Testimonies</span></a>
-            <a href="prayer.html" class="menu-node node-3" data-page="prayer"><i data-lucide="hand" style="width: 36px; height: 36px;"></i><span>Prayer Request</span></a>
-            <a href="connect.html" class="menu-node node-4" data-page="connect"><i data-lucide="link" style="width: 36px; height: 36px;"></i><span>Connect</span></a>
-            <a href="branches.html" class="menu-node node-5" data-page="branches"><i data-lucide="map-pin" style="width: 36px; height: 36px;"></i><span>Our Branches</span></a>
+            <a href="/giving" class="menu-node node-1" data-page="giving"><i data-lucide="heart-handshake" style="width: 36px; height: 36px;"></i><span>Give</span></a>
+            <a href="/testimonies" class="menu-node node-2" data-page="testimonies"><i data-lucide="book-open" style="width: 36px; height: 36px;"></i><span>Testimonies</span></a>
+            <a href="/prayer" class="menu-node node-3" data-page="prayer"><i data-lucide="hand" style="width: 36px; height: 36px;"></i><span>Prayer Request</span></a>
+            <a href="/connect" class="menu-node node-4" data-page="connect"><i data-lucide="link" style="width: 36px; height: 36px;"></i><span>Connect</span></a>
+            <a href="/branches" class="menu-node node-5" data-page="branches"><i data-lucide="map-pin" style="width: 36px; height: 36px;"></i><span>Our Branches</span></a>
         </div>
     </div>
 
@@ -505,7 +518,7 @@
                 <div class="ring ring-3 shockwave-affected"></div>
             </div>
             <div class="logo-entry-wrapper">
-                <img src="images/logo.png" alt="ABC GLOBAL Church Logo" class="main-logo-image">
+                <img src="images/logo.png" alt="ABC GLOBAL Church Logo" class="main-logo-image" fetchpriority="high">
             </div>
         </main>
 
@@ -658,10 +671,22 @@
             shockwaveCooldown = true;
             setTimeout(() => shockwaveCooldown = false, 1000);
 
-            // Create 3 ripple rings
+            // Find the logo's center position on screen for accurate ripple origin
+            const logoEl = document.querySelector('.main-logo-image') || document.getElementById('logoWrapper');
+            let rippleX = window.innerWidth / 2;
+            let rippleY = window.innerHeight * 0.45;
+            if (logoEl) {
+                const rect = logoEl.getBoundingClientRect();
+                rippleX = rect.left + rect.width / 2;
+                rippleY = rect.top + rect.height / 2;
+            }
+
+            // Create 3 ripple rings positioned at logo center
             for(let i = 1; i <= 3; i++) {
                 const ripple = document.createElement('div');
                 ripple.classList.add('ripple', `ripple-${i}`);
+                ripple.style.left = rippleX + 'px';
+                ripple.style.top = rippleY + 'px';
                 rippleContainer.appendChild(ripple);
                 setTimeout(() => { ripple.remove(); }, 900);
             }

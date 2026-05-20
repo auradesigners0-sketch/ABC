@@ -1,0 +1,35 @@
+# ============================================
+# ABC GLOBAL Church - Clean URL Rewriting
+# ============================================
+# This file removes .html from URLs and handles clean paths.
+# Place this in the same directory as index.html on your Apache server.
+# Make sure Apache has mod_rewrite enabled.
+
+RewriteEngine On
+
+# If the request is for an existing file or directory, don't rewrite
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirect /index.html to / (removes index.html from URL)
+RewriteCond %{THE_REQUEST} /index\.html [NC]
+RewriteRule ^index\.html$ / [L,R=301]
+
+# Clean URL: /giving -> giving.html (internal)
+RewriteRule ^giving$ giving.html [L]
+
+# Clean URL: /testimonies -> testimonies.html (internal)
+RewriteRule ^testimonies$ testimonies.html [L]
+
+# Clean URL: /prayer -> prayer.html (internal)
+RewriteRule ^prayer$ prayer.html [L]
+
+# Clean URL: /connect -> connect.html (internal)
+RewriteRule ^connect$ connect.html [L]
+
+# Clean URL: /branches -> branches.html (internal)
+RewriteRule ^branches$ branches.html [L]
+
+# Default: anything else goes to index.html (SPA fallback)
+RewriteRule ^$ index.html [L]
