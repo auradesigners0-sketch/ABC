@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'none';">
+    <title>Our History - ABC GLOBAL Church</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logicon16.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon180.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon192.ico">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon512.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+        a, button, [role="button"], .back-nav, .join-btn, .photo-item, .lightbox-close, .lightbox-nav { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        html { height: 100%; scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; max-width: 100%; }
+        html::-webkit-scrollbar { display: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; min-height: 100%;
+            overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
+            padding: 20px 16px 60px 16px;
+            color: #f3f4f6;
+            max-width: 100%;
+        }
+        body::-webkit-scrollbar { display: none; }
+
+        /* Subtle ambient glow */
+        body::before {
+            content: ''; position: fixed; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(196, 30, 58, 0.06) 0%, transparent 70%);
+            border-radius: 50%; top: 30%; left: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .back-nav {
+            position: fixed; top: 24px; left: 24px; z-index: 100;
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: #f3f4f6; font-weight: 700; font-size: 0.85rem;
+            background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 30px;
+            backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+        .back-nav:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+        .container {
+            width: 100%; max-width: 800px; position: relative; z-index: 10;
+            animation: fadeInUp 0.7s ease-out forwards; opacity: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .container { max-width: 65%; }
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 20px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+        .top-logo {
+            width: 48px; height: 48px; object-fit: contain; margin: 10px auto 24px auto; display: block;
+            filter: brightness(0) invert(1); opacity: 0.7;
+            animation: fadeInUp 0.7s ease-out 0.1s forwards; opacity: 0;
+        }
+
+        /* ===== Page Header ===== */
+        .page-header {
+            text-align: center; margin-bottom: 40px;
+            animation: fadeInUp 0.7s ease-out 0.2s forwards; opacity: 0;
+        }
+        .page-header h1 {
+            font-family: 'Inter', sans-serif; font-size: 1.6rem; color: #ffffff;
+            line-height: 1.2; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 800;
+        }
+        .page-header .subtitle {
+            font-family: 'Playfair Display', serif; font-size: 0.95rem; color: #6b7280;
+            margin-top: 8px; font-style: italic; font-weight: 400; letter-spacing: 0.02em;
+        }
+        .header-line {
+            width: 40px; height: 1px; background: rgba(255,255,255,0.15);
+            margin: 16px auto 0; border-radius: 1px;
+        }
+
+        /* ===== Founders Section ===== */
+        .founders-section {
+            margin-bottom: 48px;
+            animation: fadeInUp 0.7s ease-out 0.3s forwards; opacity: 0;
+        }
+        .section-label {
+            font-size: 0.6rem; font-weight: 700; color: #4b5563;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            margin-bottom: 18px; text-align: center;
+        }
+        .founders-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        @media (min-width: 1024px) {
+            .founders-grid { gap: 28px; }
+        }
+        .founder-card {
+            background: rgba(255,255,255,0.03); border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.04);
+            overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .founder-card::after {
+            content: ''; position: absolute; inset: 0; border-radius: 20px;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6) 100%);
+            pointer-events: none; z-index: 1;
+        }
+        .founder-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .founder-img-wrapper {
+            width: 100%; aspect-ratio: 3/4; overflow: hidden;
+            position: relative; background: rgba(255,255,255,0.02);
+        }
+        .founder-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .founder-card:hover .founder-img-wrapper img {
+            transform: scale(1.08);
+        }
+        .founder-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 16px 18px 18px; text-align: center; z-index: 2;
+        }
+        @media (min-width: 1024px) {
+            .founder-info { padding: 20px 22px 22px; }
+        }
+        .founder-name {
+            font-size: 0.85rem; font-weight: 700; color: #ffffff;
+            line-height: 1.3; margin-bottom: 5px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+        @media (min-width: 1024px) {
+            .founder-name { font-size: 0.95rem; }
+        }
+        .founder-title {
+            font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.7);
+            text-transform: uppercase; letter-spacing: 0.08em;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* ===== History Section ===== */
+        .history-section {
+            background: rgba(255,255,255,0.02); border-radius: 20px;
+            padding: 32px 24px; margin-bottom: 44px;
+            border: 1px solid rgba(255,255,255,0.04);
+            animation: fadeInUp 0.7s ease-out 0.4s forwards; opacity: 0;
+        }
+        @media (min-width: 1024px) {
+            .history-section { padding: 44px 36px; }
+        }
+        .history-badge-row {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 24px; flex-wrap: wrap;
+        }
+        .history-year-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+            color: #9ca3af; font-size: 0.7rem; font-weight: 700;
+            padding: 7px 16px; border-radius: 24px;
+            letter-spacing: 0.06em; text-transform: uppercase;
+        }
+        .history-year-badge svg { width: 13px; height: 13px; opacity: 0.6; }
+        .history-location-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+            color: #9ca3af; font-size: 0.7rem; font-weight: 600;
+            padding: 7px 16px; border-radius: 24px;
+            letter-spacing: 0.04em;
+        }
+        .history-location-badge svg { width: 12px; height: 12px; opacity: 0.6; }
+        .history-text {
+            font-size: 0.88rem; color: #9ca3af; line-height: 1.9;
+            font-weight: 400;
+        }
+        @media (min-width: 1024px) {
+            .history-text { font-size: 0.92rem; line-height: 2; }
+        }
+        .history-text p { margin-bottom: 20px; }
+        .history-text p:last-child { margin-bottom: 0; }
+        .history-text strong {
+            color: #e5e7eb; font-weight: 600;
+        }
+        .history-text .accent {
+            color: #ffffff; font-weight: 700;
+        }
+        .history-divider {
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            margin: 24px 0;
+        }
+
+        /* ===== Timeline Markers ===== */
+        .timeline-marker {
+            display: flex; align-items: flex-start; gap: 16px;
+            margin-bottom: 20px;
+        }
+        .timeline-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); flex-shrink: 0;
+            margin-top: 7px; position: relative;
+        }
+        .timeline-dot::after {
+            content: ''; position: absolute;
+            width: 4px; height: 4px; border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            top: 2px; left: 2px;
+        }
+        .timeline-content {
+            flex: 1;
+        }
+        .timeline-year {
+            font-size: 0.7rem; font-weight: 800; color: #6b7280;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        .timeline-text {
+            font-size: 0.85rem; color: #9ca3af; line-height: 1.8;
+        }
+        .timeline-text strong { color: #e5e7eb; font-weight: 600; }
+
+        /* ===== Join Us Section ===== */
+        .join-section {
+            text-align: center; margin-bottom: 52px;
+            padding: 40px 24px;
+            background: rgba(255,255,255,0.02); border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.04);
+            animation: fadeInUp 0.7s ease-out 0.5s forwards; opacity: 0;
+        }
+        @media (min-width: 1024px) {
+            .join-section { padding: 48px 36px; }
+        }
+        .join-text {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+            color: #e5e7eb; font-weight: 600; line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        @media (min-width: 1024px) {
+            .join-text { font-size: 1.4rem; }
+        }
+        .join-sub {
+            font-size: 0.8rem; color: #6b7280; margin-bottom: 28px;
+            font-weight: 400; line-height: 1.6; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .join-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #ffffff; color: #111827; padding: 14px 36px;
+            border-radius: 50px; text-decoration: none;
+            font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px;
+            text-transform: uppercase; border: none; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .join-btn:hover {
+            background: #f3f4f6; transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255,255,255,0.15);
+        }
+        .join-btn:active { transform: translateY(0); }
+        .join-btn svg { width: 16px; height: 16px; }
+
+        /* ===== Photo Gallery ===== */
+        .gallery-section {
+            animation: fadeInUp 0.7s ease-out 0.6s forwards; opacity: 0;
+            margin-bottom: 40px;
+        }
+        .gallery-label {
+            font-size: 0.6rem; font-weight: 700; color: #4b5563;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            margin-bottom: 18px; text-align: center;
+        }
+
+        /* 3-column grid for 9 images */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        @media (min-width: 1024px) {
+            .photo-grid { gap: 12px; }
+        }
+        /* Layout: 1=full width, 2-3-4=row of 3, 5=2col+6, 7+8=2col, 9=full width */
+        .photo-grid .photo-item:nth-child(1) {
+            grid-column: 1 / -1;
+        }
+        .photo-grid .photo-item:nth-child(5) {
+            grid-column: 1 / 3;
+        }
+        .photo-grid .photo-item:nth-child(8) {
+            grid-column: 2 / 4;
+        }
+        .photo-grid .photo-item:nth-child(9) {
+            grid-column: 1 / -1;
+        }
+
+        .photo-item {
+            border-radius: 16px; overflow: hidden;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            position: relative; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .photo-item:hover {
+            border-color: rgba(255,255,255,0.1);
+            transform: scale(1.01);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+        .photo-item:nth-child(1) { aspect-ratio: 21/9; }
+        .photo-item:nth-child(2),
+        .photo-item:nth-child(3),
+        .photo-item:nth-child(4) { aspect-ratio: 1/1; }
+        .photo-item:nth-child(5) { aspect-ratio: 2/1; }
+        .photo-item:nth-child(6) { aspect-ratio: 1/1; }
+        .photo-item:nth-child(7) { aspect-ratio: 1/1; }
+        .photo-item:nth-child(8) { aspect-ratio: 2/1; }
+        .photo-item:nth-child(9) { aspect-ratio: 21/9; }
+
+        .photo-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .photo-item:hover img {
+            transform: scale(1.06);
+        }
+        /* Overlay on hover */
+        .photo-item::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4) 100%);
+            opacity: 0; transition: opacity 0.4s ease; z-index: 1;
+            pointer-events: none; border-radius: 16px;
+        }
+        .photo-item:hover::before { opacity: 1; }
+        /* Expand icon on hover */
+        .photo-item::after {
+            content: ''; position: absolute; top: 14px; right: 14px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 2; opacity: 0; transition: opacity 0.3s ease;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: center;
+            background-size: 14px;
+        }
+        .photo-item:hover::after { opacity: 1; }
+
+        /* ===== Lightbox ===== */
+        .lightbox {
+            position: fixed; inset: 0; z-index: 10000;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox-img {
+            max-width: 90vw; max-height: 80vh; object-fit: contain;
+            border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+        .lightbox.active .lightbox-img {
+            animation: lightboxIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes lightboxIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 20px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; color: #ffffff;
+            backdrop-filter: blur(8px);
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
+        .lightbox-close svg { width: 20px; height: 20px; }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; color: #ffffff;
+            backdrop-filter: blur(8px);
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.18); }
+        .lightbox-nav svg { width: 22px; height: 22px; }
+        .lightbox-prev { left: 16px; }
+        .lightbox-next { right: 16px; }
+        .lightbox-counter {
+            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+            font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .scripture-footer {
+            text-align: center; margin-top: 20px; color: #374151; font-size: 0.65rem; font-weight: 500;
+            font-style: italic; letter-spacing: 0.02em;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="back-nav">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        <span>Back</span>
+    </a>
+
+    <div class="container">
+        <img src="images/logo.png" alt="ABC Global Logo" class="top-logo" loading="lazy">
+
+        <div class="page-header">
+            <h1>Our History</h1>
+            <div class="subtitle">A story of faith, resilience, and divine purpose</div>
+            <div class="header-line"></div>
+        </div>
+
+        <!-- Founders Section -->
+        <div class="founders-section">
+            <div class="section-label">Founded By</div>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-img-wrapper">
+                        <img src="images/babadck.jpg" alt="Bishop Dickson Corneli Kabigumila" loading="lazy">
+                    </div>
+                    <div class="founder-info">
+                        <div class="founder-name">Bishop Dickson Corneli Kabigumila</div>
+                        <div class="founder-title">Founder & General Overseer</div>
+                    </div>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-img-wrapper">
+                        <img src="images/mamadck.jpg" alt="Mercy Ikupa" loading="lazy">
+                    </div>
+                    <div class="founder-info">
+                        <div class="founder-name">Mercy Ikupa</div>
+                        <div class="founder-title">Co-Founder</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-badge-row">
+                <div class="history-year-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Est. November 2016
+                </div>
+                <div class="history-location-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                    Kahama, Tanzania
+                </div>
+            </div>
+
+            <div class="history-text">
+                <p>
+                    ABC GLOBAL was founded in <strong>November 2016</strong> in <strong>Kahama</strong>, Tanzania, by Bishop Dickson Corneli Kabigumila and his wife <strong>Mercy Ikupa</strong>. The church began its first gatherings under trees at a place called <span class="accent">Nyahanga Kivulini</span> — no building, no instruments, just believers coming together to worship and hear the Word of God. Those early days were simple, but the congregation grew steadily as people encountered God in a real and tangible way.
+                </p>
+
+                <div class="history-divider"></div>
+
+                <p>
+                    As the ministry expanded, it <strong>relocated to Dar es Salaam</strong> and established its <span class="accent">headquarters in Kinzudi, Goba</span>. From there, ABC GLOBAL began to plant branches across the country. Today, the church has <span class="accent">multiple branches</span> spread throughout Tanzania, each one committed to the same vision of raising a generation that is <strong>holy unto God</strong>. What started under the shade of trees has grown into a nationwide movement — and by God's grace, it continues to grow.
+                </p>
+            </div>
+        </div>
+
+        <!-- Join Us Section -->
+        <div class="join-section">
+            <div class="join-text">We invite you to be part of this story.</div>
+            <div class="join-sub">Whether you are in Dar es Salaam, Kahama, or anywhere across Tanzania, there is a branch waiting to welcome you home.</div>
+            <a href="/branches" class="join-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                Find a Branch Near You
+            </a>
+        </div>
+
+        <!-- Photo Gallery Grid (9 images - from under trees to now) -->
+        <div class="gallery-section">
+            <div class="gallery-label">Our Journey in Pictures</div>
+            <div class="photo-grid">
+                <div class="photo-item" data-index="0">
+                    <img src="images/dar 2.jpg" alt="Where it all began - Gathering under trees at Nyahanga Kivulini, Kahama (2016)" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="1">
+                    <img src="images/kahama1.jpg" alt="Early worship under the trees in Kahama" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="2">
+                    <img src="images/kahama 3.jpg" alt="The first congregation growing in faith" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="3">
+                    <img src="images/dar 1.jpg" alt="Believers gathered together in the early days" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="4">
+                    <img src="images/kahama 2.jpg" alt="Transition to Dar es Salaam - a new season" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="5">
+                    <img src="images/dar 3.jpg" alt="Establishing the headquarters in Kinzudi, Goba" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="6">
+                    <img src="images/dar 4.jpg" alt="Planting branches across Tanzania" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="7">
+                    <img src="images/dar 5.jpg" alt="ABC GLOBAL reaching communities across the nation" loading="lazy">
+                </div>
+                <div class="photo-item" data-index="8">
+                    <img src="images/dar 6.jpg" alt="The journey continues - ABC GLOBAL Church today" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <div class="scripture-footer">
+            "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Gallery Image">
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script>
+        (function() {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxClose = document.getElementById('lightboxClose');
+            var lightboxPrev = document.getElementById('lightboxPrev');
+            var lightboxNext = document.getElementById('lightboxNext');
+            var lightboxCounter = document.getElementById('lightboxCounter');
+            var photoItems = document.querySelectorAll('.photo-item');
+            var currentIndex = 0;
+            var totalImages = photoItems.length;
+
+            function openLightbox(index) {
+                currentIndex = index;
+                var img = photoItems[index].querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxCounter.textContent = (index + 1) + ' / ' + totalImages;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                var img = photoItems[currentIndex].querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxCounter.textContent = (currentIndex + 1) + ' / ' + totalImages;
+            }
+
+            function showNext() {
+                currentIndex = (currentIndex + 1) % totalImages;
+                var img = photoItems[currentIndex].querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxCounter.textContent = (currentIndex + 1) + ' / ' + totalImages;
+            }
+
+            photoItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var index = parseInt(this.getAttribute('data-index'));
+                    openLightbox(index);
+                });
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxPrev.addEventListener('click', showPrev);
+            lightboxNext.addEventListener('click', showNext);
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrev();
+                if (e.key === 'ArrowRight') showNext();
+            });
+
+            // Touch swipe support
+            var touchStartX = 0;
+            var touchEndX = 0;
+            lightbox.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            lightbox.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                var diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) showNext();
+                    else showPrev();
+                }
+            }, { passive: true });
+        })();
+    </script>
+
+</body>
+</html>

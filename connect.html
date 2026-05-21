@@ -2,13 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'none';">
     <title>Connect - ABC GLOBAL Church</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide not needed - all icons are inline SVGs for instant rendering -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { height: 100%; scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+        a, button, [role="button"], .tab-btn, .social-row, .back-nav, .contact-row { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        html { height: 100%; scroll-behavior: smooth; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; max-width: 100%; }
         html::-webkit-scrollbar { display: none; }
         body {
             font-family: 'Inter', sans-serif;
@@ -18,6 +27,7 @@
             overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
             padding: 20px 16px 60px 16px;
             color: #f3f4f6;
+            max-width: 100%;
         }
         body::-webkit-scrollbar { display: none; }
 
@@ -169,50 +179,64 @@
         <div id="bishop-panel" class="content-panel active">
             <div class="section-title">Social Media</div>
             <div class="social-list">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://youtube.com/@kabigumila?si=PCx-jLCT_Xu26KeZ" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">YouTube</div>
-                        <div class="social-handle">@BishopKabigumila</div>
+                        <div class="social-handle">Pastor dickson kabigumila</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.facebook.com/share/1VeeFLmPYD/" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">Facebook</div>
-                        <div class="social-handle">Bishop Dickson Kabigumila</div>
+                        <div class="social-handle">Dickson Cornel Kabigumila</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.instagram.com/pastorkabigumila?igsh=MW9pZmhucmljZzUybA==" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></div>
                     <div class="social-info">
                         <div class="social-name">Instagram</div>
-                        <div class="social-handle">@BishopKabigumila</div>
+                        <div class="social-handle">Pastorkabigumila</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.tiktok.com/@kabigumila?_r=1&_t=ZS-96X4UrUBbOx" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">TikTok</div>
-                        <div class="social-handle">@BishopKabigumila</div>
+                        <div class="social-handle">Dickson Cornel Kabigumila</div>
                     </div>
                 </a>
             </div>
 
             <div class="section-title">Podcasts</div>
             <div class="social-list">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://podcasts.apple.com/de/podcast/pastor-dickson-kabigumila/id1671443312" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 18.6c-3.64 0-6.6-2.95-6.6-6.6S8.36 5.4 12 5.4s6.6 2.95 6.6 6.6-2.96 6.6-6.6 6.6zm-.12-11.02c-.96 0-1.74.78-1.74 1.74v3.36c0 .96.78 1.74 1.74 1.74.96 0 1.74-.78 1.74-1.74V9.32c0-.96-.78-1.74-1.74-1.74zM12 15.5c-.69 0-1.25.56-1.25 1.25S11.31 18 12 18s1.25-.56 1.25-1.25S12.69 15.5 12 15.5z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">Apple Podcasts</div>
-                        <div class="social-handle">Bishop Dickson Kabigumila</div>
+                        <div class="social-handle">Pastor Dickson Kabigumila</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://open.spotify.com/show/3l0j15bk1ZKby0SXKM2sNx?si=vo0GxMoGR2eqXJ1-0W_wLg" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381C8.64 5.801 15.78 6.06 20.1 8.82c.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.439.3z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">Spotify</div>
-                        <div class="social-handle">Bishop Dickson Kabigumila</div>
+                        <div class="social-handle">Pastor Dickson Kabigumila</div>
+                    </div>
+                </a>
+                <a href="https://www.audiomack.com/pastor-dickson-kabigumila" target="_blank" rel="noopener noreferrer" class="social-row">
+                    <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.469 14.281c-.186.407-.66.588-1.059.396-2.13-1.023-4.812-1.252-7.975-.691-.465.082-.912-.232-.992-.701-.08-.469.229-.918.693-.998 3.457-.641 6.444-.365 8.861.812.399.191.572.67.385 1.077l.087.105zm1.461-3.248c-.234.518-.84.744-1.35.504-2.438-1.143-6.152-1.475-9.031-.809-.574.133-1.148-.225-1.279-.801-.131-.576.223-1.152.797-1.285 3.293-.762 7.398-.393 10.205.947.51.238.73.844.498 1.363l.06.081zm-.126-3.376C15.633 6.02 10.656 5.723 7.521 6.367c-.689.142-1.37-.301-1.51-.992-.141-.691.297-1.373.986-1.514 3.566-.734 9.062-.393 12.631 1.473.621.325.854 1.094.529 1.715-.324.621-1.088.852-1.709.527l.417.081z"/></svg></div>
+                    <div class="social-info">
+                        <div class="social-name">Audiomack</div>
+                        <div class="social-handle">Pastor Dickson Kabigumila</div>
+                    </div>
+                </a>
+                <a href="https://share.google/CtCdy0r5leMygUADz" target="_blank" rel="noopener noreferrer" class="social-row">
+                    <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.19V8.38H6.27zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.19v-3.027H6.27m6.27 0v3.027h5.19v-3.027h-5.19m6.27 0v3.027H24v-3.027h-5.19M0 16.81v3.029h5.19v-3.03H0zm6.27 0v3.029h5.19v-3.03H6.27zm6.27 0v3.029h5.19v-3.03h-5.19zm6.27 0v3.029H24v-3.03h-5.19z"/></svg></div>
+                    <div class="social-info">
+                        <div class="social-name">Deezer</div>
+                        <div class="social-handle">Pastor Dickson Kabigumila</div>
                     </div>
                 </a>
             </div>
@@ -221,32 +245,39 @@
         <div id="abc-panel" class="content-panel">
             <div class="section-title">Social Media</div>
             <div class="social-list">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://youtube.com/@abcglobalchurch-tz?si=E4BRxhSVb57dlg7o" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">YouTube</div>
-                        <div class="social-handle">@ABCGLOBALChurch</div>
+                        <div class="social-handle">ASSEMBLY OF BELIEVERS CHURCH</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.facebook.com/share/1CqsXW4aY9/" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">Facebook</div>
-                        <div class="social-handle">ABC GLOBAL Church</div>
+                        <div class="social-handle"> Abc Global Church</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.instagram.com/abcglobalchurch?igsh=enBoYzgxZWx1dDE5" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></div>
                     <div class="social-info">
                         <div class="social-name">Instagram</div>
-                        <div class="social-handle">@ABCGLOBAL</div>
+                        <div class="social-handle">abcglobalchurch</div>
                     </div>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="social-row">
+                <a href="https://www.tiktok.com/@abcglobalchurch?_r=1&_t=ZS-96X3qEljAyF" target="_blank" rel="noopener noreferrer" class="social-row">
                     <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></div>
                     <div class="social-info">
                         <div class="social-name">TikTok</div>
-                        <div class="social-handle">@ABCGLOBAL</div>
+                        <div class="social-handle">ABC GLOBAL CHURCH</div>
+                    </div>
+                </a>
+                <a href="https://x.com/believers_abc" target="_blank" rel="noopener noreferrer" class="social-row">
+                    <div class="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+                    <div class="social-info">
+                        <div class="social-name">X</div>
+                        <div class="social-handle">@believers_abc</div>
                     </div>
                 </a>
             </div>
@@ -254,21 +285,21 @@
             <div class="section-title">Contact</div>
             <div class="contact-section">
                 <div class="contact-row">
-                    <div class="contact-icon"><i data-lucide="map-pin"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></div>
                     <div class="contact-info">
                         <div class="contact-label">Address</div>
                         <div class="contact-value">Ubungo - Kinzudi Goba, Dar es Salaam</div>
                     </div>
                 </div>
                 <div class="contact-row">
-                    <div class="contact-icon"><i data-lucide="phone"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
                     <div class="contact-info">
                         <div class="contact-label">Phone</div>
                         <div class="contact-value"><a href="tel:+255759625673">0759 625 673</a></div>
                     </div>
                 </div>
                 <div class="contact-row">
-                    <div class="contact-icon"><i data-lucide="mail"></i></div>
+                    <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
                     <div class="contact-info">
                         <div class="contact-label">Email</div>
                         <div class="contact-value"><a href="mailto:info@abcglobal.co.tz">info@abcglobal.co.tz</a></div>
@@ -283,9 +314,8 @@
     </div>
 
     <script>
-        lucide.createIcons();
-
-        function switchTab(tab) {
+        // Make switchTab globally accessible (required for SPA router context)
+        window.switchTab = function(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('active'));
 
@@ -296,8 +326,11 @@
                 document.getElementById('abc-panel').classList.add('active');
                 document.querySelectorAll('.tab-btn')[1].classList.add('active');
             }
+        };
 
-            lucide.createIcons();
+        // Initialize icons
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+            try { lucide.createIcons(); } catch(e) {}
         }
     </script>
 </body>

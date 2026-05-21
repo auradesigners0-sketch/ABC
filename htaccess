@@ -1,35 +1,81 @@
 # ============================================
-# ABC GLOBAL Church - Clean URL Rewriting
+# ABC GLOBAL Church - Security .htaccess
 # ============================================
-# This file removes .html from URLs and handles clean paths.
-# Place this in the same directory as index.html on your Apache server.
-# Make sure Apache has mod_rewrite enabled.
 
-RewriteEngine On
+# --- #11: Restrict file upload types in images/ directory ---
+# If you create an upload folder later, place a copy of this inside it
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
 
-# If the request is for an existing file or directory, don't rewrite
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+# Block access to dangerous file types across the entire site
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|htm|html|shtml|sh|cgi|bat|exe|cmd|com|msi|vbs|js|sql|rb|htaccess|htpasswd|ini|log|env|bak|swp|config|cfg)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
 
-# Redirect /index.html to / (removes index.html from URL)
-RewriteCond %{THE_REQUEST} /index\.html [NC]
-RewriteRule ^index\.html$ / [L,R=301]
+# --- Protect sensitive files ---
+# Block access to .htaccess itself
+<Files .htaccess>
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+</Files>
 
-# Clean URL: /giving -> giving.html (internal)
-RewriteRule ^giving$ giving.html [L]
+# Block access to .env files
+<FilesMatch "^\.env">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
 
-# Clean URL: /testimonies -> testimonies.html (internal)
-RewriteRule ^testimonies$ testimonies.html [L]
+# --- #3/#4/#5: Security Headers (server-level, stronger than meta tags) ---
+<IfModule mod_headers.c>
+    # Prevent clickjacking - no one can embed your site in an iframe
+    Header always set X-Frame-Options "DENY"
 
-# Clean URL: /prayer -> prayer.html (internal)
-RewriteRule ^prayer$ prayer.html [L]
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
 
-# Clean URL: /connect -> connect.html (internal)
-RewriteRule ^connect$ connect.html [L]
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
 
-# Clean URL: /branches -> branches.html (internal)
-RewriteRule ^branches$ branches.html [L]
+    # Referrer policy - don't send full URL to external sites
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
-# Default: anything else goes to index.html (SPA fallback)
-RewriteRule ^$ index.html [L]
+    # Permissions policy - disable features not needed
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+    # Content Security Policy (server-level backup)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://stream.zeno.fm https://api.zeno.fm; media-src https://stream.zeno.fm https://zeno.fm; frame-src 'none';"
+</IfModule>
+
+# --- Disable directory listing ---
+Options -Indexes
+
+# --- Prevent access to hidden files (dotfiles) ---
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule (^\.|/\.) - [F,L]
+</IfModule>
+
+# --- Only allow image files in the images/ directory ---
+<IfModule mod_rewrite.c>
+    # For images/pastors/ upload directory specifically
+    RewriteCond %{REQUEST_URI} ^/images/pastors/
+    RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|png|gif|webp|svg)$
+    RewriteRule . - [F,L]
+</IfModule>

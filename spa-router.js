@@ -44,7 +44,8 @@
         'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Testimonies - abcglobal' },
         'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request - abcglobal' },
         'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect - abcglobal' },
-        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - abcglobal' }
+        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - abcglobal' },
+        'history':    { bodyClass: 'spa-history',     bg: '#1f2937', title: 'Our History - abcglobal' }
     };
 
     // Map page names to their HTML files (used for fetch)
@@ -53,7 +54,8 @@
         'testimonies': 'testimonies.html',
         'prayer': 'prayer.html',
         'connect': 'connect.html',
-        'branches': 'branches.html'
+        'branches': 'branches.html',
+        'history': 'history.html'
     };
 
     // Clean URL paths (shown in browser address bar)
@@ -63,7 +65,8 @@
         'testimonies': '/testimonies',
         'prayer': '/prayer',
         'connect': '/connect',
-        'branches': '/branches'
+        'branches': '/branches',
+        'history': '/history'
     };
 
     // Reverse map: filename OR clean path -> page name
@@ -264,7 +267,7 @@
         document.body.style.backgroundColor = config.bg;
 
         // Update body classes
-        document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches');
+        document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
         document.body.classList.add(config.bodyClass);
 
         // Update page title

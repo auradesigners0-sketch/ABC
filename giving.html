@@ -2,12 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'none';">
     <title>Give - ABC GLOBAL Church</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+        a, button, [role="button"], .back-nav, .copy-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         html { 
             height: 100%; 
             scroll-behavior: smooth; 
@@ -15,6 +24,7 @@
             overflow-y: auto;
             scrollbar-width: none; /* Firefox - hide scrollbar */
             -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
+            max-width: 100%;
         }
         html::-webkit-scrollbar { display: none; /* Chrome/Safari - hide scrollbar */ }
         body {
@@ -24,6 +34,7 @@
             position: relative; min-height: 100%; 
             overflow-x: hidden;
             padding: 20px 20px 60px 20px;
+            max-width: 100%;
         }
 
         body::before {
@@ -193,6 +204,12 @@
             .card-logo-container { padding: 10px; }
             .payment-info { padding: 12px 0 12px 14px; }
             .copy-icon-area { padding-left: 8px; padding-right: 10px; }
+        }
+        @media (max-width: 360px) {
+            .give-header h1 { font-size: 1.5rem; }
+            .payment-number { font-size: 0.9rem; }
+            .payment-card { min-height: 80px; }
+            body { padding: 15px 12px 50px 12px; }
         }
     </style>
 </head>
