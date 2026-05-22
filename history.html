@@ -23,7 +23,7 @@
             background-color: #111827;
             display: flex; flex-direction: column; align-items: center;
             position: relative; min-height: 100%;
-            overflow-x: hidden; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
+            overflow-x: hidden; overflow-y: auto; --scrollbar-width: none; -ms-overflow-style: none;
             padding: 20px 16px 60px 16px;
             color: #f3f4f6;
             max-width: 100%;
@@ -43,7 +43,7 @@
             display: flex; align-items: center; gap: 6px;
             text-decoration: none; color: #f3f4f6; font-weight: 700; font-size: 0.85rem;
             background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 30px;
-            backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06);
+            --backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06);
             transition: all 0.3s ease;
         }
         .back-nav:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
@@ -345,7 +345,7 @@
         .photo-item::after {
             content: ''; position: absolute; top: 14px; right: 14px;
             width: 32px; height: 32px; border-radius: 50%;
-            background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.15); --backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.2);
             z-index: 2; opacity: 0; transition: opacity 0.3s ease;
             pointer-events: none;
@@ -355,53 +355,70 @@
         }
         .photo-item:hover::after { opacity: 1; }
 
-        /* ===== Lightbox ===== */
+        /* ===== Lightbox — Compact Preview ===== */
         .lightbox {
             position: fixed; inset: 0; z-index: 10000;
-            background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.7); --backdrop-filter: blur(16px);
             display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
         }
         .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox-card {
+            position: relative;
+            max-width: 70vw; max-height: 65vh;
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+            background: #1a1a2e;
+        }
+        @media (max-width: 1023px) {
+            .lightbox-card {
+                max-width: 85vw; max-height: 55vh;
+            }
+        }
+        @media (max-width: 480px) {
+            .lightbox-card {
+                max-width: 90vw; max-height: 50vh;
+            }
+        }
         .lightbox-img {
-            max-width: 90vw; max-height: 80vh; object-fit: contain;
-            border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            width: 100%; height: 100%; max-height: 65vh; object-fit: contain;
+            border-radius: 16px; display: block;
             transition: transform 0.3s ease;
         }
-        .lightbox.active .lightbox-img {
+        .lightbox.active .lightbox-card {
             animation: lightboxIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes lightboxIn {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.85); }
             to { opacity: 1; transform: scale(1); }
         }
         .lightbox-close {
-            position: absolute; top: 20px; right: 20px;
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
+            position: absolute; top: 12px; right: 12px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.3s ease; color: #ffffff;
-            backdrop-filter: blur(8px);
+            --backdrop-filter: blur(8px); z-index: 5;
         }
-        .lightbox-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
-        .lightbox-close svg { width: 20px; height: 20px; }
+        .lightbox-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
+        .lightbox-close svg { width: 16px; height: 16px; }
         .lightbox-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
-            width: 48px; height: 48px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.3s ease; color: #ffffff;
-            backdrop-filter: blur(8px);
+            --backdrop-filter: blur(8px); z-index: 5;
         }
         .lightbox-nav:hover { background: rgba(255,255,255,0.18); }
-        .lightbox-nav svg { width: 22px; height: 22px; }
-        .lightbox-prev { left: 16px; }
-        .lightbox-next { right: 16px; }
+        .lightbox-nav svg { width: 18px; height: 18px; }
+        .lightbox-prev { left: 12px; }
+        .lightbox-next { right: 12px; }
         .lightbox-counter {
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-            font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 600;
-            letter-spacing: 0.1em;
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 600;
+            letter-spacing: 0.1em; z-index: 5;
         }
 
         .scripture-footer {
@@ -492,31 +509,31 @@
             <div class="gallery-label">Our Journey in Pictures</div>
             <div class="photo-grid">
                 <div class="photo-item" data-index="0">
-                    <img src="images/dar 2.jpg" alt="Where it all began - Gathering under trees at Nyahanga Kivulini, Kahama (2016)" loading="lazy">
+                    <img src="images/dar2.jpg" alt="Where it all began - Gathering under trees at Nyahanga Kivulini, Kahama (2016)" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="1">
-                    <img src="images/kahama1.jpg" alt="Early worship under the trees in Kahama" loading="lazy">
+                    <img src="images/kahama2.jpg" alt="Early worship under the trees in Kahama" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="2">
-                    <img src="images/kahama 3.jpg" alt="The first congregation growing in faith" loading="lazy">
+                    <img src="images/kahama3.jpg" alt="The first congregation growing in faith" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="3">
-                    <img src="images/dar 1.jpg" alt="Believers gathered together in the early days" loading="lazy">
+                    <img src="images/kahama1.jpg" alt="Believers gathered together in the early days" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="4">
-                    <img src="images/kahama 2.jpg" alt="Transition to Dar es Salaam - a new season" loading="lazy">
+                    <img src="images/dar1.jpg" alt="Transition to Dar es Salaam - a new season" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="5">
-                    <img src="images/dar 3.jpg" alt="Establishing the headquarters in Kinzudi, Goba" loading="lazy">
+                    <img src="images/dar3.jpg" alt="Establishing the headquarters in Kinzudi, Goba" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="6">
-                    <img src="images/dar 4.jpg" alt="Planting branches across Tanzania" loading="lazy">
+                    <img src="images/dar4.jpg" alt="Planting branches across Tanzania" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="7">
-                    <img src="images/dar 5.jpg" alt="ABC GLOBAL reaching communities across the nation" loading="lazy">
+                    <img src="images/dar5.jpg" alt="ABC GLOBAL reaching communities across the nation" loading="lazy">
                 </div>
                 <div class="photo-item" data-index="8">
-                    <img src="images/dar 6.jpg" alt="The journey continues - ABC GLOBAL Church today" loading="lazy">
+                    <img src="images/dar6.jpg" alt="The journey continues - ABC GLOBAL Church today" loading="lazy">
                 </div>
             </div>
         </div>
@@ -526,19 +543,21 @@
         </div>
     </div>
 
-    <!-- Lightbox -->
+    <!-- Lightbox — Compact Preview Card -->
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <img class="lightbox-img" id="lightboxImg" src="" alt="Gallery Image">
-        <div class="lightbox-counter" id="lightboxCounter"></div>
+        <div class="lightbox-card">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <img class="lightbox-img" id="lightboxImg" src="" alt="Gallery Image">
+            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="lightbox-counter" id="lightboxCounter"></div>
+        </div>
     </div>
 
     <script>

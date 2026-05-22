@@ -7,11 +7,11 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'none';">
     <title>Give - ABC GLOBAL Church</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logicon16.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon180.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon192.ico">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon512.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -20,22 +20,21 @@
         html { 
             height: 100%; 
             scroll-behavior: smooth; 
-            overflow-x: hidden;
-            overflow-y: auto;
-            scrollbar-width: none; /* Firefox - hide scrollbar */
-            -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
+            overflow: hidden;
             max-width: 100%;
         }
-        html::-webkit-scrollbar { display: none; /* Chrome/Safari - hide scrollbar */ }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #E0E0E0;
             display: flex; flex-direction: column; align-items: center;
-            position: relative; min-height: 100%; 
+            position: relative; height: 100%;
+            overflow-y: auto;
             overflow-x: hidden;
+            --scrollbar-width: none; -ms-overflow-style: none;
             padding: 20px 20px 60px 20px;
             max-width: 100%;
         }
+        body::-webkit-scrollbar { display: none; }
 
         body::before {
             content: ''; position: fixed; width: 600px; height: 600px;
@@ -119,18 +118,13 @@
             background: #ffffff; 
             border-radius: 0px; 
             margin-bottom: 16px;
-            cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             min-height: 90px;
             will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        .payment-card:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2); 
-        }
-        .payment-card:active { transform: scale(0.98); }
         
         /* 40% Left Container for Logo */
         .card-logo-container {
@@ -164,52 +158,68 @@
         .payment-number { font-weight: 800; font-size: 1.15rem; letter-spacing: 1px; line-height: 1.2; color: #111827; }
         .payment-name { font-size: 0.7rem; font-weight: 600; color: #6b7280; margin-top: 2px; }
 
-        /* Copy Icon Indicator */
-        .copy-icon-area { 
-            color: #9ca3af; 
-            transition: color 0.3s ease; 
-            opacity: 0.6; 
-            flex-shrink: 0; 
-            align-self: center; 
-            padding-left: 12px; /* Added left padding here */
-            padding-right: 15px; /* Right padding for spacing */
+        /* Copy button area */
+        .card-copy-area {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 14px; flex-shrink: 0; cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .payment-card:hover .copy-icon-area { opacity: 1; color: #C41E3A; }
+        .copy-icon {
+            width: 20px; height: 20px; color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+        .payment-card:hover .copy-icon { color: #C41E3A; }
+
+        /* Copied toast overlay */
+        .copy-toast {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(196, 30, 58, 0.95);
+            color: #ffffff; font-weight: 800; font-size: 0.9rem;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            border-radius: 0px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 10;
+        }
+        .copy-toast svg { width: 20px; height: 20px; }
+        .copy-toast.show { opacity: 1; }
 
         /* Brand Colors applied to Type Text */
         .card-voda .payment-type { color: #D2001C; } 
         .card-tigo .payment-type { color: #1a1a6c; } 
         .card-crdb .payment-type { color: #006B3F; } 
 
-        /* Copy Prompt */
-        .copy-prompt {
-            text-align: center; margin-top: 30px; color: #6b7280; font-size: 0.85rem; font-weight: 600;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-            background: #111827; color: #ffffff; padding: 14px 24px; border-radius: 50px;
-            font-weight: 700; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999;
-            display: flex; align-items: center; gap: 10px; border: 1px solid rgba(196, 30, 58, 0.3);
-            white-space: nowrap;
+
+
+
+        @media (max-width: 1023px) {
+            html { height: 100dvh; max-height: 100dvh; overflow: hidden; overscroll-behavior: none; }
+            body { height: 100dvh; max-height: 100dvh; overflow: hidden !important; overscroll-behavior: none; --scrollbar-width: none; -ms-overflow-style: none; position: fixed; width: 100%; }
+            body::-webkit-scrollbar { display: none; }
+            .give-container { overflow: hidden; height: 100dvh; }
         }
-        .toast.show { bottom: 30px; }
 
         @media (max-width: 480px) {
             .give-header h1 { font-size: 1.8rem; }
+            .give-header h2 { font-size: 0.8rem; }
+            .give-header { margin-bottom: 20px; }
+            .top-logo { width: 60px; height: 60px; margin: 15px auto 12px auto; }
             .payment-number { font-size: 1rem; }
             .card-logo-container { padding: 10px; }
             .payment-info { padding: 12px 0 12px 14px; }
-            .copy-icon-area { padding-left: 8px; padding-right: 10px; }
+
+            .tabs { margin-bottom: 20px; }
+            .tab-btn { padding: 10px; font-size: 0.8rem; }
+            body { padding: 15px 15px 40px 15px; }
+            .back-nav { top: 12px; left: 12px; padding: 6px 12px; font-size: 0.8rem; }
         }
         @media (max-width: 360px) {
             .give-header h1 { font-size: 1.5rem; }
             .payment-number { font-size: 0.9rem; }
-            .payment-card { min-height: 80px; }
-            body { padding: 15px 12px 50px 12px; }
+            .payment-card { min-height: 70px; }
+            body { padding: 10px 10px 30px 10px; }
         }
     </style>
 </head>
@@ -248,7 +258,13 @@
                     <span class="payment-number">0799 016 898</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
-                <div class="copy-icon-area"><i data-lucide="copy" style="width: 18px; height: 18px;"></i></div>
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
             </div>
 
             <!-- Tigo / Mixx Card -->
@@ -261,12 +277,13 @@
                     <span class="payment-number">0775 887 591</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
-                <div class="copy-icon-area"><i data-lucide="copy" style="width: 18px; height: 18px;"></i></div>
-            </div>
-
-            <div class="copy-prompt">
-                <i data-lucide="info" style="width: 16px; height: 16px;"></i>
-                Tap any card to copy the payment number
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
             </div>
         </div>
 
@@ -283,20 +300,15 @@
                     <span class="payment-number">1036 9920 068</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
-                <div class="copy-icon-area"><i data-lucide="copy" style="width: 18px; height: 18px;"></i></div>
-            </div>
-
-            <div class="copy-prompt">
-                <i data-lucide="info" style="width: 16px; height: 16px;"></i>
-                Tap card to copy the account number
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i data-lucide="check-circle" style="width: 20px; height: 20px; color: #10b981;"></i>
-        <span id="toast-message">Copied!</span>
     </div>
 
     <script>
@@ -317,51 +329,32 @@
             });
         });
 
-        // Copy to Clipboard Logic with Fallback
-        const paymentCards = document.querySelectorAll('.payment-card');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
-
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.top = "-1000px";
-            textArea.style.left = "-1000px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-
-            try {
-                document.execCommand('copy');
-                showToast(`Copied: ${text}`);
-            } catch (err) {
-                showToast('Failed to copy');
-            }
-
-            document.body.removeChild(textArea);
-        }
-
-        function showToast(message) {
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
-        }
+        // Copy payment number on card tap
+        const paymentCards = document.querySelectorAll('.payment-card[data-copy]');
 
         paymentCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const numberToCopy = card.getAttribute('data-copy');
-                
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(numberToCopy).then(() => {
-                        showToast(`Copied: ${numberToCopy}`);
-                    }).catch(() => {
-                        fallbackCopyTextToClipboard(numberToCopy);
-                    });
-                } else {
-                    fallbackCopyTextToClipboard(numberToCopy);
+            card.addEventListener('click', async function() {
+                const number = this.getAttribute('data-copy');
+                const toast = this.querySelector('.copy-toast');
+
+                try {
+                    await navigator.clipboard.writeText(number);
+                } catch (e) {
+                    // Fallback for older browsers / iOS Safari
+                    const textarea = document.createElement('textarea');
+                    textarea.value = number;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                }
+
+                // Show toast
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 1200);
                 }
             });
         });

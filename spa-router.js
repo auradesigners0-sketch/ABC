@@ -4,7 +4,7 @@
  * - Intercepts all internal navigation links and loads page content
  *   via fetch() WITHOUT reloading the page.
  * - This keeps the <audio> element alive so the radio NEVER stops.
- * - On sub-pages: hides nav, hamburger, radio player, give button
+ * - On sub-pages: hides nav, arc menu, radio player, give button
  *   (sub-pages look like standalone pages with back buttons).
  * - On home page: shows all homepage-only elements.
  */
@@ -22,8 +22,9 @@
     // Homepage-only elements (shown on home, hidden on sub-pages)
     const floatingWidgets = document.getElementById('floatingWidgets');
     const desktopNav = document.getElementById('desktopNav');
-    const hamburger = document.getElementById('hamburger');
-    const menuOverlay = document.getElementById('menuOverlay');
+    const arcNav = document.getElementById('arcNav');
+    const arcTrigger = document.getElementById('arcTrigger');
+    const mobileLogoFloat = document.getElementById('mobileLogoFloat');
     const rippleContainer = document.getElementById('ripple-container');
 
     // Track current page for caching
@@ -103,13 +104,39 @@
         if (desktopNav) {
             desktopNav.removeAttribute('style');
         }
-        if (hamburger) {
-            hamburger.removeAttribute('style');
-            // Reset hamburger to closed state (remove .active so dots show, not X)
-            hamburger.classList.remove('active');
+        if (arcNav) {
+            arcNav.removeAttribute('style');
+            arcNav.classList.remove('active');
+        }
+        if (arcTrigger) {
+            arcTrigger.removeAttribute('style');
+            arcTrigger.classList.remove('active');
+        }
+        if (mobileLogoFloat) {
+            mobileLogoFloat.removeAttribute('style');
         }
         if (rippleContainer) {
             rippleContainer.removeAttribute('style');
+        }
+        // Safety net: ensure menu overlay is closed when returning home
+        var menuOverlay = document.getElementById('menuOverlay');
+        if (menuOverlay) {
+            if (menuOverlay.classList.contains('active')) {
+                // Menu is still open — close it properly
+                if (typeof window.closeMenu === 'function') {
+                    window.closeMenu();
+                } else {
+                    menuOverlay.classList.remove('active');
+                    menuOverlay.style.display = 'none';
+                    var hamburger = document.getElementById('hamburger');
+                    if (hamburger) hamburger.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            } else {
+                // Menu is closed but might still have display:block from fade-out timeout
+                // Force it to display:none so it doesn't block interactions
+                menuOverlay.style.display = 'none';
+            }
         }
     }
 
@@ -125,19 +152,45 @@
         if (desktopNav) {
             desktopNav.style.cssText = 'display: none !important;';
         }
-        // Hide hamburger and reset its state (remove .active so it shows dots, not X)
-        if (hamburger) {
-            hamburger.classList.remove('active');
-            hamburger.style.cssText = 'display: none !important; opacity: 0 !important; pointer-events: none !important;';
+        // Hide arc nav and reset its state
+        if (arcNav) {
+            arcNav.classList.remove('active');
+            arcNav.style.cssText = 'display: none !important; opacity: 0 !important; pointer-events: none !important;';
+        }
+        if (arcTrigger) {
+            arcTrigger.classList.remove('active');
+        }
+        if (mobileLogoFloat) {
+            mobileLogoFloat.style.cssText = 'display: none !important; opacity: 0 !important; pointer-events: none !important;';
         }
         // Hide ripple container
         if (rippleContainer) {
             rippleContainer.style.cssText = 'display: none !important;';
         }
-        // Close menu overlay if open
-        if (menuOverlay && menuOverlay.classList.contains('active')) {
+        // Close arc menu if open
+        if (arcNav && arcNav.classList.contains('active')) {
+            arcNav.classList.remove('active');
+        }
+        if (arcTrigger && arcTrigger.classList.contains('active')) {
+            arcTrigger.classList.remove('active');
+        }
+        // Close mobile menu overlay (safety net — closeMenu() may have already run)
+        var menuOverlay = document.getElementById('menuOverlay');
+        if (menuOverlay) {
+            if (menuOverlay.classList.contains('active')) {
+                // Menu is still open — close it
+                if (typeof window.closeMenu === 'function') {
+                    window.closeMenu();
+                } else {
+                    menuOverlay.classList.remove('active');
+                    var hamburger = document.getElementById('hamburger');
+                    if (hamburger) hamburger.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+            // Force hide immediately on sub-pages (no smooth fade needed)
+            menuOverlay.style.display = 'none';
             menuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
         }
     }
 
@@ -277,11 +330,11 @@
         if (isHome) {
             contentArea.style.justifyContent = 'center';
             contentArea.style.padding = '';
-            contentArea.style.minHeight = '100vh';
+            contentArea.style.minHeight = '100dvh';
         } else {
             contentArea.style.justifyContent = 'flex-start';
             contentArea.style.padding = '20px 20px 60px 20px';
-            contentArea.style.minHeight = '100vh';
+            contentArea.style.minHeight = '100dvh';
         }
 
         // Inject page-specific styles
@@ -340,6 +393,12 @@
 
         const pageName = getPageFromHref(href);
         if (pageName === null) return; // Not a recognized SPA page
+
+        // Close mobile menu BEFORE navigation so it closes smoothly
+        // (The menu's own click listener can't fire because we stopPropagation below)
+        if (typeof window.closeMenu === 'function') {
+            window.closeMenu();
+        }
 
         // PREVENT DEFAULT — This is what keeps the radio alive!
         e.preventDefault();

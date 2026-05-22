@@ -7,7 +7,7 @@
  */
 
 // ====== CONFIGURE YOUR EMAIL HERE ======
-$YOUR_EMAIL = 'abcglobalchurch@gmail.com';
+$YOUR_EMAIL = 'auradesigners0@gmail.com';
 // ========================================
 
 header('Content-Type: application/json');
@@ -133,7 +133,7 @@ $emailBody .= "Submitted: " . date('d M Y, H:i:s') . "\n";
 $emailBody .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
 
 // Email headers
-$headers  = "From: ABC GLOBAL Church <noreply@" . $_SERVER['SERVER_NAME'] . ">\r\n";
+$headers  = "From: ABC GLOBAL Church <abcglobal@abcglobal.or.tz>\r\n";
 $headers .= "Reply-To: " . ($email ?: $YOUR_EMAIL) . "\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
