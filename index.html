@@ -6,7 +6,25 @@
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://stream.zeno.fm https://*.zeno.fm https://api.zeno.fm; media-src https://stream.zeno.fm https://*.zeno.fm https://zeno.fm; frame-src 'none';">
-    <title>abcglobal</title>
+    <title>ABC Global Church - Assembly of Believers Church | Dar es Salaam, Tanzania</title>
+    <meta name="description" content="ABC Global Church - Assembly of Believers Church. Join us for worship, prayer, and fellowship. Multiple branches across Tanzania. Founded 2016 in Kahama by Bishop Dickson Kabigumila.">
+    <meta name="keywords" content="ABC Global Church, Assembly of Believers Church, church Tanzania, Dar es Salaam church, Bishop Dickson Kabigumila, Christian church, worship, prayer, fellowship">
+    <meta name="author" content="ABC Global Church">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abcglobal.co.tz/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ABC Global Church - Assembly of Believers Church">
+    <meta property="og:description" content="ABC Global Church - Assembly of Believers Church. Join us for worship, prayer, and fellowship across Tanzania.">
+    <meta property="og:url" content="https://abcglobal.co.tz/">
+    <meta property="og:site_name" content="ABC Global Church">
+    <meta property="og:image" content="https://abcglobal.co.tz/images/logo.png">
+    <meta property="og:locale" content="en_TZ">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ABC Global Church - Assembly of Believers Church">
+    <meta name="twitter:description" content="ABC Global Church - Assembly of Believers Church. Join us for worship, prayer, and fellowship across Tanzania.">
+    <meta name="twitter:image" content="https://abcglobal.co.tz/images/logo.png">
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/logicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="images/logicon16.ico">
@@ -18,6 +36,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://stream.zeno.fm">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://stream.zeno.fm">
+    <link rel="dns-prefetch" href="https://api.zeno.fm">
     <!-- Load only the font weights actually used, with swap so text shows immediately -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Lucide icons for SPA sub-pages (homepage uses inline SVGs for instant rendering) -->
@@ -130,6 +153,7 @@
         @keyframes slideFromTopRight { from { opacity: 0; transform: translate(20px, -20px); } to { opacity: 1; transform: translate(0, 0); } }
         @keyframes slideFromBottomCenter { from { opacity: 0; transform: translateX(-50%) translateY(50px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         @keyframes slideFromRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes barSlideUp { from { opacity: 0; transform: translateX(-50%) translateY(40px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
         .main-logo-wrapper {
             position: relative; display: flex; align-items: center; justify-content: center;
@@ -285,17 +309,144 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Mobile floating-widgets entry — preserves translateX(-50%) centering */
+        @keyframes mobileBarSlideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
 
         /* ============================================
            RADIO PLAYER (PERSISTENT - NEVER DESTROYED)
+           Now styled as a full-screen visualizer with ABC RADIO label
            ============================================ */
         .radio-player-premium {
-            width: 300px; height: 90px; background: #ffffff; border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05);
-            display: flex; overflow: hidden; transition: all 0.3s ease; order: 2; opacity: 0;
+            width: 100%; height: 90px; background: #050a14; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+            display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease;
+            cursor: pointer; position: relative; z-index: 1;
         }
-        .radio-player-premium:hover { box-shadow: 0 15px 50px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.05); transform: translateY(-2px); }
-        .radio-screen { width: 90px; height: 100%; background: #050a14; position: relative; flex-shrink: 0; cursor: pointer; transition: box-shadow 0.3s ease; }
+        .radio-player-premium:hover { box-shadow: 0 15px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(196,30,58,0.2); transform: translateY(-2px); }
+
+        /* ---- Radio Attention Effects ---- */
+        .radio-player-premium.radio-attention {
+            animation: none;
+        }
+
+        /* Shimmer overlay — animated when playing */
+        .radio-shimmer {
+            position: absolute; inset: 0; pointer-events: none; z-index: 5;
+            overflow: hidden; border-radius: inherit;
+        }
+        .radio-shimmer::after {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-20deg);
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .radio-player-premium.radio-played .radio-shimmer::after {
+            animation: shimmerSweep 3s ease-in-out infinite;
+            opacity: 1;
+        }
+        @keyframes shimmerSweep {
+            0% { left: -100%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 200%; opacity: 0; }
+        }
+
+        /* LIVE badge — pulses when playing */
+        .radio-live-badge {
+            position: absolute; top: 4px; right: 4px;
+            background: rgba(196, 30, 58, 0.6);
+            color: rgba(255,255,255,0.7); font-size: 0.45rem; font-weight: 800;
+            padding: 2px 5px; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 3px;
+            z-index: 6; pointer-events: none;
+            box-shadow: none; transition: all 0.3s ease;
+        }
+        .radio-live-badge .badge-dot {
+            width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+
+        /* ---- Radio Playing Ripple Effect ---- */
+        @keyframes radioRipplePulse {
+            0% { box-shadow: 0 0 0 0 rgba(196, 30, 58, 0.5), 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08); }
+            70% { box-shadow: 0 0 0 10px rgba(196, 30, 58, 0), 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08); }
+            100% { box-shadow: 0 0 0 0 rgba(196, 30, 58, 0), 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08); }
+        }
+        @keyframes radioGlowPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(196, 30, 58, 0.3), 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(196,30,58,0.15); }
+            50% { box-shadow: 0 0 25px rgba(196, 30, 58, 0.5), 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(196,30,58,0.3); }
+        }
+
+        /* Playing state — ripple + glow */
+        .radio-player-premium.radio-played {
+            animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important;
+        }
+        .radio-player-premium.radio-played .radio-live-badge {
+            background: rgba(196, 30, 58, 0.9);
+            box-shadow: 0 0 8px rgba(196, 30, 58, 0.5);
+        }
+        .radio-player-premium.radio-played .badge-dot {
+            background: #ffffff;
+            animation: badgePulse 1.5s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 4px rgba(255,255,255,0.5); }
+            50% { opacity: 0.5; box-shadow: 0 0 8px rgba(255,255,255,0.8); }
+        }
+
+        /* Radio player wrapper — no overflow clip so ripple rings expand freely */
+        .radio-player-wrapper {
+            position: relative; order: 2;
+            display: flex; flex-direction: column;
+            width: 60%;
+            transition: opacity 0.3s ease;
+            overflow: visible !important;
+        }
+
+        /* Ripple ring containers that expand from radio when playing */
+        .radio-ripple-ring {
+            position: absolute; inset: 0; border-radius: 16px;
+            border: 2px solid rgba(196, 30, 58, 0.6);
+            pointer-events: none; z-index: 0;
+            opacity: 0; animation: none;
+        }
+        .radio-player-wrapper.is-playing .radio-ripple-ring {
+            animation: radioRingExpand 2.5s ease-out infinite;
+        }
+        .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 {
+            animation-delay: 0.8s;
+        }
+        .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 {
+            animation-delay: 1.6s;
+        }
+        @keyframes radioRingExpand {
+            0% { transform: scale(1); opacity: 0.7; border-color: rgba(196, 30, 58, 0.6); }
+            100% { transform: scale(1.35); opacity: 0; border-color: rgba(196, 30, 58, 0); }
+        }
+
+        /* Paused state — stop all animations */
+        .radio-player-premium.radio-paused {
+            animation: none !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+        }
+        .radio-player-premium.radio-paused .radio-shimmer::after {
+            animation: none !important; opacity: 0;
+        }
+        .radio-player-premium.radio-paused .radio-live-badge {
+            background: rgba(196, 30, 58, 0.6); box-shadow: none;
+        }
+        .radio-player-premium.radio-paused .badge-dot {
+            animation: none;
+        }
+        .radio-player-wrapper.is-paused .radio-ripple-ring {
+            animation: none !important; opacity: 0;
+        }
+        .radio-screen { width: 100%; flex: 1; background: #050a14; position: relative; flex-shrink: 0; cursor: pointer; transition: box-shadow 0.3s ease; overflow: hidden; }
         .radio-screen:hover { box-shadow: inset 0 0 20px rgba(196, 30, 58, 0.2); }
         .visualizer-canvas { width: 100%; height: 100%; display: block; }
         .pause-overlay {
@@ -305,29 +456,59 @@
         }
         .radio-screen:hover .pause-overlay { opacity: 1; }
         .pause-overlay svg { width: 20px; height: 20px; opacity: 0.8; }
-        .radio-details { flex: 1; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
-        .radio-info { display: flex; flex-direction: column; gap: 4px; }
-        .radio-title { font-size: 0.9rem; font-weight: 800; color: #111827; letter-spacing: 0.2px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
-        .radio-status {
-            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; 
-            display: flex; align-items: center; gap: 6px; transition: color 0.3s ease;
+        /* ABC RADIO label at the bottom of the screen widget */
+        .radio-details {
+            width: 100%; height: 28px; min-height: 28px;
+            background: rgba(15,23,42,0.95); 
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 10px; gap: 6px;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; transition: background 0.3s ease, box-shadow 0.3s ease; }
-        .status-offline { color: #9ca3af; }
-        .status-connecting { color: #f59e0b; }
-        .status-connecting .status-dot { box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); animation: blink 0.8s infinite; }
-        .status-live { color: #ef4444; }
-        .status-live .status-dot { box-shadow: 0 0 8px rgba(239, 68, 68, 0.6); animation: blink 1.5s infinite; }
+        .radio-info { display: none; }
+        .radio-title-label {
+            font-size: 0.6rem; font-weight: 800; color: #9ca3af; 
+            text-transform: uppercase; letter-spacing: 1.5px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .radio-title { display: none; }
+        .radio-status { display: none; }
+        .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; transition: background 0.3s ease, box-shadow 0.3s ease; flex-shrink: 0; }
+        .status-offline { color: #6b7280; display: flex !important; align-items: center; gap: 5px; }
+        .status-connecting { color: #f59e0b; display: flex !important; align-items: center; gap: 5px; }
+        .status-connecting .status-dot { box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); animation: blink 0.8s infinite; }
+        .status-live { color: #ef4444; display: flex !important; align-items: center; gap: 5px; }
+        .status-live .status-dot { box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); animation: blink 1.5s infinite; }
+        .widget-status-text { font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: inherit; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         .play-btn-premium {
-            width: 40px; height: 40px; border-radius: 50%; background: #111827; border: none; color: #ffffff;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(17, 24, 39, 0.2);
+            display: none;
         }
-        .play-btn-premium:hover { background: #C41E3A; transform: scale(1.1); box-shadow: 0 4px 16px rgba(196, 30, 58, 0.4); }
-        .play-btn-premium:active { transform: scale(0.95); }
+
+        /* ============================================
+           DESKTOP NAV LINKS (inside floating-widgets bar)
+           ============================================ */
+        .nav-links-desktop {
+            display: none; /* Hidden by default, shown on 1024px+ */
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex: 1;
+            height: 100%;
+            padding: 0 8px;
+        }
+        .nav-links-desktop a {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-decoration: none; color: #e5e7eb; transition: all 0.3s ease; padding: 6px 8px; border-radius: 10px;
+            cursor: pointer; white-space: nowrap;
+        }
+        .nav-links-desktop a svg { margin-bottom: 2px; color: #ffffff; transition: color 0.3s ease; }
+        .nav-links-desktop a span { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links-desktop a:hover { background: rgba(196, 30, 58, 0.15); color: #ffffff; transform: translateY(-2px); }
+        .nav-links-desktop a:hover svg { color: #C41E3A; }
+        .nav-links-desktop a.active-nav { background: rgba(196, 30, 58, 0.2); color: #ffffff; }
+        .nav-links-desktop a.active-nav svg { color: #ffffff; }
+
         @keyframes spin { to { transform: rotate(360deg); } }
         .loader-icon { animation: spin 1s linear infinite; }
 
@@ -538,8 +719,12 @@
         @keyframes iconShock { 0% { transform: translateX(0); } 20% { transform: translateX(-20px); } 100% { transform: translateX(0); } }
         /* Widget children shock - works on all screen sizes without breaking centering */
         @keyframes widgetShock { 0% { transform: translateY(0); } 20% { transform: translateY(15px); } 100% { transform: translateY(0); } }
+        @keyframes barShock { 0% { transform: translateX(-50%) translateY(0); } 20% { transform: translateX(-50%) translateY(12px); } 100% { transform: translateX(-50%) translateY(0); } }
         .mobile-give-btn.shocked { animation: widgetShock 0.5s ease forwards !important; }
         .radio-player-premium.shocked { animation: widgetShock 0.5s ease forwards !important; }
+        .radio-player-premium.radio-played.shocked { animation: widgetShock 0.5s ease forwards !important; }
+        .radio-player-wrapper.shocked { animation: widgetShock 0.5s ease forwards !important; }
+        .floating-widgets.shocked { animation: barShock 0.5s ease forwards !important; }
         @keyframes bottomShock { 0% { transform: translateX(-50%) translateY(0); } 20% { transform: translateX(-50%) translateY(15px); } 100% { transform: translateX(-50%) translateY(0); } }
         .bottom-text.shocked { animation: bottomShock 0.5s ease forwards; }
         @keyframes bottomNavShock { 0% { transform: translateX(-50%) translateY(0); } 20% { transform: translateX(-50%) translateY(15px); } 100% { transform: translateX(-50%) translateY(0); } }
@@ -550,29 +735,197 @@
         /* ============================================
            RESPONSIVE
            ============================================ */
-        @media (min-width: 1024px) {
-            .desktop-bottom-nav { display: flex; }
+        /* Tablet (768px–1023px): Radio on right, menu bar separate */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            /* Nav bar: centered but leaves room for radio on right (140px radio + 20px offset + 20px gap = 180px from right) */
+            /* Since nav is centered, right half = max-width/2 must stay 180px from right → max-width = viewport - 360px */
+            .desktop-bottom-nav { display: flex; bottom: 20px; left: 50%; transform: translateX(-50%); height: 60px; max-width: calc(100% - 360px); gap: 10px; padding: 0 12px; }
+            .desktop-bottom-nav a { padding: 6px 6px; }
+            .desktop-bottom-nav a svg { width: 20px; height: 20px; margin-bottom: 2px; }
+            .desktop-bottom-nav a span { font-size: 9px; letter-spacing: 0.3px; }
+            .nav-links-desktop { display: none !important; }
             .hamburger { display: none !important; }
-            .floating-widgets { bottom: 20px; right: 20px; align-items: flex-end; }
+            /* Radio: standalone card on the right */
+            .floating-widgets {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                left: auto;
+                transform: none;
+                align-items: stretch;
+                flex-direction: column;
+                gap: 0;
+                width: auto;
+                max-width: none;
+                padding: 0;
+                height: auto;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                --backdrop-filter: none !important;
+                --webkit-backdrop-filter: none !important;
+                overflow: visible;
+                animation: radioSlideUp 0.8s ease-out 2s forwards; opacity: 0;
+            }
             .mobile-give-btn { display: none !important; }
-            .radio-player-premium { height: 70px; width: auto; animation: radioSlideUp 0.8s ease-out 2s forwards; }
-            .radio-screen { width: 70px; height: 70px; }
-            .play-btn-premium { width: 38px; height: 38px; }
-            .radio-details { justify-content: flex-end; gap: 12px; padding: 0 12px 0 16px; }
-            .radio-title { max-width: 120px; }
+            .radio-player-wrapper { width: 140px; min-width: 110px; overflow: visible !important; }
+            .radio-ripple-ring { border-radius: 14px; }
+            .radio-player-premium {
+                width: 100%;
+                min-width: 110px;
+                height: 60px;
+                border-radius: 14px;
+                opacity: 1;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+            }
+            .radio-player-premium.radio-played {
+                animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important;
+            }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-premium.radio-paused {
+                animation: none !important;
+            }
+            .radio-player-premium.radio-paused .radio-shimmer::after { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-paused .radio-live-badge { background: rgba(196, 30, 58, 0.6); box-shadow: none; }
+            .radio-player-premium.radio-paused .badge-dot { animation: none; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-played.shocked {
+                animation: widgetShock 0.5s ease forwards !important;
+            }
+            .radio-live-badge { font-size: 0.4rem; padding: 1px 4px; top: 3px; right: 3px; }
+            .radio-title-label { font-size: 0.5rem; letter-spacing: 1.2px; }
+            .radio-details { height: 22px; min-height: 22px; }
+            /* Auto-play banner above the menu bar */
+            .radio-autoplay-banner { top: auto; bottom: 100px; max-width: 420px; width: calc(100% - 40px); white-space: normal; transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); }
+            .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); }
         }
 
-        @media (max-width: 1023px) {
+        @media (min-width: 1024px) {
+            .hamburger { display: none !important; }
+            /* Nav bar: centered but leaves room for radio on right (160px radio + 24px offset + 20px gap = 204px from right) */
+            /* Since nav is centered, max-width = viewport - 408px to keep right edge clear */
+            .desktop-bottom-nav { display: flex; bottom: 20px; left: 50%; transform: translateX(-50%); max-width: min(800px, calc(100% - 408px)); }
+            .nav-links-desktop { display: none !important; }
+            /* Radio: standalone card on the far right */
+            .floating-widgets {
+                position: fixed;
+                bottom: 20px;
+                right: 24px;
+                left: auto;
+                transform: none;
+                align-items: stretch;
+                flex-direction: column;
+                gap: 0;
+                width: auto;
+                max-width: none;
+                padding: 0;
+                height: auto;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                --backdrop-filter: none !important;
+                --webkit-backdrop-filter: none !important;
+                overflow: visible;
+                animation: radioSlideUp 0.8s ease-out 2s forwards; opacity: 0;
+            }
+            .mobile-give-btn { display: none !important; }
+            .radio-player-wrapper { width: 160px; min-width: 130px; overflow: visible !important; }
+            .radio-ripple-ring { border-radius: 14px; }
+            .radio-player-premium {
+                width: 100%;
+                min-width: 130px;
+                height: 64px;
+                border-radius: 14px;
+                opacity: 1;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+            }
+            .radio-player-premium.radio-played {
+                animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important;
+            }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-premium.radio-paused {
+                animation: none !important;
+            }
+            .radio-player-premium.radio-paused .radio-shimmer::after { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-paused .radio-live-badge { background: rgba(196, 30, 58, 0.6); box-shadow: none; }
+            .radio-player-premium.radio-paused .badge-dot { animation: none; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-played.shocked {
+                animation: widgetShock 0.5s ease forwards !important;
+            }
+            .radio-live-badge { font-size: 0.42rem; padding: 2px 4px; top: 4px; right: 4px; }
+            .radio-title-label { font-size: 0.55rem; letter-spacing: 1.5px; }
+            .radio-details { height: 24px; min-height: 24px; }
+            /* Auto-play banner above the menu bar */
+            .radio-autoplay-banner { top: auto; bottom: 110px; max-width: 460px; transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); }
+            .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); }
+        }
+
+        /* Larger desktops — more spacious */
+        @media (min-width: 1280px) {
+            .floating-widgets { right: 32px; }
+            .radio-player-wrapper { width: 180px; min-width: 150px; overflow: visible !important; }
+            .radio-player-premium { width: 100%; min-width: 150px; height: 68px; border-radius: 16px; }
+            .radio-ripple-ring { border-radius: 16px; }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-live-badge { font-size: 0.45rem; padding: 2px 5px; }
+        }
+
+        @media (max-width: 767px) {
             .desktop-bottom-nav { display: none !important; }
+            .nav-links-desktop { display: none !important; }
+            .floating-widgets { background: transparent !important; border: none !important; box-shadow: none !important; --backdrop-filter: none !important; --webkit-backdrop-filter: none !important; height: auto !important; }
             .hamburger { display: grid; }
             .main-logo-image { width: 240px; height: 240px; }
             .ring-1 { width: 300px; height: 300px; }
             .ring-2 { width: 350px; height: 350px; }
             .ring-3 { width: 400px; height: 400px; }
-            .floating-widgets { bottom: 30px; right: auto; left: 50%; transform: translateX(-50%); align-items: stretch; opacity: 1 !important; flex-direction: row; gap: 8px; width: auto; max-width: 600px; padding: 0 15px; }
-            .mobile-give-btn { display: flex; width: 40%; border-radius: 16px; padding: 12px 8px; justify-content: center; font-size: 0.85rem; animation: giveBtnSlideUp 0.6s ease-out 2s forwards; }
+            .floating-widgets { bottom: 30px; right: auto; left: 50%; transform: translateX(-50%); align-items: stretch; opacity: 1 !important; flex-direction: row; gap: 8px; width: calc(100% - 30px); max-width: none; padding: 0; animation: mobileBarSlideUp 0.8s ease-out 2s forwards; }
+            .mobile-give-btn { display: flex; flex: 1; border-radius: 16px; padding: 12px 8px; justify-content: center; font-size: 0.85rem; animation: giveBtnSlideUp 0.6s ease-out 2s forwards; }
             .mobile-give-btn svg { width: 22px; height: 22px; }
-            .radio-player-premium { width: 60%; animation: radioSlideUp 0.6s ease-out 2.3s forwards; }
+            .radio-player-wrapper { flex: 1; width: auto; animation: radioSlideUp 0.6s ease-out 2.3s forwards; opacity: 0; overflow: visible !important; }
+            .radio-ripple-ring { border-radius: 16px; }
+            .radio-player-premium { width: 100%; height: 75px; transition: none; }
+            .radio-player-premium.radio-attention { animation: none; transition: none; }
+            .radio-player-premium.radio-played { animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important; opacity: 1; }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-premium.radio-paused { animation: none !important; }
+            .radio-player-premium.radio-paused .radio-shimmer::after { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-paused .radio-live-badge { background: rgba(196, 30, 58, 0.6); box-shadow: none; }
+            .radio-player-premium.radio-paused .badge-dot { animation: none; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-played.shocked { animation: widgetShock 0.5s ease forwards !important; }
+            .radio-live-badge { font-size: 0.4rem; padding: 1px 4px; top: 3px; right: 3px; }
+            .radio-details { height: 24px; min-height: 24px; }
+            .radio-title-label { font-size: 0.55rem; letter-spacing: 1.2px; }
+            /* Auto-play banner above give+radio buttons */
+            .radio-autoplay-banner { top: auto; bottom: 120px; max-width: 360px; width: calc(100% - 32px); white-space: normal; transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); }
+            .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner p { font-size: 0.8rem; }
 
             /* Constrain home to 100dvh on small devices (SPA mode) — home can scroll */
             body.spa-home {
@@ -675,22 +1028,42 @@
         }
 
         @media (max-width: 480px) {
+            .nav-links-desktop { display: none !important; }
+            .floating-widgets { background: transparent !important; border: none !important; box-shadow: none !important; --backdrop-filter: none !important; --webkit-backdrop-filter: none !important; height: auto !important; }
             .main-logo-image { width: 200px; height: 200px; }
             .ring-1 { width: 260px; height: 260px; }
             .ring-2 { width: 300px; height: 300px; }
             .ring-3 { width: 340px; height: 340px; }
             .bottom-text { bottom: -38px; }
             .bottom-text p { font-size: 0.8rem; }
-            .floating-widgets { bottom: 20px; right: 10px; left: 10px; transform: none; align-items: stretch; opacity: 1 !important; flex-direction: row; gap: 6px; width: auto; padding: 0; }
-            .mobile-give-btn { width: 40%; border-radius: 16px; padding: 10px 6px; font-size: 0.8rem; animation: giveBtnSlideUp 0.6s ease-out 2s forwards; }
+            .floating-widgets { bottom: 20px; right: auto; left: 50%; transform: translateX(-50%); align-items: stretch; opacity: 1 !important; flex-direction: row; gap: 6px; width: calc(100% - 24px); max-width: none; padding: 0; animation: mobileBarSlideUp 0.8s ease-out 2s forwards; }
+            .mobile-give-btn { flex: 1; border-radius: 16px; padding: 10px 6px; font-size: 0.8rem; animation: giveBtnSlideUp 0.6s ease-out 2s forwards; }
             .mobile-give-btn svg { width: 20px; height: 20px; }
-            .radio-player-premium { width: 60%; height: 80px; border-radius: 16px; animation: radioSlideUp 0.6s ease-out 2.3s forwards; }
-            .radio-screen { width: 70px; border-radius: 16px 0 0 16px; }
-            .radio-details { padding: 0 10px; gap: 4px; }
-            .radio-title { font-size: 0.8rem; max-width: 90px; }
-            .radio-status { font-size: 0.6rem; }
-            .play-btn-premium { width: 36px; height: 36px; }
-            .play-btn-premium svg { width: 16px; height: 16px; }
+            .radio-player-wrapper { flex: 1; width: auto; animation: radioSlideUp 0.6s ease-out 2.3s forwards; opacity: 0; overflow: visible !important; }
+            .radio-ripple-ring { border-radius: 16px; }
+            .radio-player-premium { width: 100%; height: 68px; border-radius: 16px; transition: none; }
+            .radio-player-premium.radio-attention { animation: none; transition: none; }
+            .radio-player-premium.radio-played { animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important; opacity: 1; }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-premium.radio-paused { animation: none !important; }
+            .radio-player-premium.radio-paused .radio-shimmer::after { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-paused .radio-live-badge { background: rgba(196, 30, 58, 0.6); box-shadow: none; }
+            .radio-player-premium.radio-paused .badge-dot { animation: none; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-played.shocked { animation: widgetShock 0.5s ease forwards !important; }
+            .radio-details { height: 22px; min-height: 22px; }
+            .radio-title-label { font-size: 0.5rem; letter-spacing: 1px; }
+            .widget-status-text { font-size: 0.45rem; }
+            /* Banner wider on small screens */
+            .radio-autoplay-banner { top: auto; bottom: 100px; max-width: 340px; width: calc(100% - 24px); white-space: normal; transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); }
+            .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner p { font-size: 0.75rem; }
             /* Glassmorphic menu tweaks for small screens */
             .glass-menu-container { padding: 60px 16px 25px 16px; }
             .glass-logo-img { width: 78px; height: 78px; }
@@ -701,19 +1074,44 @@
             .glass-menu-verse { font-size: 0.72rem; max-width: 250px; }
         }
         @media (max-width: 360px) {
+            .nav-links-desktop { display: none !important; }
+            .floating-widgets { background: transparent !important; border: none !important; box-shadow: none !important; --backdrop-filter: none !important; --webkit-backdrop-filter: none !important; height: auto !important; }
             .main-logo-image { width: 160px; height: 160px; }
             .ring-1 { width: 220px; height: 220px; }
             .ring-2 { width: 250px; height: 250px; }
             .ring-3 { width: 280px; height: 280px; }
             .bottom-text { bottom: -30px; white-space: normal; }
             .bottom-text p { font-size: 0.65rem; }
-            .floating-widgets { right: 8px; left: 8px; bottom: 12px; gap: 5px; }
+            .floating-widgets { right: auto; left: 50%; transform: translateX(-50%); bottom: 12px; gap: 5px; width: calc(100% - 20px); max-width: none; padding: 0; animation: mobileBarSlideUp 0.8s ease-out 2s forwards; }
             .mobile-give-btn { padding: 8px 4px; font-size: 0.7rem; }
             .mobile-give-btn svg { width: 18px; height: 18px; }
-            .radio-player-premium { height: 70px; }
-            .radio-screen { width: 60px; }
-            .radio-title { font-size: 0.7rem; max-width: 70px; }
-            .play-btn-premium { width: 32px; height: 32px; }
+            .radio-player-wrapper { flex: 1; width: auto; animation: radioSlideUp 0.6s ease-out 2.3s forwards; opacity: 0; overflow: visible !important; }
+            .radio-ripple-ring { border-radius: 16px; }
+            .radio-player-premium { width: 100%; height: 60px; transition: none; }
+            .radio-player-premium.radio-attention { animation: none; transition: none; }
+            .radio-player-premium.radio-played { animation: radioRipplePulse 2s ease-out infinite, radioGlowPulse 2s ease-in-out infinite !important; opacity: 1; }
+            .radio-player-premium.radio-played .radio-live-badge { background: rgba(196, 30, 58, 0.9); box-shadow: 0 0 8px rgba(196, 30, 58, 0.5); }
+            .radio-player-premium.radio-played .badge-dot { background: #ffffff; animation: badgePulse 1.5s ease-in-out infinite; }
+            .radio-player-premium.radio-played .radio-shimmer::after { animation: shimmerSweep 3s ease-in-out infinite; opacity: 1; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring { animation: radioRingExpand 2.5s ease-out infinite; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 { animation-delay: 0.8s; }
+            .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 { animation-delay: 1.6s; }
+            .radio-player-premium.radio-paused { animation: none !important; }
+            .radio-player-premium.radio-paused .radio-shimmer::after { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-paused .radio-live-badge { background: rgba(196, 30, 58, 0.6); box-shadow: none; }
+            .radio-player-premium.radio-paused .badge-dot { animation: none; }
+            .radio-player-wrapper.is-paused .radio-ripple-ring { animation: none !important; opacity: 0; }
+            .radio-player-premium.radio-played.shocked { animation: widgetShock 0.5s ease forwards !important; }
+            .radio-live-badge { font-size: 0.35rem; padding: 1px 3px; top: 2px; right: 2px; }
+            .radio-live-badge .badge-dot { width: 3px; height: 3px; }
+            .radio-details { height: 20px; min-height: 20px; }
+            .radio-title-label { font-size: 0.45rem; letter-spacing: 0.8px; }
+            .widget-status-text { font-size: 0.4rem; }
+            /* Banner full width minus margins on tiny screens */
+            .radio-autoplay-banner { top: auto; bottom: 90px; max-width: 310px; width: calc(100% - 20px); white-space: normal; transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); }
+            .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); }
+            .radio-autoplay-banner p { font-size: 0.7rem; }
             /* Glassmorphic menu tweaks for very small screens */
             .glass-menu-container { padding: 50px 12px 20px 12px; }
             .glass-logo-img { width: 65px; height: 65px; }
@@ -723,7 +1121,452 @@
             .glass-card span { font-size: 8.5px; letter-spacing: 0.6px; }
             .glass-menu-verse { font-size: 0.68rem; max-width: 230px; }
         }
+
+        /* ============================================
+           RADIO POPUP (FULL SCREEN)
+           ============================================ */
+        .radio-popup {
+            position: fixed; inset: 0; z-index: 10001;
+            background: #1f2937;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .radio-popup.active { opacity: 1; pointer-events: auto; }
+
+        .radio-popup-inner {
+            width: 100%; max-width: 420px; height: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 20px 24px 30px 24px;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            --scrollbar-width: none;
+            --ms-overflow-style: none;
+        }
+        .radio-popup-inner::-webkit-scrollbar { display: none; }
+
+        /* Back button */
+        .radio-popup-back {
+            position: absolute; top: 16px; left: 16px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: none;
+            color: #9ca3af; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease; z-index: 5;
+        }
+        .radio-popup-back:hover { background: rgba(255,255,255,0.2); color: #ffffff; }
+        .radio-popup-back svg { width: 18px; height: 18px; }
+
+        /* Share section at bottom */
+        .radio-popup-share-section {
+            width: 100%; max-width: 320px;
+            display: flex; flex-direction: column; align-items: center;
+            margin-top: 20px; padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .radio-popup-share-text {
+            font-size: 0.7rem; color: rgba(255,255,255,0.45);
+            text-align: center; line-height: 1.5;
+            margin-bottom: 12px; font-weight: 500;
+        }
+        .radio-popup-share-text strong {
+            color: rgba(255,255,255,0.7); font-weight: 700;
+        }
+        .radio-popup-share-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, #C41E3A 0%, #a1182e 100%);
+            color: #ffffff; border: none; border-radius: 50px;
+            padding: 12px 28px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 4px 16px rgba(196, 30, 58, 0.35);
+        }
+        .radio-popup-share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196, 30, 58, 0.5); }
+        .radio-popup-share-btn:active { transform: scale(0.97); }
+        .radio-popup-share-btn svg { width: 18px; height: 18px; }
+        .radio-popup-share-btn.shared {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+        }
+
+        /* Column wrappers — invisible on mobile, flex on desktop */
+        .popup-col-left, .popup-col-right {
+            display: contents; /* On mobile, children act as direct children of popup-inner */
+        }
+
+        /* Logo */
+        .radio-popup-logo-wrap {
+            margin-top: 56px; margin-bottom: 14px;
+            flex-shrink: 0;
+        }
+        .radio-popup-logo {
+            width: 70px; height: 70px; object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Station Name */
+        .radio-popup-name {
+            font-family: 'Inter', sans-serif; font-size: 1.3rem; font-weight: 800;
+            color: #ffffff; text-transform: uppercase; letter-spacing: 0.15em;
+            margin-bottom: 4px; text-align: center;
+            padding: 0 48px; /* prevent overlap with back/share buttons */
+            flex-shrink: 0;
+            line-height: 1.3;
+        }
+
+        /* Now Playing */
+        .radio-popup-now {
+            font-size: 0.8rem; color: #9ca3af; font-weight: 500;
+            margin-bottom: 8px; max-width: 340px; width: 100%;
+            overflow-wrap: break-word; word-wrap: break-word;
+            text-align: center;
+            padding: 0 12px;
+            line-height: 1.5;
+            min-height: 2.4em; /* ensure 2 lines of space even when empty */
+            flex-shrink: 0;
+            /* Allow wrapping for long track names, max 2 lines */
+            display: -webkit-box; --webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden;
+            white-space: normal;
+        }
+
+        /* Status */
+        .radio-popup-status {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; color: #6b7280; margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+        .popup-status-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .popup-status-offline { color: #6b7280; }
+        .popup-status-connecting { color: #f59e0b; }
+        .popup-status-connecting .popup-status-dot { box-shadow: 0 0 8px rgba(245,158,11,0.6); animation: blink 0.8s infinite; }
+        .popup-status-live { color: #ef4444; }
+        .popup-status-live .popup-status-dot { box-shadow: 0 0 8px rgba(239,68,68,0.6); animation: blink 1.5s infinite; }
+
+        /* Big Visualizer Screen */
+        .radio-popup-screen {
+            width: 100%; max-width: 360px; aspect-ratio: 16/9;
+            background: #0a0e1a; border-radius: 16px;
+            overflow: hidden; position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 0 40px rgba(196,30,58,0.05);
+            margin-bottom: 24px;
+            flex-shrink: 0;
+        }
+        .popup-visualizer-canvas { width: 100%; height: 100%; display: block; }
+        /* Connecting overlay on popup screen */
+        .popup-screen-connecting {
+            position: absolute; inset: 0;
+            display: none; align-items: center; justify-content: center;
+            flex-direction: column; gap: 10px;
+            background: rgba(10, 14, 26, 0.85);
+            --backdrop-filter: blur(4px); --webkit-backdrop-filter: blur(4px);
+            z-index: 3; pointer-events: none;
+        }
+        .popup-screen-connecting.active { display: flex; }
+        .popup-connecting-spinner {
+            width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #C41E3A; border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .popup-connecting-text {
+            font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        /* Now playing overlay on screen */
+        .popup-screen-title {
+            position: absolute; bottom: 10px; left: 12px; right: 12px;
+            font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.6);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            pointer-events: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Controls */
+        .radio-popup-controls { margin-bottom: 20px; flex-shrink: 0; }
+        .popup-play-btn {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: #C41E3A; border: none; color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 4px 20px rgba(196,30,58,0.4);
+        }
+        .popup-play-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(196,30,58,0.5); }
+        .popup-play-btn:active { transform: scale(0.95); }
+
+        /* Volume */
+        .radio-popup-volume {
+            display: flex; align-items: center; gap: 10px;
+            width: 100%; max-width: 280px; margin-bottom: 24px;
+            color: #9ca3af;
+        }
+        .popup-volume-slider {
+            flex: 1; -webkit-appearance: none; appearance: none;
+            height: 4px; border-radius: 2px;
+            background: linear-gradient(to right, #C41E3A 80%, #374151 80%);
+            outline: none; cursor: pointer;
+        }
+        .popup-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #ffffff; cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+        .popup-volume-slider::-moz-range-thumb {
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #ffffff; cursor: pointer; border: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Sleep Timer */
+        .radio-popup-timer {
+            width: 100%; max-width: 320px;
+            background: rgba(255,255,255,0.05); border-radius: 14px;
+            padding: 14px 16px;
+        }
+        .timer-label {
+            display: flex; align-items: center; gap: 8px;
+            color: #9ca3af; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+        .timer-label svg { width: 14px; height: 14px; }
+        .timer-options {
+            display: flex; gap: 6px; align-items: center;
+        }
+        .timer-btn {
+            flex: 1; padding: 8px 4px; border-radius: 8px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.06);
+            color: #d1d5db; font-size: 0.72rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .timer-btn:hover { background: rgba(255,255,255,0.15); color: #ffffff; }
+        .timer-btn.active-timer {
+            background: rgba(196,30,58,0.25); border-color: rgba(196,30,58,0.4);
+            color: #ef4444;
+        }
+        /* Custom time input */
+        .timer-custom-wrap {
+            display: flex; align-items: center; gap: 4px;
+            flex-shrink: 0;
+        }
+        .timer-custom-input {
+            width: 42px; padding: 6px 4px; border-radius: 8px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+            color: #d1d5db; font-size: 0.72rem; font-weight: 700;
+            text-align: center; outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .timer-custom-input::placeholder { color: rgba(255,255,255,0.25); }
+        .timer-custom-input:focus { border-color: rgba(196,30,58,0.5); background: rgba(255,255,255,0.12); }
+        .timer-custom-label { color: #9ca3af; font-size: 0.65rem; font-weight: 600; }
+        .timer-custom-go {
+            width: 28px; height: 28px; border-radius: 6px;
+            background: rgba(196,30,58,0.3); border: 1px solid rgba(196,30,58,0.3);
+            color: #ef4444; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .timer-custom-go:hover { background: rgba(196,30,58,0.5); color: #ffffff; }
+        .timer-custom-go svg { width: 14px; height: 14px; }
+
+        .timer-countdown {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 10px; color: #ef4444; font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .timer-cancel-btn {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(239,68,68,0.15); border: none;
+            color: #ef4444; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .timer-cancel-btn:hover { background: rgba(239,68,68,0.3); }
+
+        /* Auto-play banner — appears above bottom nav/buttons */
+        .radio-autoplay-banner {
+            position: fixed; top: auto; bottom: 110px; left: 50%; transform: translateX(-50%) translateY(30px); z-index: 10002;
+            background: rgba(15,23,42,0.95); --backdrop-filter: blur(16px); --webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(196,30,58,0.3); border-radius: 16px;
+            padding: 14px 24px; display: flex; align-items: center; justify-content: center; gap: 14px;
+            max-width: 420px; width: auto; white-space: nowrap;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            opacity: 0; pointer-events: none;
+        }
+        .radio-autoplay-banner.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+        .radio-autoplay-banner.hide { transform: translateX(-50%) translateY(30px); opacity: 0; pointer-events: none; }
+        .radio-autoplay-banner p { color: #d1d5db; font-size: 0.85rem; font-weight: 500; }
+        .radio-autoplay-banner p strong { color: #ffffff; }
+        .banner-play-btn {
+            background: #C41E3A; color: #fff; border: none; padding: 8px 20px;
+            border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer;
+            transition: all 0.2s ease; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .banner-play-btn:hover { background: #a1182e; }
+        .banner-dismiss-btn {
+            background: none; color: #6b7280; border: none; font-size: 0.75rem;
+            cursor: pointer; font-weight: 600; padding: 8px 12px;
+        }
+        .banner-dismiss-btn:hover { color: #9ca3af; }
+
+        /* Radio popup responsive — Tablet */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .radio-popup-inner { max-width: 600px; padding: 30px 40px 40px 40px; }
+            .radio-popup-logo { width: 80px; height: 80px; }
+            .radio-popup-logo-wrap { margin-top: 50px; }
+            .radio-popup-name { font-size: 1.5rem; }
+            .radio-popup-now { font-size: 0.9rem; max-width: 400px; }
+            .radio-popup-screen { max-width: 520px; border-radius: 20px; }
+            .popup-play-btn { width: 64px; height: 64px; }
+            .popup-play-btn svg { width: 32px; height: 32px; }
+            .radio-popup-volume { max-width: 360px; }
+            .radio-popup-timer { max-width: 420px; }
+            .timer-btn { padding: 10px 6px; font-size: 0.8rem; }
+        }
+
+        /* Radio popup — Desktop: two-column layout, no scroll needed */
+        @media (min-width: 1024px) {
+            .radio-popup-inner {
+                max-width: 900px;
+                flex-direction: row;
+                padding: 40px 48px;
+                gap: 40px;
+                align-items: stretch;
+                overflow-y: hidden;
+            }
+            /* Left column: visualizer + controls */
+            .popup-col-left {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 1;
+                min-width: 0;
+                gap: 20px;
+                justify-content: center;
+            }
+            /* Right column: info + controls */
+            .popup-col-right {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 0 0 320px;
+                gap: 0;
+                justify-content: center;
+            }
+            /* Back button — repositioned */
+            .radio-popup-back {
+                position: absolute; top: 20px; left: 20px;
+            }
+            /* Logo */
+            .radio-popup-logo-wrap { margin-top: 0; margin-bottom: 10px; }
+            .radio-popup-logo { width: 60px; height: 60px; }
+            /* Station name */
+            .radio-popup-name { font-size: 1.3rem; padding: 0; margin-bottom: 2px; }
+            /* Now playing */
+            .radio-popup-now { font-size: 0.75rem; max-width: 280px; margin-bottom: 4px; min-height: 2em; }
+            /* Status */
+            .radio-popup-status { margin-bottom: 12px; }
+            /* Visualizer screen — fills left column */
+            .radio-popup-screen {
+                max-width: 100%; width: 100%;
+                border-radius: 20px;
+                flex-shrink: 1;
+            }
+            /* Play button */
+            .radio-popup-controls { margin-bottom: 0; }
+            .popup-play-btn { width: 60px; height: 60px; }
+            .popup-play-btn svg { width: 30px; height: 30px; }
+            /* Volume */
+            .radio-popup-volume { max-width: 260px; margin-bottom: 12px; }
+            /* Timer */
+            .radio-popup-timer { max-width: 280px; padding: 10px 14px; }
+            .timer-btn { padding: 8px 4px; font-size: 0.75rem; }
+            /* Share section */
+            .radio-popup-share-section { max-width: 280px; margin-top: 12px; padding-top: 12px; }
+            .radio-popup-share-text { font-size: 0.65rem; margin-bottom: 8px; }
+            .radio-popup-share-btn { padding: 10px 20px; font-size: 0.75rem; }
+        }
+
+        /* Larger desktops — more spacious two-column */
+        @media (min-width: 1280px) {
+            .radio-popup-inner {
+                max-width: 1040px;
+                gap: 52px;
+                padding: 48px 56px;
+            }
+            .popup-col-right { flex: 0 0 360px; }
+            .radio-popup-logo { width: 70px; height: 70px; }
+            .radio-popup-name { font-size: 1.5rem; }
+            .radio-popup-now { font-size: 0.85rem; max-width: 320px; }
+            .radio-popup-volume { max-width: 300px; }
+            .radio-popup-timer { max-width: 320px; }
+            .radio-popup-share-section { max-width: 320px; }
+            .popup-play-btn { width: 64px; height: 64px; }
+            .popup-play-btn svg { width: 32px; height: 32px; }
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 480px) {
+            .radio-popup-inner { padding: 16px 18px 24px 18px; }
+            .radio-popup-logo { width: 55px; height: 55px; }
+            .radio-popup-name { font-size: 1.1rem; padding: 0 40px; }
+            .radio-popup-now { font-size: 0.75rem; max-width: 300px; }
+            .radio-popup-screen { border-radius: 12px; }
+            .popup-play-btn { width: 50px; height: 50px; }
+            .radio-popup-share-section { max-width: 280px; }
+            .radio-popup-share-text { font-size: 0.65rem; }
+            .radio-popup-share-btn { padding: 10px 22px; font-size: 0.75rem; }
+        }
+        @media (max-width: 360px) {
+            .radio-popup-logo { width: 45px; height: 45px; }
+            .radio-popup-name { font-size: 1rem; padding: 0 36px; }
+            .radio-popup-now { font-size: 0.7rem; max-width: 280px; }
+            .timer-btn { font-size: 0.65rem; padding: 6px 2px; }
+            .timer-custom-input { width: 36px; font-size: 0.65rem; }
+            .radio-popup-share-section { max-width: 260px; }
+            .radio-popup-share-btn { padding: 9px 18px; font-size: 0.7rem; }
+        }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Church",
+        "name": "ABC Global Church",
+        "alternateName": "Assembly of Believers Church",
+        "url": "https://abcglobal.co.tz",
+        "logo": "https://abcglobal.co.tz/images/logo.png",
+        "description": "ABC Global Church - Assembly of Believers Church. Join us for worship, prayer, and fellowship.",
+        "foundingDate": "2016-11",
+        "founder": {
+            "@type": "Person",
+            "name": "Bishop Dickson Corneli Kabigumila"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Kinzudi, Goba, Ubungo",
+            "addressLocality": "Dar es Salaam",
+            "addressCountry": "TZ"
+        },
+        "telephone": "+255759625673",
+        "email": "info@abcglobal.co.tz",
+        "sameAs": [
+            "https://youtube.com/@abcglobalchurch-tz",
+            "https://www.facebook.com/share/1CqsXW4aY9/",
+            "https://www.instagram.com/abcglobalchurch",
+            "https://www.tiktok.com/@abcglobalchurch",
+            "https://x.com/believers_abc"
+        ]
+    }
+    </script>
 </head>
 <body>
 
@@ -734,38 +1577,156 @@
     <!-- Ripple Effect Container -->
     <div id="ripple-container" class="ripple-container"></div>
 
-    <!-- Radio Player Widget (PERSISTENT) -->
-    <aside class="floating-widgets" id="floatingWidgets">
+    <!-- Bottom Bar: Radio + Nav Links (PERSISTENT) -->
+    <aside class="floating-widgets shockwave-affected" id="floatingWidgets">
         <a href="/giving" class="mobile-give-btn shockwave-affected" aria-label="Give">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
             <span>Give</span>
         </a>
-        <div class="radio-player-premium shockwave-affected" id="radioPlayer">
+        <div class="radio-player-wrapper shockwave-affected" id="radioPlayerWrapper">
+            <!-- Ripple rings that expand outward when playing -->
+            <div class="radio-ripple-ring ring-1"></div>
+            <div class="radio-ripple-ring ring-2"></div>
+            <div class="radio-ripple-ring ring-3"></div>
+            <div class="radio-player-premium shockwave-affected radio-attention" id="radioPlayer">
             <div class="radio-screen" id="radioScreen">
                 <canvas class="visualizer-canvas" id="visualizerCanvas"></canvas>
+                <!-- Shimmer sweep effect -->
+                <div class="radio-shimmer"></div>
+                <!-- LIVE badge -->
+                <div class="radio-live-badge"><span class="badge-dot"></span>LIVE</div>
                 <div class="pause-overlay" id="pauseOverlay">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
                 </div>
             </div>
             <div class="radio-details">
-                <div class="radio-info">
-                    <div class="radio-title" id="radioTitle">ABC GLOBAL</div>
-                    <div class="radio-status status-offline" id="radioStatus">
-                        <span class="status-dot"></span>
-                        <span id="statusText">Offline</span>
-                    </div>
+                <div class="radio-status status-offline" id="radioStatus">
+                    <span class="status-dot"></span>
+                    <span id="statusText" class="widget-status-text">Offline</span>
                 </div>
-                <button class="play-btn-premium" id="radioPlayBtn" aria-label="Play Radio">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 3px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="pauseIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="loadingIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-icon" style="display: none;"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
-                </button>
+                <span class="radio-title-label" id="radioTitle">ABC RADIO</span>
             </div>
+        </div>
+        </div>
+        <!-- Desktop nav links — shown inline beside radio on 1024px+ -->
+        <div class="nav-links-desktop" id="navLinksDesktop">
+            <a href="/giving" data-page="giving"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg><span>Give</span></a>
+            <a href="/testimonies" data-page="testimonies"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Testimonies</span></a>
+            <a href="/prayer" data-page="prayer"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>Prayer</span></a>
+            <a href="/connect" data-page="connect"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Connect</span></a>
+            <a href="/branches" data-page="branches"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>Branches</span></a>
+            <a href="/history" data-page="history"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>History</span></a>
         </div>
     </aside>
 
     <!-- Audio Element (PERSISTENT - NEVER DESTROYED) -->
     <audio id="radioStream" preload="none" crossorigin="anonymous" src="https://stream.zeno.fm/tvb2jrc38hmuv"></audio>
+
+    <!-- ============================================
+         RADIO POPUP (PERSISTENT - FULL SCREEN)
+         ============================================ -->
+    <div class="radio-popup" id="radioPopup" role="dialog" aria-label="Radio Player">
+        <div class="radio-popup-inner">
+            <!-- Back button -->
+            <button class="radio-popup-back" id="radioPopupBack" aria-label="Go Back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <!-- Left Column: Visualizer + Play Controls -->
+            <div class="popup-col-left">
+                <!-- Big Visualizer Screen -->
+                <div class="radio-popup-screen" id="popupScreen">
+                    <canvas class="popup-visualizer-canvas" id="popupVisualizerCanvas"></canvas>
+                    <!-- Connecting/loading overlay -->
+                    <div class="popup-screen-connecting" id="popupScreenConnecting">
+                        <div class="popup-connecting-spinner"></div>
+                        <span class="popup-connecting-text">Connecting...</span>
+                    </div>
+                    <div class="popup-screen-title" id="popupScreenTitle">ABC GLOBAL RADIO</div>
+                </div>
+
+                <!-- Controls -->
+                <div class="radio-popup-controls">
+                    <button class="popup-play-btn" id="popupPlayBtn" aria-label="Play">
+                        <svg id="popupPlayIcon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:3px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        <svg id="popupPauseIcon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
+                        <svg id="popupLoadingIcon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="loader-icon" style="display:none;"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Info + Controls -->
+            <div class="popup-col-right">
+                <!-- Logo -->
+                <div class="radio-popup-logo-wrap">
+                    <img src="https://z-cdn-media.chatglm.cn/files/ab950aef-8df1-4860-9378-fd4b12f22f29.png?auth_key=1879091774-4158beba2b394829a510bcdd3963beeb-0-d4ac47b63a4e2cef651c8efc56c5942b" alt="ABC Global" class="radio-popup-logo">
+                </div>
+
+                <!-- Station Name -->
+                <div class="radio-popup-name">ABC GLOBAL RADIO</div>
+
+                <!-- Now Playing -->
+                <div class="radio-popup-now" id="popupNowPlaying">ABC GLOBAL RADIO</div>
+
+                <!-- Status -->
+                <div class="radio-popup-status popup-status-offline" id="popupStatus">
+                    <span class="popup-status-dot" id="popupStatusDot"></span>
+                    <span id="popupStatusText">Offline</span>
+                </div>
+
+                <!-- Volume Slider -->
+                <div class="radio-popup-volume">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <input type="range" id="popupVolumeSlider" class="popup-volume-slider" min="0" max="100" value="80" aria-label="Volume">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </div>
+
+                <!-- Sleep Timer -->
+                <div class="radio-popup-timer">
+                    <div class="timer-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Sleep Timer</span>
+                    </div>
+                    <div class="timer-options" id="timerOptions">
+                        <button class="timer-btn" data-minutes="0">Off</button>
+                        <button class="timer-btn" data-minutes="15">15m</button>
+                        <button class="timer-btn" data-minutes="30">30m</button>
+                        <button class="timer-btn" data-minutes="60">1h</button>
+                        <button class="timer-btn" data-minutes="120">2h</button>
+                        <div class="timer-custom-wrap">
+                            <input type="number" class="timer-custom-input" id="timerCustomInput" min="1" max="720" placeholder="--" aria-label="Custom minutes">
+                            <span class="timer-custom-label">min</span>
+                            <button class="timer-custom-go" id="timerCustomGo" aria-label="Set custom timer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="timer-countdown" id="timerCountdown" style="display:none;">
+                        <span id="timerCountdownText">--:--</span>
+                        <button class="timer-cancel-btn" id="timerCancelBtn" aria-label="Cancel Timer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Share Section -->
+                <div class="radio-popup-share-section">
+                    <p class="radio-popup-share-text">Share this link with others so they can<br><strong>listen to the Word of God</strong></p>
+                    <button class="radio-popup-share-btn" id="radioPopupShare" aria-label="Share Radio Link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span id="shareBtnText">Share Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-play Banner (PERSISTENT) -->
+    <div class="radio-autoplay-banner" id="radioAutoplayBanner">
+        <p>Listen to <strong>ABC Global Radio</strong>?</p>
+        <button class="banner-play-btn" id="bannerPlayBtn">Play</button>
+        <button class="banner-dismiss-btn" id="bannerDismissBtn">Not Now</button>
+    </div>
 
     <!-- Hamburger Menu (PERSISTENT) -->
     <header>
@@ -901,10 +1862,7 @@
         // --- RADIO & VISUALIZER (PERSISTENT - NEVER DESTROYED) ---
         const audio = document.getElementById('radioStream');
         const radioScreen = document.getElementById('radioScreen');
-        const radioPlayBtn = document.getElementById('radioPlayBtn');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const loadingIcon = document.getElementById('loadingIcon');
+        // Widget elements (simplified - no more play button on widget, click opens popup)
         const radioStatus = document.getElementById('radioStatus');
         const statusText = document.getElementById('statusText');
         const radioTitle = document.getElementById('radioTitle');
@@ -1034,9 +1992,9 @@
             }
         }
 
-        function setConnectingState() { playIcon.style.display = 'none'; pauseIcon.style.display = 'none'; loadingIcon.style.display = 'block'; radioStatus.className = 'radio-status status-connecting'; statusText.innerText = 'Connecting'; }
-        function setLiveState() { playIcon.style.display = 'none'; pauseIcon.style.display = 'block'; loadingIcon.style.display = 'none'; radioStatus.className = 'radio-status status-live'; statusText.innerText = 'Live'; startVisualizerLoop(); }
-        function setOfflineState() { playIcon.style.display = 'block'; pauseIcon.style.display = 'none'; loadingIcon.style.display = 'none'; radioStatus.className = 'radio-status status-offline'; statusText.innerText = 'Offline'; startVisualizerLoop(); }
+        function setConnectingState() { radioStatus.className = 'radio-status status-connecting'; statusText.innerText = 'Connecting'; isConnecting = true; }
+        function setLiveState() { radioStatus.className = 'radio-status status-live'; statusText.innerText = 'Live'; isConnecting = false; startVisualizerLoop(); }
+        function setOfflineState() { radioStatus.className = 'radio-status status-offline'; statusText.innerText = 'Offline'; isConnecting = false; startVisualizerLoop(); }
 
         function playRadio() {
             // Initialize Web Audio API on first user click (required by browsers)
@@ -1048,13 +2006,489 @@
             if (playPromise !== undefined) {
                 playPromise.then(() => { setLiveState(); }).catch(error => { console.error("Radio playback failed:", error); setOfflineState(); });
             }
+            // Add playing state classes for ripple animation
+            const rp = document.getElementById('radioPlayer');
+            const rpw = document.getElementById('radioPlayerWrapper');
+            if (rp) {
+                if (!rp.classList.contains('radio-played')) {
+                    rp.classList.add('radio-played');
+                    rp.classList.remove('radio-attention');
+                }
+                rp.classList.remove('radio-paused');
+            }
+            if (rpw) {
+                rpw.classList.add('is-playing');
+                rpw.classList.remove('is-paused');
+            }
         }
-        function pauseRadio() { audio.pause(); setOfflineState(); }
+        function pauseRadio() {
+            audio.pause();
+            setOfflineState();
+            // Add paused state class to stop ripple animations
+            const rp = document.getElementById('radioPlayer');
+            const rpw = document.getElementById('radioPlayerWrapper');
+            if (rp) {
+                rp.classList.add('radio-paused');
+            }
+            if (rpw) {
+                rpw.classList.remove('is-playing');
+                rpw.classList.add('is-paused');
+            }
+        }
 
-        radioPlayBtn.addEventListener('click', (e) => { e.stopPropagation(); if (audio.paused) { playRadio(); } else { pauseRadio(); } });
-        radioScreen.addEventListener('click', (e) => { if (e.target === radioScreen || e.target === canvas || e.target.closest('.pause-overlay')) { if (!audio.paused) { pauseRadio(); } } });
-        audio.addEventListener('pause', () => { if (pauseIcon.style.display === 'block') { setOfflineState(); } });
-        audio.addEventListener('playing', () => { if (loadingIcon.style.display === 'block' || playIcon.style.display === 'block') { setLiveState(); } });
+        // Entire radio widget opens popup on click (no separate play button)
+        document.getElementById('radioPlayer').addEventListener('click', (e) => { e.stopPropagation(); openRadioPopup(); });
+        audio.addEventListener('pause', () => {
+            setOfflineState();
+            const rp = document.getElementById('radioPlayer');
+            const rpw = document.getElementById('radioPlayerWrapper');
+            if (rp) { rp.classList.add('radio-paused'); }
+            if (rpw) { rpw.classList.remove('is-playing'); rpw.classList.add('is-paused'); }
+        });
+        audio.addEventListener('playing', () => {
+            setLiveState();
+            const rp = document.getElementById('radioPlayer');
+            const rpw = document.getElementById('radioPlayerWrapper');
+            if (rp) {
+                rp.classList.add('radio-played');
+                rp.classList.remove('radio-attention');
+                rp.classList.remove('radio-paused');
+            }
+            if (rpw) {
+                rpw.classList.add('is-playing');
+                rpw.classList.remove('is-paused');
+            }
+        });
+
+        // ============================================
+        // RADIO POPUP LOGIC
+        // ============================================
+        const radioPopup = document.getElementById('radioPopup');
+        const radioPopupBack = document.getElementById('radioPopupBack');
+        const radioPopupShare = document.getElementById('radioPopupShare');
+        const popupScreen = document.getElementById('popupScreen');
+        const popupCanvas = document.getElementById('popupVisualizerCanvas');
+        const popupCtx = popupCanvas.getContext('2d');
+        const popupPlayBtn = document.getElementById('popupPlayBtn');
+        const popupPlayIcon = document.getElementById('popupPlayIcon');
+        const popupPauseIcon = document.getElementById('popupPauseIcon');
+        const popupLoadingIcon = document.getElementById('popupLoadingIcon');
+        const popupScreenConnecting = document.getElementById('popupScreenConnecting');
+        const popupStatusDot = document.getElementById('popupStatusDot');
+        const popupStatusText = document.getElementById('popupStatusText');
+        const popupNowPlaying = document.getElementById('popupNowPlaying');
+        const popupScreenTitle = document.getElementById('popupScreenTitle');
+        const popupVolumeSlider = document.getElementById('popupVolumeSlider');
+        const timerOptions = document.getElementById('timerOptions');
+        const timerCountdown = document.getElementById('timerCountdown');
+        const timerCountdownText = document.getElementById('timerCountdownText');
+        const timerCancelBtn = document.getElementById('timerCancelBtn');
+        const timerCustomInput = document.getElementById('timerCustomInput');
+        const timerCustomGo = document.getElementById('timerCustomGo');
+
+        // Popup visualizer — responsive bar count
+        let popupVisualizerRunning = false;
+        let popupNumBars = window.innerWidth >= 768 ? 48 : 32;
+        let popupBars = [];
+        function initPopupBars() {
+            popupNumBars = window.innerWidth >= 768 ? 48 : 32;
+            popupBars = [];
+            for (let i = 0; i < popupNumBars; i++) { popupBars.push({ height: 0, targetHeight: 0 }); }
+        }
+        initPopupBars();
+        window.addEventListener('resize', () => {
+            const newCount = window.innerWidth >= 768 ? 48 : 32;
+            if (newCount !== popupNumBars) { initPopupBars(); }
+        });
+
+        function openRadioPopup() {
+            radioPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Hide hamburger when popup is open (it has higher z-index)
+            const hamburger = document.getElementById('hamburger');
+            if (hamburger) hamburger.style.cssText = 'display: none !important; opacity: 0 !important; pointer-events: none !important;';
+            popupVolumeSlider.value = Math.round(audio.volume * 100);
+            updateVolumeSliderBg();
+            syncPopupStatus();
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    if (popupCanvas.offsetWidth > 0 && popupCanvas.offsetHeight > 0) {
+                        popupCanvas.width = popupCanvas.offsetWidth * 2;
+                        popupCanvas.height = popupCanvas.offsetHeight * 2;
+                    }
+                    startPopupVisualizer();
+                }, 100);
+            });
+        }
+
+        function closeRadioPopup() {
+            radioPopup.classList.remove('active');
+            document.body.style.overflow = '';
+            popupVisualizerRunning = false;
+            // Restore hamburger when popup closes (CSS will control visibility based on page)
+            const hamburger = document.getElementById('hamburger');
+            if (hamburger) hamburger.removeAttribute('style');
+        }
+
+        // Back button closes popup
+        radioPopupBack.addEventListener('click', closeRadioPopup);
+        radioPopup.addEventListener('click', (e) => {
+            if (e.target === radioPopup) closeRadioPopup();
+        });
+
+        // Share button — shares website link, not Zeno stream
+        const shareBtnText = document.getElementById('shareBtnText');
+        radioPopupShare.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const shareData = {
+                title: 'ABC Global Church',
+                text: 'Listen to ABC Global Radio — Live worship and the Word of God!',
+                url: window.location.origin + '/'
+            };
+            if (navigator.share) {
+                navigator.share(shareData).then(() => {
+                    // Show success state
+                    radioPopupShare.classList.add('shared');
+                    if (shareBtnText) shareBtnText.textContent = 'Shared!';
+                    setTimeout(() => {
+                        radioPopupShare.classList.remove('shared');
+                        if (shareBtnText) shareBtnText.textContent = 'Share Link';
+                    }, 2500);
+                }).catch(() => {});
+            } else {
+                // Fallback: copy link
+                navigator.clipboard.writeText(shareData.url).then(() => {
+                    radioPopupShare.classList.add('shared');
+                    if (shareBtnText) shareBtnText.textContent = 'Link Copied!';
+                    setTimeout(() => {
+                        radioPopupShare.classList.remove('shared');
+                        if (shareBtnText) shareBtnText.textContent = 'Share Link';
+                    }, 2500);
+                }).catch(() => {});
+            }
+        });
+
+        let isConnecting = false;
+        function syncPopupStatus() {
+            if (isConnecting) {
+                // Connecting state takes priority — show loading spinner
+                popupPlayIcon.style.display = 'none';
+                popupPauseIcon.style.display = 'none';
+                popupLoadingIcon.style.display = 'block';
+                popupStatusDot.className = 'popup-status-dot';
+                popupStatusText.parentElement.className = 'radio-popup-status popup-status-connecting';
+                popupStatusText.textContent = 'Connecting...';
+                // Show connecting overlay on visualizer screen
+                if (popupScreenConnecting) popupScreenConnecting.classList.add('active');
+            } else if (audio.paused) {
+                popupPlayIcon.style.display = 'block';
+                popupPauseIcon.style.display = 'none';
+                popupLoadingIcon.style.display = 'none';
+                popupStatusDot.className = 'popup-status-dot';
+                popupStatusText.parentElement.className = 'radio-popup-status popup-status-offline';
+                popupStatusText.textContent = 'Offline';
+                // Hide connecting overlay
+                if (popupScreenConnecting) popupScreenConnecting.classList.remove('active');
+            } else {
+                popupPlayIcon.style.display = 'none';
+                popupPauseIcon.style.display = 'block';
+                popupLoadingIcon.style.display = 'none';
+                popupStatusDot.className = 'popup-status-dot';
+                popupStatusText.parentElement.className = 'radio-popup-status popup-status-live';
+                popupStatusText.textContent = 'Live';
+                // Hide connecting overlay
+                if (popupScreenConnecting) popupScreenConnecting.classList.remove('active');
+            }
+            const title = radioTitle.textContent || 'ABC GLOBAL RADIO';
+            popupNowPlaying.textContent = title;
+            popupScreenTitle.textContent = title;
+        }
+
+        popupPlayBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) { playRadio(); } else { pauseRadio(); }
+        });
+
+        // Keep popup status in sync with main player
+        const origSetLive = setLiveState;
+        const origSetOffline = setOfflineState;
+        const origSetConnecting = setConnectingState;
+
+        setLiveState = function() {
+            origSetLive();
+            if (radioPopup.classList.contains('active')) {
+                syncPopupStatus();
+                startPopupVisualizer();
+            }
+        };
+        setOfflineState = function() {
+            origSetOffline();
+            if (radioPopup.classList.contains('active')) {
+                syncPopupStatus();
+                startPopupVisualizer();
+            }
+        };
+        setConnectingState = function() {
+            origSetConnecting();
+            if (radioPopup.classList.contains('active')) syncPopupStatus();
+        };
+
+        // Volume control
+        popupVolumeSlider.addEventListener('input', () => {
+            audio.volume = popupVolumeSlider.value / 100;
+            updateVolumeSliderBg();
+        });
+        function updateVolumeSliderBg() {
+            const val = popupVolumeSlider.value;
+            popupVolumeSlider.style.background = `linear-gradient(to right, #C41E3A ${val}%, #374151 ${val}%)`;
+        }
+
+        // ============================================
+        // POPUP VISUALIZER (separate draw loop + glow)
+        // ============================================
+        function drawPopupVisualizer() {
+            popupCtx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
+            if (popupCanvas.width === 0 || popupCanvas.height === 0) {
+                popupVisualizerRunning = false;
+                return;
+            }
+            const isPlaying = !audio.paused;
+            const barWidth = popupCanvas.width / popupNumBars;
+            const maxBarHeight = popupCanvas.height * 0.88;
+            let allBarsSettled = true;
+            let avgHeight = 0;
+
+            if (useRealAnalyser && analyser && isPlaying) {
+                analyser.getByteFrequencyData(realFreqData);
+            }
+
+            // Draw subtle glow behind bars when playing
+            if (isPlaying) {
+                let totalH = 0;
+                for (let i = 0; i < popupNumBars; i++) { totalH += popupBars[i].height; }
+                avgHeight = totalH / popupNumBars;
+                const glowIntensity = Math.min(avgHeight / maxBarHeight, 1);
+                if (glowIntensity > 0.1) {
+                    const glowGrad = popupCtx.createRadialGradient(
+                        popupCanvas.width / 2, popupCanvas.height, 0,
+                        popupCanvas.width / 2, popupCanvas.height, popupCanvas.height * 0.9
+                    );
+                    glowGrad.addColorStop(0, `rgba(196, 30, 58, ${glowIntensity * 0.12})`);
+                    glowGrad.addColorStop(0.5, `rgba(196, 30, 58, ${glowIntensity * 0.05})`);
+                    glowGrad.addColorStop(1, 'rgba(196, 30, 58, 0)');
+                    popupCtx.fillStyle = glowGrad;
+                    popupCtx.fillRect(0, 0, popupCanvas.width, popupCanvas.height);
+                }
+            }
+
+            for (let i = 0; i < popupNumBars; i++) {
+                if (isPlaying) {
+                    if (useRealAnalyser && realFreqData) {
+                        const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / popupNumBars);
+                        const freqValue = realFreqData[binIndex] || 0;
+                        const normalized = freqValue / 255;
+                        popupBars[i].targetHeight = Math.max(maxBarHeight * 0.08, normalized * maxBarHeight);
+                    } else {
+                        const centerFactor = 1 - Math.abs(i - popupNumBars/2) / (popupNumBars/2);
+                        const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
+                        popupBars[i].targetHeight = dynamicHeight;
+                    }
+                } else {
+                    popupBars[i].targetHeight = popupCanvas.height * 0.04;
+                }
+
+                popupBars[i].height += (popupBars[i].targetHeight - popupBars[i].height) * (useRealAnalyser ? 0.25 : 0.15);
+                if (!isPlaying && Math.abs(popupBars[i].height - popupBars[i].targetHeight) > 0.5) { allBarsSettled = false; }
+
+                const x = i * barWidth;
+                const h = Math.max(2, popupBars[i].height);
+                const y = popupCanvas.height - h;
+
+                const gradient = popupCtx.createLinearGradient(x, y, x, popupCanvas.height);
+                gradient.addColorStop(0, '#C41E3A');
+                gradient.addColorStop(0.4, '#ef4444');
+                gradient.addColorStop(1, '#1e3a8a');
+                popupCtx.fillStyle = gradient;
+
+                const barRadius = Math.min(barWidth * 0.3, 4);
+                popupCtx.beginPath();
+                popupCtx.moveTo(x + 1, popupCanvas.height);
+                popupCtx.lineTo(x + 1, y + barRadius);
+                popupCtx.quadraticCurveTo(x + 1, y, x + 1 + barRadius, y);
+                popupCtx.lineTo(x + barWidth - 1 - barRadius, y);
+                popupCtx.quadraticCurveTo(x + barWidth - 1, y, x + barWidth - 1, y + barRadius);
+                popupCtx.lineTo(x + barWidth - 1, popupCanvas.height);
+                popupCtx.closePath();
+                popupCtx.fill();
+
+                popupCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                popupCtx.fillRect(x + 1, y, barWidth - 2, 2);
+            }
+            if (isPlaying || !allBarsSettled) { requestAnimationFrame(drawPopupVisualizer); } else { popupVisualizerRunning = false; }
+        }
+        function startPopupVisualizer() {
+            if (!popupVisualizerRunning) {
+                popupVisualizerRunning = true;
+                if (popupCanvas.offsetWidth > 0 && popupCanvas.offsetHeight > 0) {
+                    popupCanvas.width = popupCanvas.offsetWidth * 2;
+                    popupCanvas.height = popupCanvas.offsetHeight * 2;
+                }
+                drawPopupVisualizer();
+            }
+        }
+
+        const popupResizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                if (entry.target === popupScreen) {
+                    popupCanvas.width = popupCanvas.offsetWidth * 2;
+                    popupCanvas.height = popupCanvas.offsetHeight * 2;
+                }
+            }
+        });
+        popupResizeObserver.observe(popupScreen);
+
+        // ============================================
+        // SLEEP TIMER (preset + custom)
+        // ============================================
+        let sleepTimerId = null;
+        let sleepTimerEnd = null;
+        let sleepCountdownId = null;
+
+        function startSleepTimer(minutes) {
+            clearSleepTimer();
+            if (!minutes || minutes <= 0) return;
+            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
+            sleepTimerEnd = Date.now() + minutes * 60 * 1000;
+            sleepTimerId = setTimeout(() => {
+                pauseRadio();
+                clearSleepTimer();
+            }, minutes * 60 * 1000);
+            timerCountdown.style.display = 'flex';
+            updateCountdown();
+            sleepCountdownId = setInterval(updateCountdown, 1000);
+        }
+
+        timerOptions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.timer-btn');
+            if (!btn) return;
+            const minutes = parseInt(btn.dataset.minutes);
+            if (minutes === 0) { clearSleepTimer(); return; }
+            btn.classList.add('active-timer');
+            startSleepTimer(minutes);
+        });
+
+        // Custom timer
+        timerCustomGo.addEventListener('click', () => {
+            const val = parseInt(timerCustomInput.value);
+            if (!val || val < 1 || val > 720) return;
+            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
+            startSleepTimer(val);
+        });
+        timerCustomInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') timerCustomGo.click();
+        });
+
+        timerCancelBtn.addEventListener('click', clearSleepTimer);
+
+        function clearSleepTimer() {
+            if (sleepTimerId) { clearTimeout(sleepTimerId); sleepTimerId = null; }
+            if (sleepCountdownId) { clearInterval(sleepCountdownId); sleepCountdownId = null; }
+            sleepTimerEnd = null;
+            timerCountdown.style.display = 'none';
+            timerCountdownText.textContent = '--:--';
+            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
+        }
+
+        function updateCountdown() {
+            if (!sleepTimerEnd) return;
+            const remaining = Math.max(0, sleepTimerEnd - Date.now());
+            const mins = Math.floor(remaining / 60000);
+            const secs = Math.floor((remaining % 60000) / 1000);
+            timerCountdownText.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            if (remaining <= 0) { clearSleepTimer(); }
+        }
+
+        // ============================================
+        // MEDIA SESSION API (Lock screen controls)
+        // ============================================
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: 'ABC Global Radio',
+                artist: 'ABC Global Church',
+                album: 'Live Worship & Praise',
+                artwork: [
+                    { src: 'https://z-cdn-media.chatglm.cn/files/ab950aef-8df1-4860-9378-fd4b12f22f29.png?auth_key=1879091774-4158beba2b394829a510bcdd3963beeb-0-d4ac47b63a4e2cef651c8efc56c5942b', sizes: '512x512', type: 'image/png' }
+                ]
+            });
+            navigator.mediaSession.setActionHandler('play', () => { playRadio(); });
+            navigator.mediaSession.setActionHandler('pause', () => { pauseRadio(); });
+            navigator.mediaSession.setActionHandler('stop', () => { pauseRadio(); });
+        }
+        // Update MediaSession metadata when track changes
+        function updateMediaSession(title) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: title || 'ABC Global Radio',
+                    artist: 'ABC Global Church',
+                    album: 'Live Worship & Praise',
+                    artwork: [
+                        { src: 'https://z-cdn-media.chatglm.cn/files/ab950aef-8df1-4860-9378-fd4b12f22f29.png?auth_key=1879091774-4158beba2b394829a510bcdd3963beeb-0-d4ac47b63a4e2cef651c8efc56c5942b', sizes: '512x512', type: 'image/png' }
+                    ]
+                });
+            }
+        }
+
+        // ============================================
+        // AUTO-PLAY BANNER
+        // ============================================
+        const autoplayBanner = document.getElementById('radioAutoplayBanner');
+        const bannerPlayBtn = document.getElementById('bannerPlayBtn');
+        const bannerDismissBtn = document.getElementById('bannerDismissBtn');
+        // Clear old localStorage flag so banner shows again for returning users
+        localStorage.removeItem('radioBannerDismissed');
+        const autoplayDismissed = sessionStorage.getItem('radioBannerDismissed');
+        let bannerTimeout = null;
+
+        // Show the banner after 10s only if user hasn't played the radio yet and hasn't dismissed it
+        let autoHideTimeout = null;
+        if (!autoplayDismissed) {
+            bannerTimeout = setTimeout(() => {
+                // Only show if radio hasn't been played
+                if (audio.paused) {
+                    autoplayBanner.classList.add('show');
+                    // Auto-hide after 10 seconds
+                    autoHideTimeout = setTimeout(() => {
+                        dismissBanner();
+                    }, 10000);
+                }
+            }, 10000);
+        }
+
+        // Cancel the banner if user starts playing radio before it appears
+        audio.addEventListener('playing', function cancelBanner() {
+            if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
+            if (autoHideTimeout) { clearTimeout(autoHideTimeout); autoHideTimeout = null; }
+            // Also hide it if already showing
+            if (autoplayBanner.classList.contains('show')) {
+                dismissBanner();
+            }
+        });
+
+        function dismissBanner() {
+            if (autoHideTimeout) { clearTimeout(autoHideTimeout); autoHideTimeout = null; }
+            autoplayBanner.classList.remove('show');
+            autoplayBanner.classList.add('hide');
+            sessionStorage.setItem('radioBannerDismissed', '1');
+        }
+
+        bannerPlayBtn.addEventListener('click', () => {
+            playRadio();
+            dismissBanner();
+        });
+
+        bannerDismissBtn.addEventListener('click', () => {
+            dismissBanner();
+        });
 
         // --- FETCH NOW PLAYING ---
         const streamId = 'tvb2jrc38hmuv';
@@ -1068,11 +2502,19 @@
                 if (data && data.data && data.data.track && data.data.track.title) {
                     radioTitle.innerText = data.data.track.title;
                 } else {
-                    radioTitle.innerText = "ABC GLOBAL";
+                    radioTitle.innerText = "ABC RADIO";
                 }
             } catch (error) {
-                radioTitle.innerText = "ABC GLOBAL";
+                radioTitle.innerText = "ABC RADIO";
             }
+            const title = radioTitle.innerText || 'ABC GLOBAL RADIO';
+            // Sync to popup if open
+            if (radioPopup && radioPopup.classList.contains('active')) {
+                popupNowPlaying.textContent = title;
+                popupScreenTitle.textContent = title;
+            }
+            // Update lock screen
+            updateMediaSession(title);
         }
         fetchNowPlaying();
         setInterval(fetchNowPlaying, 10000);
@@ -1119,7 +2561,17 @@
                 if (el.id === 'logoWrapper') return;
                 setTimeout(() => {
                     el.classList.add('shocked');
-                    setTimeout(() => { el.classList.remove('shocked'); }, 600);
+                    // For radio player with radio-played class, force animation via inline style
+                    // because CSS animation: none !important can block class-based overrides
+                    if (el.id === 'radioPlayer' && el.classList.contains('radio-played')) {
+                        el.style.animation = 'widgetShock 0.5s ease forwards';
+                    }
+                    setTimeout(() => {
+                        el.classList.remove('shocked');
+                        if (el.id === 'radioPlayer') {
+                            el.style.animation = '';
+                        }
+                    }, 600);
                 }, 100);
             });
         }
@@ -1135,8 +2587,12 @@
 
         // --- ACTIVE NAV HIGHLIGHTING ---
         function updateActiveNav(pageName) {
-            // Desktop nav
+            // Desktop nav (original separate nav)
             document.querySelectorAll('#desktopNav a').forEach(a => {
+                a.classList.toggle('active-nav', a.getAttribute('data-page') === pageName);
+            });
+            // Desktop nav links inside floating-widgets bar
+            document.querySelectorAll('#navLinksDesktop a').forEach(a => {
                 a.classList.toggle('active-nav', a.getAttribute('data-page') === pageName);
             });
         }
@@ -1172,5 +2628,12 @@
 
     <!-- SPA Router (loads last, handles all navigation) -->
     <script src="spa-router.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function() {});
+            });
+        }
+    </script>
 </body>
 </html>

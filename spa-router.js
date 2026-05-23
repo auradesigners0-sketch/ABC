@@ -27,6 +27,13 @@
     const mobileLogoFloat = document.getElementById('mobileLogoFloat');
     const rippleContainer = document.getElementById('ripple-container');
 
+    // Capture the base path BEFORE any pushState/replaceState changes the URL.
+    // This ensures relative fetch URLs (e.g. 'giving.html') resolve correctly
+    // even when the SPA router changes the browser URL to '/' or '/giving'.
+    const initialPath = window.location.pathname;
+    const basePath = initialPath.substring(0, initialPath.lastIndexOf('/') + 1) || '/';
+    // e.g. '/abc/' when loaded from /abc/index.html, or '/' when at root
+
     // Track current page for caching
     let currentPage = 'home';
     const pageCache = {};
@@ -38,56 +45,69 @@
     pageStyles['home'] = '';
     pageScripts['home'] = '';
 
-    // Page-specific config
+    // Page-specific config (SEO-optimized titles)
     const pageConfig = {
-        'home':       { bodyClass: 'spa-home',       bg: '#E0E0E0', title: 'abcglobal' },
-        'giving':     { bodyClass: 'spa-giving',     bg: '#E0E0E0', title: 'Give - abcglobal' },
-        'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Testimonies - abcglobal' },
-        'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request - abcglobal' },
-        'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect - abcglobal' },
-        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches - abcglobal' },
-        'history':    { bodyClass: 'spa-history',     bg: '#1f2937', title: 'Our History - abcglobal' }
+        'home':       { bodyClass: 'spa-home',       bg: '#E0E0E0', title: 'ABC Global Church - Assembly of Believers Church | Dar es Salaam, Tanzania' },
+        'giving':     { bodyClass: 'spa-giving',     bg: '#E0E0E0', title: 'Give - Tithes & Offerings | ABC Global Church' },
+        'testimonies':{ bodyClass: 'spa-testimonies', bg: '#E0E0E0', title: 'Share Your Testimony | ABC Global Church' },
+        'prayer':     { bodyClass: 'spa-prayer',     bg: '#E0E0E0', title: 'Prayer Request | ABC Global Church' },
+        'connect':    { bodyClass: 'spa-connect',    bg: '#1f2937', title: 'Connect With Us | ABC Global Church' },
+        'branches':   { bodyClass: 'spa-branches',   bg: '#f4f4f5', title: 'Our Branches Across Tanzania | ABC Global Church' },
+        'history':    { bodyClass: 'spa-history',     bg: '#1f2937', title: 'Our History - Founded 2016 | ABC Global Church' }
     };
 
     // Map page names to their HTML files (used for fetch)
+    // Use absolute paths so fetch() works regardless of pushState URL changes
     const pageFiles = {
-        'giving': 'giving.html',
-        'testimonies': 'testimonies.html',
-        'prayer': 'prayer.html',
-        'connect': 'connect.html',
-        'branches': 'branches.html',
-        'history': 'history.html'
+        'giving': basePath + 'giving.html',
+        'testimonies': basePath + 'testimonies.html',
+        'prayer': basePath + 'prayer.html',
+        'connect': basePath + 'connect.html',
+        'branches': basePath + 'branches.html',
+        'history': basePath + 'history.html'
     };
 
     // Clean URL paths (shown in browser address bar)
+    // Prefix with basePath so they work inside iframes or subdirectories
     const cleanUrls = {
-        'home': '/',
-        'giving': '/giving',
-        'testimonies': '/testimonies',
-        'prayer': '/prayer',
-        'connect': '/connect',
-        'branches': '/branches',
-        'history': '/history'
+        'home': basePath,
+        'giving': basePath + 'giving',
+        'testimonies': basePath + 'testimonies',
+        'prayer': basePath + 'prayer',
+        'connect': basePath + 'connect',
+        'branches': basePath + 'branches',
+        'history': basePath + 'history'
     };
 
     // Reverse map: filename OR clean path -> page name
     const fileToPage = {};
     for (const [page, file] of Object.entries(pageFiles)) {
         fileToPage[file] = page;
+        // Also register just the bare filename (e.g. 'giving.html') for backward compatibility
+        const bareName = file.split('/').pop();
+        fileToPage[bareName] = page;
     }
     for (const [page, path] of Object.entries(cleanUrls)) {
         if (page !== 'home') fileToPage[path] = page;
     }
+    // Also register home path without trailing slash
+    fileToPage[basePath.slice(0, -1)] = 'home';
+    fileToPage[basePath] = 'home';
 
     /**
      * Get page name from an href string
      */
     function getPageFromHref(href) {
-        if (!href || href === 'index.html' || href === '/' || href === './' || href === '') return 'home';
+        if (!href || href === 'index.html' || href === '/' || href === basePath || href === basePath.slice(0, -1) || href === './' || href === '') return 'home';
         // Strip leading dot/slash for consistent matching
         const cleanHref = href.replace(/^\.\//, '');
-        // Check clean URL paths first (e.g. /giving, /branches)
+        // Check clean URL paths first (e.g. /abc/giving, /abc/branches)
         if (fileToPage[cleanHref]) return fileToPage[cleanHref];
+        // Also check without basePath prefix (for links that use '/giving' format)
+        if (cleanHref.startsWith('/') && !cleanHref.startsWith(basePath)) {
+            const withBase = basePath + cleanHref.substring(1);
+            if (fileToPage[withBase]) return fileToPage[withBase];
+        }
         // Then check by filename (e.g. giving.html)
         const filename = cleanHref.split('/').pop().split('?')[0].split('#')[0];
         return fileToPage[filename] || null;
@@ -203,15 +223,15 @@
         const temp = document.createElement('div');
         temp.innerHTML = html;
 
-        // Fix back-nav links to work with SPA (use clean URL)
+        // Fix back-nav links to work with SPA (use basePath)
         temp.querySelectorAll('.back-nav').forEach(el => {
-            el.setAttribute('href', '/');
+            el.setAttribute('href', basePath);
             el.removeAttribute('onclick');
         });
 
-        // Fix "Back to Home" buttons (use clean URL)
+        // Fix "Back to Home" buttons (use basePath)
         temp.querySelectorAll('a.home-btn, a[href="index.html"]').forEach(el => {
-            el.setAttribute('href', '/');
+            el.setAttribute('href', basePath);
             el.removeAttribute('onclick');
         });
 
@@ -407,7 +427,7 @@
 
         // Update browser URL (clean URLs without .html)
         if (pushState) {
-            const url = cleanUrls[pageName] || '/';
+            const url = cleanUrls[pageName] || basePath;
             history.pushState({ page: pageName }, '', url);
         }
 
@@ -463,33 +483,74 @@
     });
 
     /**
-     * Pre-fetch pages one at a time in the background (sequential, not parallel)
-     * This avoids flooding the network and competing with the main page load
+     * Optimized prefetch strategy:
+     * 1. Use requestIdleCallback for non-urgent prefetching
+     * 2. Use <link rel="prefetch"> for browser-level priority management
+     * 3. Fallback to sequential fetch with longer delay on slow connections
      */
+    function prefetchWithHint(pageName) {
+        // Use browser prefetch hint (lowest priority, respects network conditions)
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = pageFiles[pageName];
+        link.as = 'document';
+        document.head.appendChild(link);
+    }
+
     async function prefetchPages() {
         const pageNames = Object.keys(pageFiles);
-        for (const pageName of pageNames) {
-            await fetchPageContent(pageName);
-            // Small delay between each fetch to avoid network congestion
-            await new Promise(r => setTimeout(r, 500));
+
+        // First pass: emit prefetch hints immediately (non-blocking)
+        pageNames.forEach(pageName => prefetchWithHint(pageName));
+
+        // Second pass: actual fetch + cache with idle callback
+        // Use requestIdleCallback if available, otherwise setTimeout
+        const scheduleIdle = window.requestIdleCallback
+            ? (fn) => window.requestIdleCallback(fn, { timeout: 8000 })
+            : (fn) => setTimeout(fn, 200);
+
+        let index = 0;
+        function prefetchNext(deadline) {
+            if (index >= pageNames.length) return;
+
+            // Only fetch if browser is idle (or timeout passed)
+            fetchPageContent(pageNames[index]).then(() => {
+                index++;
+                // Longer delay between fetches on slow connections
+                const delay = navigator.connection && navigator.connection.effectiveType &&
+                    ['slow-2g', '2g', '3g'].includes(navigator.connection.effectiveType) ? 1500 : 600;
+                setTimeout(() => scheduleIdle(prefetchNext), delay);
+            }).catch(() => {
+                index++;
+                scheduleIdle(prefetchNext);
+            });
+        }
+
+        // Start prefetching after initial page is fully loaded
+        if (document.readyState === 'complete') {
+            scheduleIdle(prefetchNext);
+        } else {
+            window.addEventListener('load', () => {
+                // Delay prefetch start to let critical resources finish
+                setTimeout(() => scheduleIdle(prefetchNext), 3000);
+            });
         }
     }
 
-    // Pre-fetch after a longer delay so the main page loads first
-    setTimeout(prefetchPages, 4000);
+    prefetchPages();
 
-    // Set initial history state (use clean URL — always '/' for home)
+    // Set initial history state (use clean URL with basePath for home)
     if (window.location.pathname.endsWith('index.html')) {
-        history.replaceState({ page: 'home' }, '', '/');
-    } else if (window.location.pathname === '/' || window.location.pathname === '') {
-        history.replaceState({ page: 'home' }, '', '/');
+        history.replaceState({ page: 'home' }, '', basePath);
+    } else if (window.location.pathname === basePath || window.location.pathname === basePath.slice(0, -1)) {
+        history.replaceState({ page: 'home' }, '', basePath);
     } else {
-        // If user landed on a sub-page clean URL (e.g. /giving), set appropriate state
+        // If user landed on a sub-page clean URL (e.g. /abc/giving), set appropriate state
         const pageName = fileToPage[window.location.pathname] || null;
         if (pageName) {
             history.replaceState({ page: pageName }, '', window.location.pathname);
         } else {
-            history.replaceState({ page: 'home' }, '', '/');
+            history.replaceState({ page: 'home' }, '', basePath);
         }
     }
 
