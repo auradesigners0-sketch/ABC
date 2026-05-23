@@ -17,8 +17,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
         a, button, [role="button"], .back-nav, textarea, input { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-        html { 
-            height: 100%; scroll-behavior: smooth; 
+        html {
+            height: 100%; scroll-behavior: smooth;
             overflow-x: hidden;
             overflow-y: auto;
             --scrollbar-width: none; -ms-overflow-style: none;
@@ -70,8 +70,8 @@
         }
 
         /* Header */
-        .prayer-header { 
-            text-align: center; margin-bottom: 25px; 
+        .prayer-header {
+            text-align: center; margin-bottom: 25px;
             animation: fadeInUp 0.6s ease-out 0.2s forwards; opacity: 0;
         }
         .prayer-header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #111827; line-height: 1.2; }
@@ -80,7 +80,7 @@
         /* Form Layout */
         .form-wrapper { animation: fadeInUp 0.6s ease-out 0.3s forwards; opacity: 0; }
         .input-group { margin-bottom: 12px; }
-        
+
         /* Horizontal Row */
         .form-row { display: flex; gap: 12px; margin-bottom: 12px; }
         .form-row .input-group { margin-bottom: 0; flex: 1; min-width: 0; }
@@ -107,22 +107,22 @@
             transition: all 0.3s ease; outline: none;
             box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
-        
+
         .form-select.no-icon {
-            padding: 11px 12px; 
+            padding: 11px 12px;
             appearance: none; cursor: pointer; white-space: nowrap;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat; background-position: right 10px center; background-size: 16px;
         }
 
         .form-input::placeholder, .form-textarea::placeholder { color: #9ca3af; font-weight: 500; }
-        
+
         .form-input:focus, .form-textarea:focus, .form-select:focus {
             background: #FFFFFF; border-color: #111827;
             box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
         }
 
-        .form-input:focus ~ .input-icon, 
+        .form-input:focus ~ .input-icon,
         .form-textarea:focus ~ .input-icon { color: #111827; }
 
         .form-textarea { min-height: 80px; resize: vertical; }
@@ -136,11 +136,11 @@
         .phone-wrapper:focus-within {
             border-color: #111827; box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
         }
-        
+
         .phone-prefix-area {
             display: flex; align-items: center; border-right: 1px solid #E5E7EB; padding-left: 5px; flex-shrink: 0;
         }
-        
+
         .phone-code-select {
             border: none; background: transparent; font-size: 0.8rem; font-family: 'Inter', sans-serif;
             color: #111827; outline: none; appearance: none; cursor: pointer; padding: 11px 12px 11px 4px; white-space: nowrap;
@@ -148,7 +148,7 @@
             background-repeat: no-repeat; background-position: right 2px center; background-size: 10px;
             padding-right: 14px;
         }
-        
+
         .custom-code-container { display: none; align-items: center; gap: 0; }
         .plus-sign { font-size: 0.85rem; color: #111827; font-weight: 700; margin-right: 2px; }
         .custom-code-input {
@@ -175,7 +175,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
         .call-opt-in-container:focus-within { border-color: #111827; box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06); }
-        
+
         .call-opt-in-label {
             display: flex; justify-content: space-between; align-items: center;
             width: 100%; cursor: pointer; font-size: 0.8rem; color: #374151; font-weight: 600;
@@ -280,7 +280,7 @@
                 <label for="website">Do not fill this</label>
                 <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
             </div>
-            
+
             <!-- Name & Category -->
             <div class="form-row">
                 <div class="input-group">
@@ -441,13 +441,13 @@
         resetCodeBtn.addEventListener('click', function() {
             customCodeContainer.style.display = 'none';
             phoneCodeSelect.style.display = 'block';
-            phoneCodeSelect.value = '+255'; 
-            customPhoneCode.value = ''; 
+            phoneCodeSelect.value = '+255';
+            customPhoneCode.value = '';
         });
 
         // Prevent typing + in the custom code input since it's added automatically
         customPhoneCode.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, ''); 
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
 
         // --- Form Submission Logic ---

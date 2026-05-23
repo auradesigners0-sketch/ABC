@@ -298,72 +298,109 @@
 
         const config = pageConfig[pageName] || pageConfig['home'];
         const isHome = (pageName === 'home');
+        const leavingHome = (currentPage === 'home');
 
-        // Fade out content
-        contentArea.style.opacity = '0';
-        contentArea.style.transform = 'translateY(10px)';
-
-        // Wait for content
+        // Wait for content (fetch first so we can swap instantly)
         await fetchPageContent(pageName);
 
-        // Brief delay for fade-out transition
-        await new Promise(r => setTimeout(r, 200));
-
-        // === SHOW/HIDE HOMEPAGE-ONLY ELEMENTS ===
-        if (isHome) {
-            showHomeElements();
-        } else {
+        if (leavingHome && !isHome) {
+            // === LEAVING HOME → SUB-PAGE ===
+            // Instant transition: no fade-out needed.
+            // Hide home widgets + swap content immediately so the user
+            // never sees the home page flash between menu close and page load.
             hideHomeElements();
-        }
+            document.body.style.backgroundColor = config.bg;
+            document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
+            document.body.classList.add(config.bodyClass);
 
-        // Update body background
-        document.body.style.backgroundColor = config.bg;
+            // Disable transition so swap is instant
+            contentArea.style.transition = 'none';
+            contentArea.style.opacity = '0';
 
-        // Update body classes
-        document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
-        document.body.classList.add(config.bodyClass);
-
-        // Update page title
-        document.title = config.title;
-
-        // Adjust content area layout
-        if (isHome) {
-            contentArea.style.justifyContent = 'center';
-            contentArea.style.padding = '';
-            contentArea.style.minHeight = '100dvh';
-        } else {
+            // Swap content immediately
             contentArea.style.justifyContent = 'flex-start';
             contentArea.style.padding = '20px 20px 60px 20px';
             contentArea.style.minHeight = '100dvh';
-        }
+            dynamicStyleEl.textContent = pageStyles[pageName] || '';
+            contentArea.innerHTML = pageCache[pageName];
+            document.title = config.title;
 
-        // Inject page-specific styles
-        dynamicStyleEl.textContent = pageStyles[pageName] || '';
-
-        // Swap content
-        contentArea.innerHTML = pageCache[pageName];
-
-        // Execute page-specific scripts
-        if (pageScripts[pageName]) {
-            try {
-                const scriptFn = new Function(pageScripts[pageName]);
-                scriptFn();
-            } catch (e) {
-                console.error('SPA Router: Error executing page script for', pageName, e);
+            // Execute page-specific scripts
+            if (pageScripts[pageName]) {
+                try { new Function(pageScripts[pageName])(); }
+                catch (e) { console.error('SPA Router: Error executing page script for', pageName, e); }
             }
+            if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+            window.scrollTo(0, 0);
+
+            // Re-enable transition and fade in
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    contentArea.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                    contentArea.style.opacity = '1';
+                    contentArea.style.transform = 'translateY(0)';
+                });
+            });
+
+        } else if (isHome) {
+            // === ARRIVING AT HOME ===
+            // Smooth fade-out of sub-page, then show home
+            contentArea.style.opacity = '0';
+            contentArea.style.transform = 'translateY(10px)';
+
+            await new Promise(r => setTimeout(r, 200));
+
+            showHomeElements();
+            document.body.style.backgroundColor = config.bg;
+            document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
+            document.body.classList.add(config.bodyClass);
+
+            contentArea.style.justifyContent = 'center';
+            contentArea.style.padding = '';
+            contentArea.style.minHeight = '100dvh';
+            dynamicStyleEl.textContent = pageStyles[pageName] || '';
+            contentArea.innerHTML = pageCache[pageName];
+            document.title = config.title;
+
+            if (pageScripts[pageName]) {
+                try { new Function(pageScripts[pageName])(); }
+                catch (e) { console.error('SPA Router: Error executing page script for', pageName, e); }
+            }
+            if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+            window.scrollTo(0, 0);
+
+            contentArea.style.opacity = '1';
+            contentArea.style.transform = 'translateY(0)';
+
+        } else {
+            // === SUB-PAGE → SUB-PAGE ===
+            // Normal cross-fade between sub-pages
+            contentArea.style.opacity = '0';
+            contentArea.style.transform = 'translateY(10px)';
+
+            await new Promise(r => setTimeout(r, 200));
+
+            document.body.style.backgroundColor = config.bg;
+            document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
+            document.body.classList.add(config.bodyClass);
+
+            contentArea.style.justifyContent = 'flex-start';
+            contentArea.style.padding = '20px 20px 60px 20px';
+            contentArea.style.minHeight = '100dvh';
+            dynamicStyleEl.textContent = pageStyles[pageName] || '';
+            contentArea.innerHTML = pageCache[pageName];
+            document.title = config.title;
+
+            if (pageScripts[pageName]) {
+                try { new Function(pageScripts[pageName])(); }
+                catch (e) { console.error('SPA Router: Error executing page script for', pageName, e); }
+            }
+            if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+            window.scrollTo(0, 0);
+
+            contentArea.style.opacity = '1';
+            contentArea.style.transform = 'translateY(0)';
         }
-
-        // Re-initialize lucide icons for new content
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-
-        // Scroll to top
-        window.scrollTo(0, 0);
-
-        // Fade in
-        contentArea.style.opacity = '1';
-        contentArea.style.transform = 'translateY(0)';
 
         // Update current page
         currentPage = pageName;

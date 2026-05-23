@@ -29,7 +29,7 @@
             height: 100%; scroll-behavior: smooth;
             overflow-x: hidden;
             overflow-y: auto;
-            scrollbar-width: none; /* Firefox - hide scrollbar */
+            --scrollbar-width: none; /* Firefox - hide scrollbar */
             -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
             /* Use 100% instead of 100vw to prevent scrollbar-induced layout shift */
             max-width: 100%;
@@ -45,7 +45,7 @@
             min-height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
-            scrollbar-width: none; /* Firefox - hide scrollbar */
+            --scrollbar-width: none; /* Firefox - hide scrollbar */
             -ms-overflow-style: none; /* IE/Edge - hide scrollbar */
             /* Use 100% instead of 100vw to prevent scrollbar-induced layout shift */
             max-width: 100%;
@@ -57,7 +57,7 @@
         body.spa-testimonies {
             overflow-y: auto;
             overflow-x: hidden;
-            scrollbar-width: none;
+            --scrollbar-width: none;
             -ms-overflow-style: none;
         }
         body.spa-prayer::-webkit-scrollbar,
@@ -67,7 +67,7 @@
             min-height: 100dvh !important;
             overflow-y: auto !important;
             overflow-x: hidden !important;
-            scrollbar-width: none !important;
+            --scrollbar-width: none !important;
             -ms-overflow-style: none !important;
         }
         body.spa-prayer #spa-content::-webkit-scrollbar,
@@ -295,13 +295,16 @@
             display: flex; overflow: hidden; transition: all 0.3s ease; order: 2; opacity: 0;
         }
         .radio-player-premium:hover { box-shadow: 0 15px 50px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.05); transform: translateY(-2px); }
-        .radio-screen { width: 90px; height: 100%; background: #050a14; position: relative; flex-shrink: 0; cursor: pointer; }
+        .radio-screen { width: 90px; height: 100%; background: #050a14; position: relative; flex-shrink: 0; cursor: pointer; transition: box-shadow 0.3s ease; }
+        .radio-screen:hover { box-shadow: inset 0 0 20px rgba(196, 30, 58, 0.2); }
         .visualizer-canvas { width: 100%; height: 100%; display: block; }
         .pause-overlay {
             position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.3s ease; color: white; pointer-events: none;
+            background: rgba(0,0,0,0.35); opacity: 0; transition: opacity 0.3s ease; color: white; pointer-events: none;
+            --backdrop-filter: blur(2px); --webkit-backdrop-filter: blur(2px);
         }
         .radio-screen:hover .pause-overlay { opacity: 1; }
+        .pause-overlay svg { width: 20px; height: 20px; opacity: 0.8; }
         .radio-details { flex: 1; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
         .radio-info { display: flex; flex-direction: column; gap: 4px; }
         .radio-title { font-size: 0.9rem; font-weight: 800; color: #111827; letter-spacing: 0.2px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
@@ -319,10 +322,12 @@
 
         .play-btn-premium {
             width: 40px; height: 40px; border-radius: 50%; background: #111827; border: none; color: #ffffff;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(17, 24, 39, 0.2);
         }
-        .play-btn-premium:hover { background: #C41E3A; transform: scale(1.05); }
+        .play-btn-premium:hover { background: #C41E3A; transform: scale(1.1); box-shadow: 0 4px 16px rgba(196, 30, 58, 0.4); }
+        .play-btn-premium:active { transform: scale(0.95); }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loader-icon { animation: spin 1s linear infinite; }
 
@@ -338,8 +343,8 @@
         .menu-overlay {
             position: fixed; inset: 0; z-index: 9000;
             background: linear-gradient(170deg, #EDEDED 0%, #E0E0E0 40%, #D8D8D8 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            --backdrop-filter: blur(20px);
+            --webkit-backdrop-filter: blur(20px);
             opacity: 0; pointer-events: none; display: none; 
             transition: opacity 0.5s ease;
         }
@@ -433,8 +438,8 @@
             border-radius: 18px;
             background: rgba(55, 65, 81, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            --backdrop-filter: blur(16px);
+            --webkit-backdrop-filter: blur(16px);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             text-decoration: none;
             cursor: pointer;
@@ -586,7 +591,7 @@
                 max-height: 100dvh;
                 overflow: hidden;
                 overscroll-behavior: none;
-                scrollbar-width: none;
+                --scrollbar-width: none;
                 -ms-overflow-style: none;
                 position: fixed;
                 width: 100%;
@@ -597,7 +602,7 @@
                 max-height: 100dvh !important;
                 overflow: hidden !important;
                 overscroll-behavior: none !important;
-                scrollbar-width: none !important;
+                --scrollbar-width: none !important;
             }
             body.spa-giving #spa-content::-webkit-scrollbar { display: none !important; }
 
@@ -608,7 +613,7 @@
                 overflow-y: auto;
                 overflow-x: hidden;
                 overscroll-behavior: none;
-                scrollbar-width: none;
+                --scrollbar-width: none;
                 -ms-overflow-style: none;
             }
             body.spa-testimonies::-webkit-scrollbar,
@@ -620,7 +625,7 @@
                 overflow-y: auto !important;
                 overflow-x: hidden !important;
                 overscroll-behavior: none !important;
-                scrollbar-width: none !important;
+                --scrollbar-width: none !important;
             }
             body.spa-testimonies #spa-content::-webkit-scrollbar,
             body.spa-prayer #spa-content::-webkit-scrollbar { display: none !important; }
@@ -628,8 +633,8 @@
             /* Glassmorphic Menu — mobile overrides */
             .menu-overlay {
                 background: linear-gradient(170deg, #EDEDED 0%, #E0E0E0 40%, #D8D8D8 100%) !important;
-                backdrop-filter: blur(20px) !important;
-                -webkit-backdrop-filter: blur(20px) !important;
+                --backdrop-filter: blur(20px) !important;
+                --webkit-backdrop-filter: blur(20px) !important;
             }
 
             .glass-menu-container {
@@ -760,7 +765,7 @@
     </aside>
 
     <!-- Audio Element (PERSISTENT - NEVER DESTROYED) -->
-    <audio id="radioStream" preload="none" src="https://stream.zeno.fm/tvb2jrc38hmuv"></audio>
+    <audio id="radioStream" preload="none" crossorigin="anonymous" src="https://stream.zeno.fm/tvb2jrc38hmuv"></audio>
 
     <!-- Hamburger Menu (PERSISTENT) -->
     <header>
@@ -906,7 +911,7 @@
         
         const canvas = document.getElementById('visualizerCanvas');
         const ctx = canvas.getContext('2d');
-        const numBars = 20; 
+        const numBars = 24;
         let bars = [];
         for(let i=0; i<numBars; i++) { bars.push({ height: 0, targetHeight: 0 }); }
 
@@ -915,42 +920,129 @@
         });
         resizeObserver.observe(radioScreen);
 
+        // ====== REAL AUDIO FREQUENCY ANALYZER ======
+        // Connects Web Audio API AnalyserNode to the radio stream
+        // so the visualizer bars move with the actual music frequencies.
+        let audioCtx = null;
+        let analyser = null;
+        let audioSource = null;
+        let realFreqData = null;     // Uint8Array from analyser
+        let useRealAnalyser = false; // true if Web Audio API connected successfully
+
+        function initAudioAnalyser() {
+            if (audioCtx) return; // Already initialized
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 64;           // Gives 32 frequency bins (we use 24)
+                analyser.smoothingTimeConstant = 0.75; // Smooth transitions
+                analyser.minDecibels = -90;
+                analyser.maxDecibels = -10;
+                audioSource = audioCtx.createMediaElementSource(audio);
+                audioSource.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                realFreqData = new Uint8Array(analyser.frequencyBinCount);
+                useRealAnalyser = true;
+            } catch (err) {
+                // CORS or browser blocks MediaElementSource — fallback to simulated
+                console.warn('Web Audio API not available for stream (CORS). Using simulated visualizer.', err);
+                useRealAnalyser = false;
+            }
+        }
+
+        // ====== VISUALIZER DRAW ======
         let visualizerRunning = false;
         function drawVisualizer() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (canvas.width === 0 || canvas.height === 0) return;
+            if (canvas.width === 0 || canvas.height === 0) {
+                // Canvas is hidden (widget display:none on sub-pages).
+                // Mark loop as stopped so it can be restarted when visible again.
+                visualizerRunning = false;
+                return;
+            }
             const isPlaying = !audio.paused;
             const barWidth = canvas.width / numBars;
-            const maxBarHeight = canvas.height * 0.9;
+            const maxBarHeight = canvas.height * 0.88;
             let allBarsSettled = true;
+
+            // Get real frequency data if available
+            if (useRealAnalyser && analyser && isPlaying) {
+                analyser.getByteFrequencyData(realFreqData);
+            }
 
             for (let i = 0; i < numBars; i++) {
                 if (isPlaying) {
-                    const centerFactor = 1 - Math.abs(i - numBars/2) / (numBars/2);
-                    const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
-                    bars[i].targetHeight = dynamicHeight;
-                } else { 
-                    bars[i].targetHeight = canvas.height * 0.05; 
+                    if (useRealAnalyser && realFreqData) {
+                        // REAL frequency data from Web Audio API
+                        // Map our 24 bars to the 32 frequency bins (skip very low bins)
+                        const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / numBars);
+                        const freqValue = realFreqData[binIndex] || 0;
+                        // freqValue is 0-255, normalize to 0-1
+                        const normalized = freqValue / 255;
+                        bars[i].targetHeight = Math.max(maxBarHeight * 0.08, normalized * maxBarHeight);
+                    } else {
+                        // SIMULATED fallback (random with center emphasis)
+                        const centerFactor = 1 - Math.abs(i - numBars/2) / (numBars/2);
+                        const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
+                        bars[i].targetHeight = dynamicHeight;
+                    }
+                } else {
+                    bars[i].targetHeight = canvas.height * 0.04;
                 }
-                
-                bars[i].height += (bars[i].targetHeight - bars[i].height) * 0.15;
+
+                // Smooth transition toward target
+                bars[i].height += (bars[i].targetHeight - bars[i].height) * (useRealAnalyser ? 0.25 : 0.15);
                 if (!isPlaying && Math.abs(bars[i].height - bars[i].targetHeight) > 0.5) { allBarsSettled = false; }
-                
-                const x = i * barWidth; const h = Math.max(2, bars[i].height); const y = canvas.height - h;
+
+                const x = i * barWidth;
+                const h = Math.max(2, bars[i].height);
+                const y = canvas.height - h;
+
+                // Gradient: church red on top, deep blue on bottom
                 const gradient = ctx.createLinearGradient(x, y, x, canvas.height);
-                gradient.addColorStop(0, '#60a5fa'); gradient.addColorStop(1, '#1e3a8a'); 
-                ctx.fillStyle = gradient; ctx.fillRect(x + 1, y, barWidth - 2, h); 
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; ctx.fillRect(x + 1, y, barWidth - 2, 2);
+                gradient.addColorStop(0, '#C41E3A');
+                gradient.addColorStop(0.4, '#ef4444');
+                gradient.addColorStop(1, '#1e3a8a');
+                ctx.fillStyle = gradient;
+                // Draw bar with rounded top
+                const barRadius = Math.min(barWidth * 0.3, 4);
+                ctx.beginPath();
+                ctx.moveTo(x + 1, canvas.height);
+                ctx.lineTo(x + 1, y + barRadius);
+                ctx.quadraticCurveTo(x + 1, y, x + 1 + barRadius, y);
+                ctx.lineTo(x + barWidth - 1 - barRadius, y);
+                ctx.quadraticCurveTo(x + barWidth - 1, y, x + barWidth - 1, y + barRadius);
+                ctx.lineTo(x + barWidth - 1, canvas.height);
+                ctx.closePath();
+                ctx.fill();
+
+                // Bright highlight on top of each bar
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fillRect(x + 1, y, barWidth - 2, 2);
             }
             if (isPlaying || !allBarsSettled) { requestAnimationFrame(drawVisualizer); } else { visualizerRunning = false; }
         }
-        function startVisualizerLoop() { if (!visualizerRunning) { visualizerRunning = true; drawVisualizer(); } }
+        function startVisualizerLoop() {
+            if (!visualizerRunning) {
+                visualizerRunning = true;
+                // Ensure canvas dimensions are correct before drawing
+                if (canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
+                    canvas.width = canvas.offsetWidth * 2;
+                    canvas.height = canvas.offsetHeight * 2;
+                }
+                drawVisualizer();
+            }
+        }
 
         function setConnectingState() { playIcon.style.display = 'none'; pauseIcon.style.display = 'none'; loadingIcon.style.display = 'block'; radioStatus.className = 'radio-status status-connecting'; statusText.innerText = 'Connecting'; }
         function setLiveState() { playIcon.style.display = 'none'; pauseIcon.style.display = 'block'; loadingIcon.style.display = 'none'; radioStatus.className = 'radio-status status-live'; statusText.innerText = 'Live'; startVisualizerLoop(); }
         function setOfflineState() { playIcon.style.display = 'block'; pauseIcon.style.display = 'none'; loadingIcon.style.display = 'none'; radioStatus.className = 'radio-status status-offline'; statusText.innerText = 'Offline'; startVisualizerLoop(); }
 
         function playRadio() {
+            // Initialize Web Audio API on first user click (required by browsers)
+            initAudioAnalyser();
+            // Resume AudioContext if it was suspended (browser autoplay policy)
+            if (audioCtx && audioCtx.state === 'suspended') { audioCtx.resume(); }
             setConnectingState(); 
             const playPromise = audio.play();
             if (playPromise !== undefined) {
@@ -1055,6 +1147,26 @@
             }
             // Always close menu when SPA navigates
             if (typeof closeMenu === 'function') { closeMenu(); }
+
+            // === FIX: Restart visualizer when returning to home ===
+            // When navigating away from home, the radio widget gets display:none,
+            // which makes the canvas 0x0. The drawVisualizer() function returns
+            // early and sets visualizerRunning=false. When returning to home,
+            // we must wait for the widget to become visible again, resize the
+            // canvas, and restart the visualizer loop.
+            if (e.detail && e.detail.page === 'home') {
+                // Use requestAnimationFrame to ensure the DOM has updated
+                // and the widget is visible before measuring canvas size
+                requestAnimationFrame(function() {
+                    setTimeout(function() {
+                        if (canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
+                            canvas.width = canvas.offsetWidth * 2;
+                            canvas.height = canvas.offsetHeight * 2;
+                        }
+                        startVisualizerLoop();
+                    }, 150);
+                });
+            }
         });
     </script>
 
