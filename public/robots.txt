@@ -1,0 +1,22 @@
+# ABC Global Church - robots.txt
+# https://abcglobal.co.tz
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://abcglobal.co.tz/sitemap.xml
+
+# Disallow admin/upload paths
+Disallow: /uploads/
+Disallow: /send-prayer.php
+Disallow: /send-testimony.php
+
+# Allow crawling of all public resources
+Allow: /images/
+Allow: /giving
+Allow: /testimonies
+Allow: /prayer
+Allow: /connect
+Allow: /branches
+Allow: /history

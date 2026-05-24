@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'none';">
+    <title>Give - Tithes & Offerings | ABC Global Church</title>
+    <meta name="description" content="Support ABC Global Church with your tithes and offerings. Give via M-Pesa, Mixx, or CRDB Bank. Give cheerfully as unto the Lord.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abcglobal.co.tz/giving">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Give - Tithes & Offerings | ABC Global Church">
+    <meta property="og:description" content="Support ABC Global Church with your tithes and offerings. Give via M-Pesa, Mixx, or CRDB Bank.">
+    <meta property="og:url" content="https://abcglobal.co.tz/giving">
+    <meta property="og:site_name" content="ABC Global Church">
+    <meta property="og:image" content="https://abcglobal.co.tz/images/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Give - Tithes & Offerings | ABC Global Church">
+    <meta name="twitter:description" content="Support ABC Global Church with your tithes and offerings. Give via M-Pesa, Mixx, or CRDB Bank.">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logicon16.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon180.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon192.ico">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon512.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+        a, button, [role="button"], .back-nav, .copy-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        html { 
+            height: 100%; 
+            scroll-behavior: smooth; 
+            overflow: hidden;
+            max-width: 100%;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #E0E0E0;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            --scrollbar-width: none; -ms-overflow-style: none;
+            padding: 20px 20px 60px 20px;
+            max-width: 100%;
+        }
+        body::-webkit-scrollbar { display: none; }
+
+        body::before {
+            content: ''; position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(196, 30, 58, 0.08) 0%, transparent 70%);
+            border-radius: 50%; top: 20%; left: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* Back Button */
+        .back-nav {
+            position: fixed; top: 24px; left: 24px; z-index: 100;
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: #333333; font-weight: 700; font-size: 0.9rem;
+            background: rgba(255,255,255,0.8); padding: 10px 18px; border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .back-nav:hover { background: #ffffff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); color: #C41E3A; }
+
+        /* Main Container */
+        .give-container {
+            width: 100%; max-width: 600px; position: relative; z-index: 10;
+            animation: fadeInUp 0.6s ease-out forwards; 
+            opacity: 0;
+            will-change: transform, opacity;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translate3d(0, 20px, 0); } 
+            to { opacity: 1; transform: translate3d(0, 0, 0); } 
+        }
+
+        /* Top Logo */
+        .top-logo {
+            width: 80px; height: 80px; object-fit: contain; margin: 30px auto 20px auto; display: block;
+            filter: drop-shadow(0 4px 10px rgba(196, 30, 58, 0.2));
+            animation: fadeInUp 0.6s ease-out 0.1s forwards;
+            opacity: 0;
+        }
+
+        /* Header */
+        .give-header { 
+            text-align: center; margin-bottom: 30px; 
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        .give-header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #111827; line-height: 1.1; }
+        .give-header h2 { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.95rem; color: #C41E3A; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 8px; }
+
+        /* Tabs */
+        .tabs {
+            display: flex; background: #d1d5db; border-radius: 16px; padding: 5px; margin-bottom: 30px;
+            position: relative; z-index: 10;
+            animation: fadeInUp 0.6s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        .tab-btn {
+            flex: 1; padding: 14px; border: none; background: transparent; border-radius: 12px;
+            font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.05em;
+            color: #6b7280; cursor: pointer; transition: all 0.3s ease;
+        }
+        .tab-btn.active { 
+            background: #C41E3A; color: #ffffff; 
+            box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3); 
+        }
+        .tab-btn:hover:not(.active) { color: #111827; }
+
+        /* Tab Content */
+        .tab-content { display: none; }
+        .tab-content.active { 
+            display: block; 
+            animation: fadeIn 0.35s ease; 
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Split Layout Payment Cards */
+        .payment-card {
+            display: flex;
+            background: #ffffff; 
+            border-radius: 0px; 
+            margin-bottom: 16px;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-height: 90px;
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        /* 40% Left Container for Logo */
+        .card-logo-container {
+            width: 40%; 
+            display: flex; align-items: center; justify-content: center;
+            padding: 15px; 
+            flex-shrink: 0;
+            background: #ffffff;
+        }
+        
+        /* Specific Colors for the 40% Left Side */
+        .card-voda .card-logo-container { background: #ffffff; } 
+        .card-tigo .card-logo-container { background: #FFD100; } 
+        .card-crdb .card-logo-container { background: #ffffff; } 
+
+        .card-logo {
+            width: 100%; 
+            height: auto;
+            max-height: 60px; 
+            object-fit: contain; 
+        }
+
+        /* Right Container for Info (Now flex: 1 to share space with copy icon) */
+        .payment-info { 
+            flex: 1; 
+            min-width: 0; /* Prevents text overflow */
+            padding: 14px 0 14px 18px; 
+            display: flex; flex-direction: column; gap: 2px; justify-content: center;
+        }
+        .payment-type { font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .payment-number { font-weight: 800; font-size: 1.15rem; letter-spacing: 1px; line-height: 1.2; color: #111827; }
+        .payment-name { font-size: 0.7rem; font-weight: 600; color: #6b7280; margin-top: 2px; }
+
+        /* Copy button area */
+        .card-copy-area {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 14px; flex-shrink: 0; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .copy-icon {
+            width: 20px; height: 20px; color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+        .payment-card:hover .copy-icon { color: #C41E3A; }
+
+        /* Copied toast overlay */
+        .copy-toast {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(196, 30, 58, 0.95);
+            color: #ffffff; font-weight: 800; font-size: 0.9rem;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            border-radius: 0px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 10;
+        }
+        .copy-toast svg { width: 20px; height: 20px; }
+        .copy-toast.show { opacity: 1; }
+
+        /* Brand Colors applied to Type Text */
+        .card-voda .payment-type { color: #D2001C; } 
+        .card-tigo .payment-type { color: #1a1a6c; } 
+        .card-crdb .payment-type { color: #006B3F; } 
+
+
+
+
+
+        @media (max-width: 1023px) {
+            html { height: 100dvh; max-height: 100dvh; overflow: hidden; overscroll-behavior: none; }
+            body { height: 100dvh; max-height: 100dvh; overflow: hidden !important; overscroll-behavior: none; --scrollbar-width: none; -ms-overflow-style: none; position: fixed; width: 100%; }
+            body::-webkit-scrollbar { display: none; }
+            .give-container { overflow: hidden; height: 100dvh; }
+        }
+
+        @media (max-width: 480px) {
+            .give-header h1 { font-size: 1.8rem; }
+            .give-header h2 { font-size: 0.8rem; }
+            .give-header { margin-bottom: 20px; }
+            .top-logo { width: 60px; height: 60px; margin: 15px auto 12px auto; }
+            .payment-number { font-size: 1rem; }
+            .card-logo-container { padding: 10px; }
+            .payment-info { padding: 12px 0 12px 14px; }
+
+            .tabs { margin-bottom: 20px; }
+            .tab-btn { padding: 10px; font-size: 0.8rem; }
+            body { padding: 15px 15px 40px 15px; }
+            .back-nav { top: 12px; left: 12px; padding: 6px 12px; font-size: 0.8rem; }
+        }
+        @media (max-width: 360px) {
+            .give-header h1 { font-size: 1.5rem; }
+            .payment-number { font-size: 0.9rem; }
+            .payment-card { min-height: 70px; }
+            body { padding: 10px 10px 30px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <a href="/" class="back-nav">
+        <i data-lucide="arrow-left" style="width: 20px; height: 20px;"></i>
+        <span>Back</span>
+    </a>
+
+    <div class="give-container">
+        <!-- Top Logo -->
+        <img src="images/logo.webp" alt="ABC Global Logo" class="top-logo" fetchpriority="high">
+
+        <div class="give-header">
+            <h1>Give Cheerfully</h1>
+            <h2>Tithes & Offerings</h2>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="mobile">Mobile</button>
+            <button class="tab-btn" data-tab="bank">Bank</button>
+        </div>
+
+        <!-- MOBILE TAB -->
+        <div id="mobile" class="tab-content active">
+            
+            <!-- Voda / M-Pesa Card -->
+            <div class="payment-card card-voda" data-copy="0799016898">
+                <div class="card-logo-container">
+                    <img src="images/mpesa.webp" alt="M-Pesa Logo" class="card-logo" loading="lazy">
+                </div>
+                <div class="payment-info">
+                    <span class="payment-type">Voda / M-Pesa</span>
+                    <span class="payment-number">0799 016 898</span>
+                    <span class="payment-name">ABC GLOBAL MEDIA</span>
+                </div>
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
+            </div>
+
+            <!-- Tigo / Mixx Card -->
+            <div class="payment-card card-tigo" data-copy="0775887591">
+                <div class="card-logo-container">
+                    <img src="images/mix.jpg" alt="Mixx By Yas Logo" class="card-logo" loading="lazy">
+                </div>
+                <div class="payment-info">
+                    <span class="payment-type">Tigo / Mixx</span>
+                    <span class="payment-number">0775 887 591</span>
+                    <span class="payment-name">ABC GLOBAL MEDIA</span>
+                </div>
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
+            </div>
+        </div>
+
+        <!-- BANK TAB -->
+        <div id="bank" class="tab-content">
+            
+            <!-- CRDB Bank Card -->
+            <div class="payment-card card-crdb" data-copy="10369920068">
+                <div class="card-logo-container">
+                    <img src="images/crdb.webp" alt="CRDB Bank Logo" class="card-logo" loading="lazy">
+                </div>
+                <div class="payment-info">
+                    <span class="payment-type">CRDB Bank</span>
+                    <span class="payment-number">1036 9920 068</span>
+                    <span class="payment-name">ABC GLOBAL MEDIA</span>
+                </div>
+                <div class="card-copy-area">
+                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
+                <div class="copy-toast">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Copied!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Tab Switching Logic
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Copy payment number on card tap
+        const paymentCards = document.querySelectorAll('.payment-card[data-copy]');
+
+        paymentCards.forEach(card => {
+            card.addEventListener('click', async function() {
+                const number = this.getAttribute('data-copy');
+                const toast = this.querySelector('.copy-toast');
+
+                try {
+                    await navigator.clipboard.writeText(number);
+                } catch (e) {
+                    // Fallback for older browsers / iOS Safari
+                    const textarea = document.createElement('textarea');
+                    textarea.value = number;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                }
+
+                // Show toast
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 1200);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
