@@ -322,7 +322,7 @@
             border-radius: 16px; overflow: hidden;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.04);
-            position: relative; cursor: pointer;
+            position: relative;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .photo-item:hover {
@@ -348,97 +348,8 @@
         .photo-item:hover img {
             transform: scale(1.06);
         }
-        /* Overlay on hover */
-        .photo-item::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4) 100%);
-            opacity: 0; transition: opacity 0.4s ease; z-index: 1;
-            pointer-events: none; border-radius: 16px;
-        }
-        .photo-item:hover::before { opacity: 1; }
-        /* Expand icon on hover */
-        .photo-item::after {
-            content: ''; position: absolute; top: 14px; right: 14px;
-            width: 32px; height: 32px; border-radius: 50%;
-            background: rgba(255,255,255,0.15); --backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.2);
-            z-index: 2; opacity: 0; transition: opacity 0.3s ease;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: center;
-            background-size: 14px;
-        }
-        .photo-item:hover::after { opacity: 1; }
 
-        /* ===== Lightbox — Compact Preview ===== */
-        .lightbox {
-            position: fixed; inset: 0; z-index: 10000;
-            background: rgba(0,0,0,0.7); --backdrop-filter: blur(16px);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .lightbox.active { opacity: 1; pointer-events: auto; }
-        .lightbox-card {
-            position: relative;
-            max-width: 70vw; max-height: 65vh;
-            border-radius: 16px; overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
-            background: #1a1a2e;
-            margin: auto;
-        }
-        @media (max-width: 1023px) {
-            .lightbox-card {
-                max-width: 85vw; max-height: 55vh;
-                position: fixed;
-                top: 50%; left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-        @media (max-width: 480px) {
-            .lightbox-card {
-                max-width: 90vw; max-height: 50vh;
-            }
-        }
-        .lightbox-img {
-            width: 100%; height: 100%; max-height: 65vh; object-fit: contain;
-            border-radius: 16px; display: block;
-            transition: transform 0.3s ease;
-        }
-        .lightbox.active .lightbox-card {
-            animation: lightboxIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        @keyframes lightboxIn {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .lightbox-close {
-            position: absolute; top: 12px; right: 12px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s ease; color: #ffffff;
-            --backdrop-filter: blur(8px); z-index: 5;
-        }
-        .lightbox-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
-        .lightbox-close svg { width: 16px; height: 16px; }
-        .lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s ease; color: #ffffff;
-            --backdrop-filter: blur(8px); z-index: 5;
-        }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.18); }
-        .lightbox-nav svg { width: 18px; height: 18px; }
-        .lightbox-prev { left: 12px; }
-        .lightbox-next { right: 12px; }
-        .lightbox-counter {
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 600;
-            letter-spacing: 0.1em; z-index: 5;
-        }
+
 
         .scripture-footer {
             text-align: center; margin-top: 20px; color: #374151; font-size: 0.65rem; font-weight: 500;
@@ -450,21 +361,21 @@
 
     <a href="/" class="back-nav">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-        <span>Back</span>
+        <span data-i18n="nav.back">Back</span>
     </a>
 
     <div class="container">
         <img src="images/logo.png" alt="ABC Global Logo" class="top-logo" fetchpriority="high">
 
         <div class="page-header">
-            <h1>Our History</h1>
-            <div class="subtitle">A story of faith, resilience, and divine purpose</div>
+            <h1 data-i18n="history.heading">Our History</h1>
+            <div class="subtitle" data-i18n="history.subtitle">A story of faith, resilience, and divine purpose</div>
             <div class="header-line"></div>
         </div>
 
         <!-- Founders Section -->
         <div class="founders-section">
-            <div class="section-label">Founded By</div>
+            <div class="section-label" data-i18n="history.founded_by">Founded By</div>
             <div class="founders-grid">
                 <div class="founder-card">
                     <div class="founder-img-wrapper">
@@ -472,7 +383,7 @@
                     </div>
                     <div class="founder-info">
                         <div class="founder-name">Bishop Dickson Corneli Kabigumila</div>
-                        <div class="founder-title">Founder & General Overseer</div>
+                        <div class="founder-title" data-i18n="history.founder_title">Founder & General Overseer</div>
                     </div>
                 </div>
                 <div class="founder-card">
@@ -481,7 +392,7 @@
                     </div>
                     <div class="founder-info">
                         <div class="founder-name">Mercy Ikupa</div>
-                        <div class="founder-title">Co-Founder</div>
+                        <div class="founder-title" data-i18n="history.cofounder_title">Co-Founder</div>
                     </div>
                 </div>
             </div>
@@ -492,22 +403,22 @@
             <div class="history-badge-row">
                 <div class="history-year-badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    Est. November 2016
+                    <span data-i18n="history.est">Est. November 2016</span>
                 </div>
                 <div class="history-location-badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                    Kahama, Tanzania
+                    <span data-i18n="history.location">Kahama, Tanzania</span>
                 </div>
             </div>
 
             <div class="history-text">
-                <p>
+                <p data-i18n="history.para1">
                     ABC GLOBAL was founded in <strong>November 2016</strong> in <strong>Kahama</strong>, Tanzania, by Bishop Dickson Corneli Kabigumila and his wife <strong>Mercy Ikupa</strong>. The church began its first gatherings under trees at a place called <span class="accent">Nyahanga Kivulini</span> — no building, no instruments, just believers coming together to worship and hear the Word of God. Those early days were simple, but the congregation grew steadily as people encountered God in a real and tangible way.
                 </p>
 
                 <div class="history-divider"></div>
 
-                <p>
+                <p data-i18n="history.para2">
                     As the ministry expanded, it <strong>relocated to Dar es Salaam</strong> and established its <span class="accent">headquarters in Kinzudi, Goba</span>. From there, ABC GLOBAL began to plant branches across the country. Today, the church has <span class="accent">multiple branches</span> spread throughout Tanzania, each one committed to the same vision of raising a generation that is <strong>holy unto God</strong>. What started under the shade of trees has grown into a nationwide movement — and by God's grace, it continues to grow.
                 </p>
             </div>
@@ -515,17 +426,17 @@
 
         <!-- Join Us Section -->
         <div class="join-section">
-            <div class="join-text">We invite you to be part of this story.</div>
-            <div class="join-sub">Whether you are in Dar es Salaam, Kahama, or anywhere across Tanzania, there is a branch waiting to welcome you home.</div>
+            <div class="join-text" data-i18n="history.invite">We invite you to be part of this story.</div>
+            <div class="join-sub" data-i18n="history.invite_sub">Whether you are in Dar es Salaam, Kahama, or anywhere across Tanzania, there is a branch waiting to welcome you home.</div>
             <a href="/branches" class="join-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                Find a Branch Near You
+                <span data-i18n="history.find_branch">Find a Branch Near You</span>
             </a>
         </div>
 
         <!-- Photo Gallery Grid (9 images - from under trees to now) -->
         <div class="gallery-section">
-            <div class="gallery-label">Our Journey in Pictures</div>
+            <div class="gallery-label" data-i18n="history.gallery">Our Journey in Pictures</div>
             <div class="photo-grid">
                 <div class="photo-item" data-index="0">
                     <img src="images/dar2.jpg" alt="Where it all began - Gathering under trees at Nyahanga Kivulini, Kahama (2016)" loading="lazy">
@@ -557,109 +468,9 @@
             </div>
         </div>
 
-        <div class="scripture-footer">
-            "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11
-        </div>
+        <div class="scripture-footer" data-i18n="history.verse">"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11</div>
     </div>
 
-    <!-- Lightbox — Compact Preview Card -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-card">
-            <button class="lightbox-close" id="lightboxClose" aria-label="Close">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <img class="lightbox-img" id="lightboxImg" src="" alt="Gallery Image">
-            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-            <div class="lightbox-counter" id="lightboxCounter"></div>
-        </div>
-    </div>
-
-    <script>
-        (function() {
-            var lightbox = document.getElementById('lightbox');
-            var lightboxImg = document.getElementById('lightboxImg');
-            var lightboxClose = document.getElementById('lightboxClose');
-            var lightboxPrev = document.getElementById('lightboxPrev');
-            var lightboxNext = document.getElementById('lightboxNext');
-            var lightboxCounter = document.getElementById('lightboxCounter');
-            var photoItems = document.querySelectorAll('.photo-item');
-            var currentIndex = 0;
-            var totalImages = photoItems.length;
-
-            function openLightbox(index) {
-                currentIndex = index;
-                var img = photoItems[index].querySelector('img');
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCounter.textContent = (index + 1) + ' / ' + totalImages;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            function showPrev() {
-                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-                var img = photoItems[currentIndex].querySelector('img');
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCounter.textContent = (currentIndex + 1) + ' / ' + totalImages;
-            }
-
-            function showNext() {
-                currentIndex = (currentIndex + 1) % totalImages;
-                var img = photoItems[currentIndex].querySelector('img');
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCounter.textContent = (currentIndex + 1) + ' / ' + totalImages;
-            }
-
-            photoItems.forEach(function(item) {
-                item.addEventListener('click', function() {
-                    var index = parseInt(this.getAttribute('data-index'));
-                    openLightbox(index);
-                });
-            });
-
-            lightboxClose.addEventListener('click', closeLightbox);
-            lightboxPrev.addEventListener('click', showPrev);
-            lightboxNext.addEventListener('click', showNext);
-
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (!lightbox.classList.contains('active')) return;
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowLeft') showPrev();
-                if (e.key === 'ArrowRight') showNext();
-            });
-
-            // Touch swipe support
-            var touchStartX = 0;
-            var touchEndX = 0;
-            lightbox.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-            lightbox.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                var diff = touchStartX - touchEndX;
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0) showNext();
-                    else showPrev();
-                }
-            }, { passive: true });
-        })();
-    </script>
-
+<script src="i18n.js"></script>
 </body>
 </html>

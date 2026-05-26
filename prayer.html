@@ -277,15 +277,15 @@
 
     <a href="/" class="back-nav">
         <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
-        <span>Back</span>
+        <span data-i18n="nav.back">Back</span>
     </a>
 
     <div class="prayer-container">
         <img src="images/logo.png" alt="ABC Global Logo" class="top-logo" fetchpriority="high">
 
         <div class="prayer-header">
-            <h1>Share Your Prayer Request</h1>
-            <p>Our Lead Pastor and prayer team personally pray over every request.</p>
+            <h1 data-i18n="prayer.heading">Share Your Prayer Request</h1>
+            <p data-i18n="prayer.description">Our Lead Pastor and prayer team personally pray over every request.</p>
         </div>
 
         <!-- THE FORM -->
@@ -299,27 +299,27 @@
             <!-- Name & Category -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="name">Full Name <span class="req">*</span></label>
+                    <label class="input-label" for="name" data-i18n="prayer.fullname">Full Name <span class="req">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+                        <input type="text" id="name" class="form-input" placeholder="John Doe" data-i18n-ph="prayer.fullname_ph" required>
                         <i data-lucide="user" class="input-icon"></i>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="category">Prayer Category <span class="req">*</span></label>
+                    <label class="input-label" for="category" data-i18n="prayer.category">Prayer Category <span class="req">*</span></label>
                     <select id="category" class="form-select no-icon" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="Health & Healing">Health & Healing</option>
-                        <option value="Family & Relationships">Family & Relationships</option>
-                        <option value="Financial Breakthrough">Financial Breakthrough</option>
-                        <option value="Salvation">Salvation</option>
-                        <option value="Career & Purpose">Career & Purpose</option>
-                        <option value="Change of Character">Change of Character</option>
-                        <option value="Marriage">Marriage</option>
-                        <option value="Children & Parenting">Children & Parenting</option>
-                        <option value="Mental & Emotional Wellbeing">Mental & Emotional Wellbeing</option>
-                        <option value="Spiritual Growth">Spiritual Growth</option>
-                        <option value="Other">Other</option>
+                        <option value="" disabled selected data-i18n="prayer.category_ph">Select category</option>
+                        <option value="Health & Healing" data-i18n="prayer.cat_health">Health & Healing</option>
+                        <option value="Family & Relationships" data-i18n="prayer.cat_family">Family & Relationships</option>
+                        <option value="Financial Breakthrough" data-i18n="prayer.cat_financial">Financial Breakthrough</option>
+                        <option value="Salvation" data-i18n="prayer.cat_salvation">Salvation</option>
+                        <option value="Career & Purpose" data-i18n="prayer.cat_career">Career & Purpose</option>
+                        <option value="Change of Character" data-i18n="prayer.cat_character">Change of Character</option>
+                        <option value="Marriage" data-i18n="prayer.cat_marriage">Marriage</option>
+                        <option value="Children & Parenting" data-i18n="prayer.cat_children">Children & Parenting</option>
+                        <option value="Mental & Emotional Wellbeing" data-i18n="prayer.cat_mental">Mental & Emotional Wellbeing</option>
+                        <option value="Spiritual Growth" data-i18n="prayer.cat_spiritual">Spiritual Growth</option>
+                        <option value="Other" data-i18n="prayer.cat_other">Other</option>
                     </select>
                 </div>
             </div>
@@ -327,7 +327,7 @@
             <!-- Contact Info -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="phone">Phone Number</label>
+                    <label class="input-label" for="phone" data-i18n="prayer.phone">Phone Number</label>
                     <div class="phone-wrapper">
                         <div class="phone-prefix-area">
                             <select id="phoneCodeSelect" class="phone-code-select">
@@ -354,13 +354,13 @@
                                 </button>
                             </div>
                         </div>
-                        <input type="tel" id="phone" class="phone-input" placeholder="712 345 678">
+                        <input type="tel" id="phone" class="phone-input" placeholder="712 345 678" data-i18n-ph="prayer.phone_ph">
                     </div>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="email">Email Address</label>
+                    <label class="input-label" for="email" data-i18n="prayer.email">Email Address</label>
                     <div class="input-wrapper">
-                        <input type="email" id="email" class="form-input" placeholder="name@email.com">
+                        <input type="email" id="email" class="form-input" placeholder="name@email.com" data-i18n-ph="prayer.email_ph">
                         <i data-lucide="mail" class="input-icon"></i>
                     </div>
                 </div>
@@ -369,9 +369,9 @@
             <!-- Location -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="country">Country</label>
+                    <label class="input-label" for="country" data-i18n="prayer.country">Country</label>
                     <select id="country" class="form-select no-icon">
-                        <option value="" disabled selected>Select country</option>
+                        <option value="" disabled selected data-i18n="prayer.country_ph">Select country</option>
                         <option value="Tanzania">🇹🇿 Tanzania</option>
                         <option value="Kenya">🇰🇪 Kenya</option>
                         <option value="Uganda">🇺🇬 Uganda</option>
@@ -389,9 +389,9 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="city">City / Area</label>
+                    <label class="input-label" for="city" data-i18n="prayer.city">City / Area</label>
                     <div class="input-wrapper">
-                        <input type="text" id="city" class="form-input" placeholder="Dar es Salaam">
+                        <input type="text" id="city" class="form-input" placeholder="Dar es Salaam" data-i18n-ph="prayer.city_ph">
                         <i data-lucide="map-pin" class="input-icon"></i>
                     </div>
                 </div>
@@ -399,9 +399,9 @@
 
             <!-- Prayer Request (Full Width) -->
             <div class="input-group">
-                <label class="input-label" for="request">Your Prayer Request <span class="req">*</span></label>
+                <label class="input-label" for="request" data-i18n="prayer.request">Your Prayer Request <span class="req">*</span></label>
                 <div class="input-wrapper">
-                    <textarea id="request" class="form-textarea" placeholder="Type your prayer request here..." required></textarea>
+                    <textarea id="request" class="form-textarea" placeholder="Type your prayer request here..." data-i18n-ph="prayer.request_ph" required></textarea>
                     <i data-lucide="message-square" class="input-icon textarea-icon"></i>
                 </div>
             </div>
@@ -409,7 +409,7 @@
             <!-- Call Opt-In (Moved to Last) -->
             <div class="call-opt-in-container">
                 <label for="openToCall" class="call-opt-in-label">
-                    <span>I am open to receiving a call</span>
+                    <span data-i18n="prayer.call_opt">I am open to receiving a call</span>
                     <div class="toggle-wrapper">
                         <input type="checkbox" id="openToCall" class="toggle-input">
                         <div class="toggle-switch"></div>
@@ -418,19 +418,19 @@
             </div>
 
             <button type="submit" class="submit-btn">
-                🙏 SEND MY PRAYER REQUEST
+                🙏 <span data-i18n="prayer.submit">SEND MY PRAYER REQUEST</span>
             </button>
         </form>
 
         <!-- SUCCESS MESSAGE -->
         <div id="successMessage" class="success-wrapper">
             <img src="images/logo.png" alt="ABC Global Logo" class="success-logo" loading="lazy">
-            <h2 class="success-title">Thank You!</h2>
-            <p class="success-text">Be assured that your request has been received. Our Lead Pastor and prayer team will be praying over it.</p>
-            <button id="sendAgainBtn" class="submit-btn">SEND ANOTHER REQUEST</button>
+            <h2 class="success-title" data-i18n="prayer.success_heading">Thank You!</h2>
+            <p class="success-text" data-i18n="prayer.success_msg">Be assured that your request has been received. Our Lead Pastor and prayer team will be praying over it.</p>
+            <button id="sendAgainBtn" class="submit-btn" data-i18n="prayer.success_btn">SEND ANOTHER REQUEST</button>
         </div>
 
-        <div class="scripture-footer">
+        <div class="scripture-footer" data-i18n="prayer.verse">
             "For where two or three gather in my name, there am I with them." — Matthew 18:20
         </div>
     </div>
@@ -544,5 +544,6 @@
             prayerForm.style.animation = 'fadeInUp 0.5s ease-out forwards';
         });
     </script>
+<script src="i18n.js"></script>
 </body>
 </html>

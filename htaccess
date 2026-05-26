@@ -8,8 +8,8 @@
     RewriteEngine On
 </IfModule>
 
-# Block access to dangerous file types across the entire site
-<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|htm|html|shtml|sh|cgi|bat|exe|cmd|com|msi|vbs|js|sql|rb|htaccess|htpasswd|ini|log|env|bak|swp|config|cfg)$">
+# Block access to dangerous file types (NOT .html/.php/.js — those are required for the site to function)
+<FilesMatch "\.(php3|php4|php5|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi|bat|exe|cmd|com|msi|vbs|sql|rb|htpasswd|ini|log|env|bak|swp|config|cfg)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>

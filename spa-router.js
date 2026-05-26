@@ -356,7 +356,7 @@
             // Re-enable transition and fade in
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
-                    contentArea.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                    contentArea.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
                     contentArea.style.opacity = '1';
                     contentArea.style.transform = 'translateY(0)';
                 });
@@ -365,10 +365,11 @@
         } else if (isHome) {
             // === ARRIVING AT HOME ===
             // Smooth fade-out of sub-page, then show home
+            contentArea.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             contentArea.style.opacity = '0';
             contentArea.style.transform = 'translateY(10px)';
 
-            await new Promise(r => setTimeout(r, 200));
+            await new Promise(r => setTimeout(r, 250));
 
             showHomeElements();
             document.body.style.backgroundColor = config.bg;
@@ -395,10 +396,11 @@
         } else {
             // === SUB-PAGE → SUB-PAGE ===
             // Normal cross-fade between sub-pages
+            contentArea.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             contentArea.style.opacity = '0';
             contentArea.style.transform = 'translateY(10px)';
 
-            await new Promise(r => setTimeout(r, 200));
+            await new Promise(r => setTimeout(r, 250));
 
             document.body.style.backgroundColor = config.bg;
             document.body.classList.remove('spa-home', 'spa-giving', 'spa-testimonies', 'spa-prayer', 'spa-connect', 'spa-branches', 'spa-history');
@@ -559,7 +561,125 @@
     document.body.style.backgroundColor = '#E0E0E0';
 
     // Add transition styles to content area
-    contentArea.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    contentArea.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+
+    // Inject global back-nav glassmorphic style + page transition styles
+    const globalSpaStyles = document.createElement('style');
+    globalSpaStyles.id = 'spa-global-styles';
+    globalSpaStyles.textContent = `
+        /* ===== Glassmorphic Back Nav (all sub-pages) ===== */
+        .back-nav {
+            position: fixed !important; top: 24px; left: 24px; z-index: 100 !important;
+            display: flex !important; align-items: center !important; gap: 8px !important;
+            text-decoration: none !important;
+            font-weight: 700 !important; font-size: 0.85rem !important;
+            letter-spacing: 0.3px !important;
+            padding: 10px 20px !important; border-radius: 50px !important;
+            /* Fixed min-width to prevent shape shift on language switch */
+            min-width: 95px !important;
+            /* Glassmorphic base */
+            background: rgba(255,255,255,0.15) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            -webkit-tap-highlight-color: transparent !important;
+            overflow: hidden !important;
+        }
+        /* Subtle shimmer on back nav */
+        .back-nav::after {
+            content: '' !important;
+            position: absolute !important; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent) !important;
+            transform: skewX(-20deg) !important;
+            pointer-events: none !important;
+        }
+        .back-nav:hover::after {
+            animation: backNavShimmer 0.6s ease forwards !important;
+        }
+        @keyframes backNavShimmer {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        .back-nav svg {
+            width: 16px !important; height: 16px !important;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative !important; z-index: 1 !important;
+        }
+        .back-nav span, .back-nav [data-i18n] {
+            position: relative !important; z-index: 1 !important;
+        }
+        .back-nav:hover {
+            background: rgba(255,255,255,0.25) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+        }
+        .back-nav:hover svg {
+            transform: translateX(-3px) !important;
+        }
+        .back-nav:active {
+            transform: translateY(0) scale(0.97) !important;
+            transition-duration: 0.1s !important;
+        }
+        /* Dark pages (history, connect) */
+        .spa-history .back-nav, .spa-connect .back-nav {
+            color: #f3f4f6 !important;
+            background: rgba(255,255,255,0.1) !important;
+            border-color: rgba(255,255,255,0.12) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+        }
+        .spa-history .back-nav:hover, .spa-connect .back-nav:hover {
+            background: rgba(255,255,255,0.18) !important;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+            border-color: rgba(255,255,255,0.2) !important;
+        }
+        /* Light pages (giving, prayer, testimonies, branches) */
+        .spa-giving .back-nav, .spa-prayer .back-nav, .spa-testimonies .back-nav, .spa-branches .back-nav {
+            color: #1f2937 !important;
+            background: rgba(255,255,255,0.6) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        }
+        .spa-giving .back-nav:hover, .spa-prayer .back-nav:hover, .spa-testimonies .back-nav:hover, .spa-branches .back-nav:hover {
+            background: rgba(255,255,255,0.75) !important;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+            border-color: rgba(255,255,255,0.6) !important;
+        }
+        /* Back nav entrance animation */
+        @keyframes backNavSlideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .back-nav {
+            animation: backNavSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both !important;
+        }
+        /* Page content entrance animation — smooth slide-up with scale */
+        @keyframes spaPageEnter {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #spa-content {
+            animation: spaPageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        /* Staggered child entrance for sub-page content */
+        @keyframes spaChildFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #spa-content > *:not(.back-nav) {
+            animation: spaChildFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+        }
+        /* Small screens */
+        @media (max-width: 767px) {
+            .back-nav {
+                top: 12px !important; left: 12px !important;
+                padding: 8px 16px !important; font-size: 0.78rem !important;
+            }
+        }
+    `;
+    document.head.appendChild(globalSpaStyles);
 
     // Expose navigateTo globally
     window.spaNavigate = navigateTo;

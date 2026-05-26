@@ -210,15 +210,15 @@
 
     <a href="/" class="back-nav">
         <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
-        <span>Back</span>
+        <span data-i18n="nav.back">Back</span>
     </a>
 
     <div class="container">
         <img src="images/logo.png" alt="ABC Global Logo" class="top-logo" fetchpriority="high">
 
         <div class="page-header">
-            <h1>Share Your Testimony</h1>
-            <p>Your story has the power to encourage and bring hope to others.</p>
+            <h1 data-i18n="testimonies.heading">Share Your Testimony</h1>
+            <p data-i18n="testimonies.description">Your story has the power to encourage and bring hope to others.</p>
         </div>
 
         <!-- SUBMISSION FORM -->
@@ -232,27 +232,27 @@
             <!-- Name & Category -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="name">Full Name <span class="req">*</span></label>
+                    <label class="input-label" for="name" data-i18n="testimonies.fullname">Full Name <span class="req">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+                        <input type="text" id="name" class="form-input" placeholder="John Doe" data-i18n-ph="testimonies.fullname_ph" required>
                         <i data-lucide="user" class="input-icon"></i>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="category">Testimony Category <span class="req">*</span></label>
+                    <label class="input-label" for="category" data-i18n="testimonies.category">Testimony Category <span class="req">*</span></label>
                     <select id="category" class="form-select no-icon" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="Health & Healing">Health & Healing</option>
-                        <option value="Family & Relationships">Family & Relationships</option>
-                        <option value="Financial Breakthrough">Financial Breakthrough</option>
-                        <option value="Salvation">Salvation</option>
-                        <option value="Career & Purpose">Career & Purpose</option>
-                        <option value="Change of Character">Change of Character</option>
-                        <option value="Marriage">Marriage</option>
-                        <option value="Children & Parenting">Children & Parenting</option>
-                        <option value="Mental & Emotional Wellbeing">Mental & Emotional Wellbeing</option>
-                        <option value="Spiritual Growth">Spiritual Growth</option>
-                        <option value="Other">Other</option>
+                        <option value="" disabled selected data-i18n="testimonies.category_ph">Select category</option>
+                        <option value="Health & Healing" data-i18n="testimonies.cat_health">Health & Healing</option>
+                        <option value="Family & Relationships" data-i18n="testimonies.cat_family">Family & Relationships</option>
+                        <option value="Financial Breakthrough" data-i18n="testimonies.cat_financial">Financial Breakthrough</option>
+                        <option value="Salvation" data-i18n="testimonies.cat_salvation">Salvation</option>
+                        <option value="Career & Purpose" data-i18n="testimonies.cat_career">Career & Purpose</option>
+                        <option value="Change of Character" data-i18n="testimonies.cat_character">Change of Character</option>
+                        <option value="Marriage" data-i18n="testimonies.cat_marriage">Marriage</option>
+                        <option value="Children & Parenting" data-i18n="testimonies.cat_children">Children & Parenting</option>
+                        <option value="Mental & Emotional Wellbeing" data-i18n="testimonies.cat_mental">Mental & Emotional Wellbeing</option>
+                        <option value="Spiritual Growth" data-i18n="testimonies.cat_spiritual">Spiritual Growth</option>
+                        <option value="Other" data-i18n="testimonies.cat_other">Other</option>
                     </select>
                 </div>
             </div>
@@ -260,7 +260,7 @@
             <!-- Contact Info -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="phone">Phone Number</label>
+                    <label class="input-label" for="phone" data-i18n="testimonies.phone">Phone Number</label>
                     <div class="phone-wrapper">
                         <div class="phone-prefix-area">
                             <select id="phoneCodeSelect" class="phone-code-select">
@@ -287,13 +287,13 @@
                                 </button>
                             </div>
                         </div>
-                        <input type="tel" id="phone" class="phone-input" placeholder="712 345 678">
+                        <input type="tel" id="phone" class="phone-input" placeholder="712 345 678" data-i18n-ph="testimonies.phone_ph">
                     </div>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="email">Email Address</label>
+                    <label class="input-label" for="email" data-i18n="testimonies.email">Email Address</label>
                     <div class="input-wrapper">
-                        <input type="email" id="email" class="form-input" placeholder="name@email.com">
+                        <input type="email" id="email" class="form-input" placeholder="name@email.com" data-i18n-ph="testimonies.email_ph">
                         <i data-lucide="mail" class="input-icon"></i>
                     </div>
                 </div>
@@ -302,9 +302,9 @@
             <!-- Location -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label" for="country">Country</label>
+                    <label class="input-label" for="country" data-i18n="testimonies.country">Country</label>
                     <select id="country" class="form-select no-icon">
-                        <option value="" disabled selected>Select country</option>
+                        <option value="" disabled selected data-i18n="testimonies.country_ph">Select country</option>
                         <option value="Tanzania">🇹🇿 Tanzania</option>
                         <option value="Kenya">🇰🇪 Kenya</option>
                         <option value="Uganda">🇺🇬 Uganda</option>
@@ -322,9 +322,9 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label class="input-label" for="city">City / Area</label>
+                    <label class="input-label" for="city" data-i18n="testimonies.city">City / Area</label>
                     <div class="input-wrapper">
-                        <input type="text" id="city" class="form-input" placeholder="Dar es Salaam">
+                        <input type="text" id="city" class="form-input" placeholder="Dar es Salaam" data-i18n-ph="testimonies.city_ph">
                         <i data-lucide="map-pin" class="input-icon"></i>
                     </div>
                 </div>
@@ -332,9 +332,9 @@
 
             <!-- Testimony (Full Width) -->
             <div class="input-group">
-                <label class="input-label" for="testimony">Your Testimony <span class="req">*</span></label>
+                <label class="input-label" for="testimony" data-i18n="testimonies.testimony">Your Testimony <span class="req">*</span></label>
                 <div class="input-wrapper">
-                    <textarea id="testimony" class="form-textarea" placeholder="Share what God has done in your life..." required></textarea>
+                    <textarea id="testimony" class="form-textarea" placeholder="Share what God has done in your life..." data-i18n-ph="testimonies.testimony_ph" required></textarea>
                     <i data-lucide="book-open" class="input-icon textarea-icon"></i>
                 </div>
             </div>
@@ -342,19 +342,19 @@
             <!-- Media Uploads (Side-by-Side) -->
             <div class="form-row">
                 <div class="input-group">
-                    <label class="input-label">Attach Picture</label>
+                    <label class="input-label" data-i18n="testimonies.attach_picture">Attach Picture</label>
                     <input type="file" id="pictureUpload" accept="image/*" hidden>
                     <button type="button" class="upload-btn" id="pictureBtn" onclick="document.getElementById('pictureUpload').click()">
                         <i data-lucide="image" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
-                        <span class="upload-text">Choose Image</span>
+                        <span class="upload-text" data-i18n="testimonies.choose_image">Choose Image</span>
                     </button>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">Attach Audio</label>
+                    <label class="input-label" data-i18n="testimonies.attach_audio">Attach Audio</label>
                     <input type="file" id="audioUpload" accept="audio/*" hidden>
                     <button type="button" class="upload-btn" id="audioBtn" onclick="document.getElementById('audioUpload').click()">
                         <i data-lucide="mic" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
-                        <span class="upload-text">Choose Audio</span>
+                        <span class="upload-text" data-i18n="testimonies.choose_audio">Choose Audio</span>
                     </button>
                 </div>
             </div>
@@ -362,7 +362,7 @@
             <!-- Permission Opt-In -->
             <div class="opt-in-container">
                 <label for="sharePermission" class="opt-in-label">
-                    <span>I permit my testimony to be shared</span>
+                    <span data-i18n="testimonies.permit">I permit my testimony to be shared</span>
                     <div class="toggle-wrapper">
                         <input type="checkbox" id="sharePermission" class="toggle-input">
                         <div class="toggle-switch"></div>
@@ -370,7 +370,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="submit-btn">
+            <button type="submit" class="submit-btn" data-i18n="testimonies.submit">
                 ✨ SUBMIT TESTIMONY
             </button>
         </form>
@@ -378,12 +378,12 @@
         <!-- SUCCESS MESSAGE -->
         <div id="successMessage" class="success-wrapper">
             <img src="images/logo.png" alt="ABC Global Logo" class="success-logo" loading="lazy">
-            <h2 class="success-title">Thank You!</h2>
-            <p class="success-text">Your testimony has been submitted. We celebrate with you, and pray it encourages many!</p>
-            <button id="sendAgainBtn" class="submit-btn">SHARE ANOTHER TESTIMONY</button>
+            <h2 class="success-title" data-i18n="testimonies.success_heading">Thank You!</h2>
+            <p class="success-text" data-i18n="testimonies.success_msg">Your testimony has been submitted. We celebrate with you, and pray it encourages many!</p>
+            <button id="sendAgainBtn" class="submit-btn" data-i18n="testimonies.success_btn">SHARE ANOTHER TESTIMONY</button>
         </div>
 
-        <div class="scripture-footer">
+        <div class="scripture-footer" data-i18n="testimonies.verse">
             "And they overcame him by the blood of the Lamb, and by the word of their testimony." — Revelation 12:11
         </div>
     </div>
@@ -525,5 +525,6 @@
             form.style.animation = 'fadeInUp 0.5s ease-out forwards';
         });
     </script>
+<script src="i18n.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'abc-global-v1';
+const CACHE_NAME = 'abc-global-v2';
 
 // Core assets to pre-cache on install (critical for offline experience)
 const PRECACHE_URLS = [
@@ -17,7 +17,7 @@ const PRECACHE_URLS = [
     '/branches.html',
     '/history.html',
     '/spa-router.js',
-    '/images/logo.svg'
+    '/images/logo.png'
 ];
 
 // Install event: pre-cache critical assets

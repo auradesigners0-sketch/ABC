@@ -271,9 +271,17 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-decoration: none; color: #e5e7eb; transition: all 0.3s ease; padding: 8px 10px; border-radius: 12px;
             cursor: pointer;
+            /* Fixed width to prevent shape shift on language switch — accommodates "Mawasiliano" / "Testimonies" */
+            width: 90px;
+            white-space: nowrap;
         }
         .desktop-bottom-nav a svg { margin-bottom: 4px; color: #ffffff; transition: color 0.3s ease; }
-        .desktop-bottom-nav a span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .desktop-bottom-nav a span {
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            /* Fixed dimensions to prevent shape shift on language switch */
+            display: block; width: 100%; text-align: center; line-height: 1.3;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
         .desktop-bottom-nav a:hover { background: rgba(196, 30, 58, 0.15); color: #ffffff; transform: translateY(-3px); }
         .desktop-bottom-nav a:hover svg { color: #C41E3A; }
         .desktop-bottom-nav a.active-nav { background: rgba(196, 30, 58, 0.2); color: #ffffff; }
@@ -297,6 +305,8 @@
             text-decoration: none; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.5px;
             box-shadow: 0 10px 40px rgba(196, 30, 58, 0.3); transition: all 0.3s ease; order: 1;
             cursor: pointer; opacity: 0;
+            /* Fixed min-width to prevent shape shift on language switch — accommodates "Sadaka" */
+            min-width: 120px; min-height: 48px;
         }
         .mobile-give-btn:hover, .mobile-give-btn:active { background: #a1182e; transform: translateY(-2px); box-shadow: 0 15px 50px rgba(196, 30, 58, 0.4); }
         /* Give button entry animation on mobile (appears first) */
@@ -408,25 +418,9 @@
             overflow: visible !important;
         }
 
-        /* Ripple ring containers that expand from radio when playing */
+        /* Ripple ring containers that expand from radio when playing — DISABLED */
         .radio-ripple-ring {
-            position: absolute; inset: 0; border-radius: 16px;
-            border: 2px solid rgba(196, 30, 58, 0.6);
-            pointer-events: none; z-index: 0;
-            opacity: 0; animation: none;
-        }
-        .radio-player-wrapper.is-playing .radio-ripple-ring {
-            animation: radioRingExpand 2.5s ease-out infinite;
-        }
-        .radio-player-wrapper.is-playing .radio-ripple-ring.ring-2 {
-            animation-delay: 0.8s;
-        }
-        .radio-player-wrapper.is-playing .radio-ripple-ring.ring-3 {
-            animation-delay: 1.6s;
-        }
-        @keyframes radioRingExpand {
-            0% { transform: scale(1); opacity: 0.7; border-color: rgba(196, 30, 58, 0.6); }
-            100% { transform: scale(1.35); opacity: 0; border-color: rgba(196, 30, 58, 0); }
+            display: none !important;
         }
 
         /* Paused state — stop all animations */
@@ -442,9 +436,6 @@
         }
         .radio-player-premium.radio-paused .badge-dot {
             animation: none;
-        }
-        .radio-player-wrapper.is-paused .radio-ripple-ring {
-            animation: none !important; opacity: 0;
         }
         .radio-screen { width: 100%; flex: 1; background: #050a14; position: relative; flex-shrink: 0; cursor: pointer; transition: box-shadow 0.3s ease; overflow: hidden; }
         .radio-screen:hover { box-shadow: inset 0 0 20px rgba(196, 30, 58, 0.2); }
@@ -501,9 +492,16 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-decoration: none; color: #e5e7eb; transition: all 0.3s ease; padding: 6px 8px; border-radius: 10px;
             cursor: pointer; white-space: nowrap;
+            /* Fixed width to prevent shape shift on language switch — accommodates "Mawasiliano" / "Testimonies" */
+            width: 82px;
         }
         .nav-links-desktop a svg { margin-bottom: 2px; color: #ffffff; transition: color 0.3s ease; }
-        .nav-links-desktop a span { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links-desktop a span {
+            font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            /* Fixed dimensions to prevent shape shift on language switch */
+            display: block; width: 100%; text-align: center; line-height: 1.3;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
         .nav-links-desktop a:hover { background: rgba(196, 30, 58, 0.15); color: #ffffff; transform: translateY(-2px); }
         .nav-links-desktop a:hover svg { color: #C41E3A; }
         .nav-links-desktop a.active-nav { background: rgba(196, 30, 58, 0.2); color: #ffffff; }
@@ -643,6 +641,12 @@
             color: rgba(255, 255, 255, 0.75);
             text-align: center;
             transition: color 0.3s ease;
+            /* Fixed dimensions to prevent shape shift on language switch — accommodates "Mawasiliano" / "Testimonies" */
+            display: block;
+            min-width: 90px;
+            min-height: 18px;
+            line-height: 1.3;
+            white-space: nowrap;
         }
 
         /* Staggered entrance animations */
@@ -739,10 +743,10 @@
         @media (min-width: 768px) and (max-width: 1023px) {
             /* Nav bar: centered but leaves room for radio on right (140px radio + 20px offset + 20px gap = 180px from right) */
             /* Since nav is centered, right half = max-width/2 must stay 180px from right → max-width = viewport - 360px */
-            .desktop-bottom-nav { display: flex; bottom: 20px; left: 50%; transform: translateX(-50%); height: 60px; max-width: calc(100% - 360px); gap: 10px; padding: 0 12px; }
-            .desktop-bottom-nav a { padding: 6px 6px; }
+            .desktop-bottom-nav { display: flex; bottom: 20px; left: 50%; transform: translateX(-50%); height: 60px; max-width: calc(100% - 360px); gap: 6px; padding: 0 10px; }
+            .desktop-bottom-nav a { padding: 6px 4px; width: 76px; }
             .desktop-bottom-nav a svg { width: 20px; height: 20px; margin-bottom: 2px; }
-            .desktop-bottom-nav a span { font-size: 9px; letter-spacing: 0.3px; }
+            .desktop-bottom-nav a span { font-size: 8.5px; letter-spacing: 0.3px; }
             .nav-links-desktop { display: none !important; }
             .hamburger { display: none !important; }
             /* Radio: standalone card on the right */
@@ -1146,17 +1150,28 @@
         }
         .radio-popup-inner::-webkit-scrollbar { display: none; }
 
-        /* Back button */
+        /* Back button — Glassmorphic */
         .radio-popup-back {
             position: absolute; top: 16px; left: 16px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255,255,255,0.1); border: none;
-            color: #9ca3af; cursor: pointer;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #d1d5db; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease; z-index: 5;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.12);
         }
-        .radio-popup-back:hover { background: rgba(255,255,255,0.2); color: #ffffff; }
-        .radio-popup-back svg { width: 18px; height: 18px; }
+        .radio-popup-back:hover {
+            background: rgba(255,255,255,0.22); color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.25);
+        }
+        .radio-popup-back:active { transform: translateY(0) scale(0.95); }
+        .radio-popup-back svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .radio-popup-back:hover svg { transform: translateX(-2px); }
 
         /* Share section at bottom */
         .radio-popup-share-section {
@@ -1182,23 +1197,85 @@
             cursor: pointer; transition: all 0.3s ease;
             text-transform: uppercase; letter-spacing: 0.5px;
             box-shadow: 0 4px 16px rgba(196, 30, 58, 0.35);
+            /* Fixed min dimensions to prevent shape shift — accommodates "Share Link" / "Shiriki" */
+            min-width: 150px; min-height: 44px;
+            white-space: nowrap;
         }
         .radio-popup-share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196, 30, 58, 0.5); }
         .radio-popup-share-btn:active { transform: scale(0.97); }
         .radio-popup-share-btn svg { width: 18px; height: 18px; }
+        .radio-popup-share-buttons {
+            display: flex; gap: 10px; width: 100%;
+            align-items: center; justify-content: center;
+        }
         .radio-popup-share-btn.shared {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
         }
+        /* WhatsApp button */
+        .radio-popup-whatsapp-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 50px;
+            padding: 12px 22px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px) saturate(180%);
+            min-width: 120px; min-height: 44px;
+            white-space: nowrap;
+        }
+        .radio-popup-whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5); }
+        .radio-popup-whatsapp-btn:active { transform: scale(0.97); }
+        .radio-popup-whatsapp-btn svg { width: 18px; height: 18px; }
+
+        /* Visualizer selector row */
+        .viz-selector {
+            position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 4px; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.55);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            backdrop-filter: blur(12px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px; padding: 4px 6px;
+            z-index: 5;
+        }
+        .viz-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: transparent; border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.5); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s ease; padding: 0;
+        }
+        .viz-btn:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.25); }
+        .viz-btn.active { background: #C41E3A; color: #ffffff; border-color: #C41E3A; box-shadow: 0 0 8px rgba(196, 30, 58, 0.4); }
+        .viz-btn svg { pointer-events: none; }
+
+        /* Reconnecting status text */
+        .popup-status-reconnecting { color: #f59e0b; }
+        .popup-status-reconnecting .popup-status-dot { box-shadow: 0 0 8px rgba(245,158,11,0.6); animation: blink 0.5s infinite; }
 
         /* Column wrappers — invisible on mobile, flex on desktop */
         .popup-col-left, .popup-col-right {
             display: contents; /* On mobile, children act as direct children of popup-inner */
         }
 
+        /* On mobile: reorder so logo/title comes BEFORE the screen */
+        .radio-popup-back { order: -1; }
+        .radio-popup-logo-wrap { order: 0; }
+        .radio-popup-name { order: 1; }
+        .radio-popup-now { order: 2; }
+        .radio-popup-status { order: 3; }
+        .radio-popup-screen { order: 4; }
+        .radio-popup-controls { order: 5; }
+        .radio-popup-volume { order: 6; }
+
+        .radio-popup-share-section { order: 7; }
+
         /* Logo */
         .radio-popup-logo-wrap {
-            margin-top: 56px; margin-bottom: 14px;
+            margin-top: 48px; margin-bottom: 10px;
             flex-shrink: 0;
         }
         .radio-popup-logo {
@@ -1280,7 +1357,7 @@
         }
         /* Now playing overlay on screen */
         .popup-screen-title {
-            position: absolute; bottom: 10px; left: 12px; right: 12px;
+            position: absolute; bottom: 40px; left: 12px; right: 12px;
             font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.6);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             text-transform: uppercase; letter-spacing: 0.5px;
@@ -1324,72 +1401,7 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
-        /* Sleep Timer */
-        .radio-popup-timer {
-            width: 100%; max-width: 320px;
-            background: rgba(255,255,255,0.05); border-radius: 14px;
-            padding: 14px 16px;
-        }
-        .timer-label {
-            display: flex; align-items: center; gap: 8px;
-            color: #9ca3af; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            margin-bottom: 10px;
-        }
-        .timer-label svg { width: 14px; height: 14px; }
-        .timer-options {
-            display: flex; gap: 6px; align-items: center;
-        }
-        .timer-btn {
-            flex: 1; padding: 8px 4px; border-radius: 8px;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.06);
-            color: #d1d5db; font-size: 0.72rem; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .timer-btn:hover { background: rgba(255,255,255,0.15); color: #ffffff; }
-        .timer-btn.active-timer {
-            background: rgba(196,30,58,0.25); border-color: rgba(196,30,58,0.4);
-            color: #ef4444;
-        }
-        /* Custom time input */
-        .timer-custom-wrap {
-            display: flex; align-items: center; gap: 4px;
-            flex-shrink: 0;
-        }
-        .timer-custom-input {
-            width: 42px; padding: 6px 4px; border-radius: 8px;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
-            color: #d1d5db; font-size: 0.72rem; font-weight: 700;
-            text-align: center; outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .timer-custom-input::placeholder { color: rgba(255,255,255,0.25); }
-        .timer-custom-input:focus { border-color: rgba(196,30,58,0.5); background: rgba(255,255,255,0.12); }
-        .timer-custom-label { color: #9ca3af; font-size: 0.65rem; font-weight: 600; }
-        .timer-custom-go {
-            width: 28px; height: 28px; border-radius: 6px;
-            background: rgba(196,30,58,0.3); border: 1px solid rgba(196,30,58,0.3);
-            color: #ef4444; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .timer-custom-go:hover { background: rgba(196,30,58,0.5); color: #ffffff; }
-        .timer-custom-go svg { width: 14px; height: 14px; }
 
-        .timer-countdown {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            margin-top: 10px; color: #ef4444; font-size: 0.9rem; font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .timer-cancel-btn {
-            width: 24px; height: 24px; border-radius: 50%;
-            background: rgba(239,68,68,0.15); border: none;
-            color: #ef4444; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .timer-cancel-btn:hover { background: rgba(239,68,68,0.3); }
 
         /* Auto-play banner — appears above bottom nav/buttons */
         .radio-autoplay-banner {
@@ -1410,11 +1422,15 @@
             background: #C41E3A; color: #fff; border: none; padding: 8px 20px;
             border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer;
             transition: all 0.2s ease; letter-spacing: 0.5px; text-transform: uppercase;
+            /* Fixed min-width to prevent shape shift — accommodates "Play" / "Ndio" */
+            min-width: 72px; white-space: nowrap;
         }
         .banner-play-btn:hover { background: #a1182e; }
         .banner-dismiss-btn {
             background: none; color: #6b7280; border: none; font-size: 0.75rem;
             cursor: pointer; font-weight: 600; padding: 8px 12px;
+            /* Fixed min-width to prevent shape shift — accommodates "Not Now" / "Sio Sasa" */
+            min-width: 72px; white-space: nowrap;
         }
         .banner-dismiss-btn:hover { color: #9ca3af; }
 
@@ -1429,8 +1445,7 @@
             .popup-play-btn { width: 64px; height: 64px; }
             .popup-play-btn svg { width: 32px; height: 32px; }
             .radio-popup-volume { max-width: 360px; }
-            .radio-popup-timer { max-width: 420px; }
-            .timer-btn { padding: 10px 6px; font-size: 0.8rem; }
+
         }
 
         /* Radio popup — Desktop: two-column layout, no scroll needed */
@@ -1443,6 +1458,16 @@
                 align-items: stretch;
                 overflow-y: hidden;
             }
+            /* Reset order on desktop — columns handle the layout */
+            .radio-popup-back,
+            .radio-popup-logo-wrap,
+            .radio-popup-name,
+            .radio-popup-now,
+            .radio-popup-status,
+            .radio-popup-screen,
+            .radio-popup-controls,
+            .radio-popup-volume,
+            .radio-popup-share-section { order: unset; }
             /* Left column: visualizer + controls */
             .popup-col-left {
                 display: flex;
@@ -1487,13 +1512,11 @@
             .popup-play-btn svg { width: 30px; height: 30px; }
             /* Volume */
             .radio-popup-volume { max-width: 260px; margin-bottom: 12px; }
-            /* Timer */
-            .radio-popup-timer { max-width: 280px; padding: 10px 14px; }
-            .timer-btn { padding: 8px 4px; font-size: 0.75rem; }
             /* Share section */
-            .radio-popup-share-section { max-width: 280px; margin-top: 12px; padding-top: 12px; }
+            .radio-popup-share-section { max-width: 340px; margin-top: 12px; padding-top: 12px; }
             .radio-popup-share-text { font-size: 0.65rem; margin-bottom: 8px; }
-            .radio-popup-share-btn { padding: 10px 20px; font-size: 0.75rem; }
+            .radio-popup-share-btn { padding: 10px 18px; font-size: 0.72rem; min-width: 110px; }
+            .radio-popup-whatsapp-btn { padding: 10px 18px; font-size: 0.72rem; min-width: 110px; }
         }
 
         /* Larger desktops — more spacious two-column */
@@ -1508,7 +1531,7 @@
             .radio-popup-name { font-size: 1.5rem; }
             .radio-popup-now { font-size: 0.85rem; max-width: 320px; }
             .radio-popup-volume { max-width: 300px; }
-            .radio-popup-timer { max-width: 320px; }
+
             .radio-popup-share-section { max-width: 320px; }
             .popup-play-btn { width: 64px; height: 64px; }
             .popup-play-btn svg { width: 32px; height: 32px; }
@@ -1522,18 +1545,19 @@
             .radio-popup-now { font-size: 0.75rem; max-width: 300px; }
             .radio-popup-screen { border-radius: 12px; }
             .popup-play-btn { width: 50px; height: 50px; }
-            .radio-popup-share-section { max-width: 280px; }
+            .radio-popup-share-section { max-width: 360px; }
             .radio-popup-share-text { font-size: 0.65rem; }
-            .radio-popup-share-btn { padding: 10px 22px; font-size: 0.75rem; }
+            .radio-popup-share-btn { padding: 10px 18px; font-size: 0.72rem; min-width: 110px; }
+            .radio-popup-whatsapp-btn { padding: 10px 18px; font-size: 0.72rem; min-width: 110px; }
         }
         @media (max-width: 360px) {
             .radio-popup-logo { width: 45px; height: 45px; }
             .radio-popup-name { font-size: 1rem; padding: 0 36px; }
             .radio-popup-now { font-size: 0.7rem; max-width: 280px; }
-            .timer-btn { font-size: 0.65rem; padding: 6px 2px; }
-            .timer-custom-input { width: 36px; font-size: 0.65rem; }
-            .radio-popup-share-section { max-width: 260px; }
-            .radio-popup-share-btn { padding: 9px 18px; font-size: 0.7rem; }
+
+            .radio-popup-share-section { max-width: 320px; }
+            .radio-popup-share-btn { padding: 9px 16px; font-size: 0.68rem; min-width: 100px; }
+            .radio-popup-whatsapp-btn { padding: 9px 16px; font-size: 0.68rem; min-width: 100px; }
         }
     </style>
     <script type="application/ld+json">
@@ -1579,9 +1603,9 @@
 
     <!-- Bottom Bar: Radio + Nav Links (PERSISTENT) -->
     <aside class="floating-widgets shockwave-affected" id="floatingWidgets">
-        <a href="/giving" class="mobile-give-btn shockwave-affected" aria-label="Give">
+        <a href="/giving" class="mobile-give-btn shockwave-affected" aria-label="Give" data-i18n-aria="nav.give">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
-            <span>Give</span>
+            <span data-i18n="nav.give">Give</span>
         </a>
         <div class="radio-player-wrapper shockwave-affected" id="radioPlayerWrapper">
             <!-- Ripple rings that expand outward when playing -->
@@ -1602,20 +1626,20 @@
             <div class="radio-details">
                 <div class="radio-status status-offline" id="radioStatus">
                     <span class="status-dot"></span>
-                    <span id="statusText" class="widget-status-text">Offline</span>
+                    <span id="statusText" class="widget-status-text" data-i18n="radio.offline">Offline</span>
                 </div>
-                <span class="radio-title-label" id="radioTitle">ABC RADIO</span>
+                <span class="radio-title-label" id="radioTitle" data-i18n="radio.label">ABC RADIO</span>
             </div>
         </div>
         </div>
         <!-- Desktop nav links — shown inline beside radio on 1024px+ -->
         <div class="nav-links-desktop" id="navLinksDesktop">
-            <a href="/giving" data-page="giving"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg><span>Give</span></a>
-            <a href="/testimonies" data-page="testimonies"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Testimonies</span></a>
-            <a href="/prayer" data-page="prayer"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>Prayer</span></a>
-            <a href="/connect" data-page="connect"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Connect</span></a>
-            <a href="/branches" data-page="branches"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>Branches</span></a>
-            <a href="/history" data-page="history"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>History</span></a>
+            <a href="/giving" data-page="giving"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg><span data-i18n="nav.give">Give</span></a>
+            <a href="/testimonies" data-page="testimonies"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span data-i18n="nav.testimonies">Testimonies</span></a>
+            <a href="/prayer" data-page="prayer"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span data-i18n="nav.prayer">Prayer</span></a>
+            <a href="/connect" data-page="connect"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span data-i18n="nav.connect">Connect</span></a>
+            <a href="/branches" data-page="branches"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="nav.branches">Branches</span></a>
+            <a href="/history" data-page="history"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-i18n="nav.history">History</span></a>
         </div>
     </aside>
 
@@ -1640,9 +1664,25 @@
                     <!-- Connecting/loading overlay -->
                     <div class="popup-screen-connecting" id="popupScreenConnecting">
                         <div class="popup-connecting-spinner"></div>
-                        <span class="popup-connecting-text">Connecting...</span>
+                        <span class="popup-connecting-text" data-i18n="radio.popup.connecting">Connecting...</span>
                     </div>
-                    <div class="popup-screen-title" id="popupScreenTitle">ABC GLOBAL RADIO</div>
+                    <div class="popup-screen-title" id="popupScreenTitle" data-i18n="radio.popup.title">ABC GLOBAL RADIO</div>
+                    <!-- Visualizer Selector -->
+                    <div class="viz-selector" id="vizSelector">
+                        <button class="viz-btn active" data-viz="bars" aria-label="Bars" title="Bars">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="20" x2="4" y2="14"/><line x1="8" y1="20" x2="8" y2="8"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="16" y1="20" x2="16" y2="10"/><line x1="20" y1="20" x2="20" y2="16"/></svg>
+                        </button>
+
+                        <button class="viz-btn" data-viz="circular" aria-label="Ring" title="Ring">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg>
+                        </button>
+                        <button class="viz-btn" data-viz="particles" aria-label="Particles" title="Particles">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="6" r="1.5"/><circle cx="18" cy="8" r="1"/><circle cx="10" cy="14" r="2"/><circle cx="16" cy="18" r="1.2"/><circle cx="4" cy="18" r="1"/><circle cx="20" cy="14" r="1.5"/></svg>
+                        </button>
+                        <button class="viz-btn" data-viz="spectrum" aria-label="Curve" title="Curve">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 20C6 8 10 4 14 12S18 20 22 8"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Controls -->
@@ -1663,15 +1703,15 @@
                 </div>
 
                 <!-- Station Name -->
-                <div class="radio-popup-name">ABC GLOBAL RADIO</div>
+                <div class="radio-popup-name" data-i18n="radio.popup.title">ABC GLOBAL RADIO</div>
 
                 <!-- Now Playing -->
-                <div class="radio-popup-now" id="popupNowPlaying">ABC GLOBAL RADIO</div>
+                <div class="radio-popup-now" id="popupNowPlaying" data-i18n="radio.popup.now">ABC GLOBAL RADIO</div>
 
                 <!-- Status -->
                 <div class="radio-popup-status popup-status-offline" id="popupStatus">
                     <span class="popup-status-dot" id="popupStatusDot"></span>
-                    <span id="popupStatusText">Offline</span>
+                    <span id="popupStatusText" data-i18n="radio.offline">Offline</span>
                 </div>
 
                 <!-- Volume Slider -->
@@ -1681,41 +1721,19 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                 </div>
 
-                <!-- Sleep Timer -->
-                <div class="radio-popup-timer">
-                    <div class="timer-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <span>Sleep Timer</span>
-                    </div>
-                    <div class="timer-options" id="timerOptions">
-                        <button class="timer-btn" data-minutes="0">Off</button>
-                        <button class="timer-btn" data-minutes="15">15m</button>
-                        <button class="timer-btn" data-minutes="30">30m</button>
-                        <button class="timer-btn" data-minutes="60">1h</button>
-                        <button class="timer-btn" data-minutes="120">2h</button>
-                        <div class="timer-custom-wrap">
-                            <input type="number" class="timer-custom-input" id="timerCustomInput" min="1" max="720" placeholder="--" aria-label="Custom minutes">
-                            <span class="timer-custom-label">min</span>
-                            <button class="timer-custom-go" id="timerCustomGo" aria-label="Set custom timer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="timer-countdown" id="timerCountdown" style="display:none;">
-                        <span id="timerCountdownText">--:--</span>
-                        <button class="timer-cancel-btn" id="timerCancelBtn" aria-label="Cancel Timer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Share Section -->
                 <div class="radio-popup-share-section">
-                    <p class="radio-popup-share-text">Share this link with others so they can<br><strong>listen to the Word of God</strong></p>
-                    <button class="radio-popup-share-btn" id="radioPopupShare" aria-label="Share Radio Link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span id="shareBtnText">Share Link</span>
-                    </button>
+                    <p class="radio-popup-share-text"><span data-i18n="radio.popup.share_text">Share this link with others so they can</span><br><strong data-i18n="radio.popup.share_highlight">listen to the Word of God</strong></p>
+                    <div class="radio-popup-share-buttons">
+                        <button class="radio-popup-share-btn" id="radioPopupShare" aria-label="Share Radio Link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            <span id="shareBtnText" data-i18n="radio.popup.share_btn">Share</span>
+                        </button>
+                        <button class="radio-popup-whatsapp-btn" id="radioPopupWhatsApp" aria-label="Share on WhatsApp">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            <span data-i18n="radio.share.whatsapp">WhatsApp</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1723,9 +1741,9 @@
 
     <!-- Auto-play Banner (PERSISTENT) -->
     <div class="radio-autoplay-banner" id="radioAutoplayBanner">
-        <p>Listen to <strong>ABC Global Radio</strong>?</p>
-        <button class="banner-play-btn" id="bannerPlayBtn">Play</button>
-        <button class="banner-dismiss-btn" id="bannerDismissBtn">Not Now</button>
+        <p><span data-i18n="radio.autoplay.text">Listen to</span> <strong>ABC Global Radio</strong>?</p>
+        <button class="banner-play-btn" id="bannerPlayBtn" data-i18n="radio.autoplay.play">Play</button>
+        <button class="banner-dismiss-btn" id="bannerDismissBtn" data-i18n="radio.autoplay.dismiss">Not Now</button>
     </div>
 
     <!-- Hamburger Menu (PERSISTENT) -->
@@ -1737,12 +1755,12 @@
 
     <!-- Desktop Bottom Nav (PERSISTENT) -->
     <nav class="desktop-bottom-nav shockwave-affected" aria-label="Main Navigation" id="desktopNav">
-        <a href="/giving" data-page="giving"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg><span>Give</span></a>
-        <a href="/testimonies" data-page="testimonies"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Testimonies</span></a>
-        <a href="/prayer" data-page="prayer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span>Prayer</span></a>
-        <a href="/connect" data-page="connect"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Connect</span></a>
-        <a href="/branches" data-page="branches"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>Branches</span></a>
-        <a href="/history" data-page="history"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>History</span></a>
+        <a href="/giving" data-page="giving"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg><span data-i18n="nav.give">Give</span></a>
+        <a href="/testimonies" data-page="testimonies"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span data-i18n="nav.testimonies">Testimonies</span></a>
+        <a href="/prayer" data-page="prayer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg><span data-i18n="nav.prayer">Prayer</span></a>
+        <a href="/connect" data-page="connect"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span data-i18n="nav.connect">Connect</span></a>
+        <a href="/branches" data-page="branches"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="nav.branches">Branches</span></a>
+        <a href="/history" data-page="history"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-i18n="nav.history">History</span></a>
     </nav>
 
     <!-- Mobile Menu Overlay (PERSISTENT) -->
@@ -1757,32 +1775,32 @@
             <div class="glass-menu-grid">
                 <a href="/giving" class="glass-card node-1" data-page="giving">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
-                    <span>Give</span>
+                    <span data-i18n="nav.give">Give</span>
                 </a>
                 <a href="/testimonies" class="glass-card node-2" data-page="testimonies">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                    <span>Testimonies</span>
+                    <span data-i18n="nav.testimonies">Testimonies</span>
                 </a>
                 <a href="/prayer" class="glass-card node-3" data-page="prayer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-                    <span>Prayer</span>
+                    <span data-i18n="nav.prayer">Prayer</span>
                 </a>
                 <a href="/connect" class="glass-card node-4" data-page="connect">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                    <span>Connect</span>
+                    <span data-i18n="nav.connect">Connect</span>
                 </a>
                 <a href="/branches" class="glass-card node-5" data-page="branches">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span>Branches</span>
+                    <span data-i18n="nav.branches">Branches</span>
                 </a>
                 <a href="/history" class="glass-card node-6" data-page="history">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>History</span>
+                    <span data-i18n="nav.history">History</span>
                 </a>
             </div>
 
             <!-- Verse at bottom -->
-            <div class="glass-menu-verse">"Here am I, and the children the LORD has given me — we are signs and symbols in Israel from the LORD Almighty." — Isaiah 8:18</div>
+            <div class="glass-menu-verse" data-i18n="home.menu.verse">"Here am I, and the children the LORD has given me — we are signs and symbols in Israel from the LORD Almighty." — Isaiah 8:18</div>
         </div>
     </div>
 
@@ -1801,7 +1819,7 @@
                 <img src="images/logo.png" alt="ABC GLOBAL Church Logo" class="main-logo-image" fetchpriority="high">
             </div>
             <section class="bottom-text shockwave-affected">
-                <p>RAISING A FIREBRAND GENERATION<br><span class="highlight">HOLY UNTO GOD</span></p>
+                <p><span data-i18n="home.tagline.line1">RAISING A FIREBRAND GENERATION</span><br><span class="highlight" data-i18n="home.tagline.line2">HOLY UNTO GOD</span></p>
             </section>
         </main>
     </div>
@@ -1867,6 +1885,25 @@
         const statusText = document.getElementById('statusText');
         const radioTitle = document.getElementById('radioTitle');
         
+        // ====== VISUALIZER TYPE MANAGEMENT ======
+        let currentViz = localStorage.getItem('abc-viz') || 'bars';
+        const validVizTypes = ['bars', 'circular', 'particles', 'spectrum'];
+        if (!validVizTypes.includes(currentViz)) currentViz = 'bars';
+
+        // ====== PARTICLES STATE (for particles visualizer) ======
+        let vizParticles = [];
+        function initVizParticles(count) {
+            vizParticles = [];
+            for (let i = 0; i < count; i++) {
+                vizParticles.push({
+                    x: Math.random(), y: Math.random(),
+                    vx: (Math.random() - 0.5) * 0.002, vy: (Math.random() - 0.5) * 0.002,
+                    size: Math.random() * 2 + 1, alpha: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+        initVizParticles(60);
+
         const canvas = document.getElementById('visualizerCanvas');
         const ctx = canvas.getContext('2d');
         const numBars = 24;
@@ -1908,76 +1945,267 @@
             }
         }
 
-        // ====== VISUALIZER DRAW ======
+        // ====== VISUALIZER DRAW (HOMEPAGE WIDGET) ======
         let visualizerRunning = false;
-        function drawVisualizer() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (canvas.width === 0 || canvas.height === 0) {
-                // Canvas is hidden (widget display:none on sub-pages).
-                // Mark loop as stopped so it can be restarted when visible again.
-                visualizerRunning = false;
-                return;
-            }
-            const isPlaying = !audio.paused;
-            const barWidth = canvas.width / numBars;
-            const maxBarHeight = canvas.height * 0.88;
-            let allBarsSettled = true;
 
-            // Get real frequency data if available
+        // Helper: get frequency data for current frame
+        function getFreqData(isPlaying, barCount) {
             if (useRealAnalyser && analyser && isPlaying) {
                 analyser.getByteFrequencyData(realFreqData);
             }
-
-            for (let i = 0; i < numBars; i++) {
+            const data = [];
+            const maxBarHeight = canvas.height * 0.88;
+            for (let i = 0; i < barCount; i++) {
                 if (isPlaying) {
                     if (useRealAnalyser && realFreqData) {
-                        // REAL frequency data from Web Audio API
-                        // Map our 24 bars to the 32 frequency bins (skip very low bins)
-                        const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / numBars);
+                        const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / barCount);
                         const freqValue = realFreqData[binIndex] || 0;
-                        // freqValue is 0-255, normalize to 0-1
                         const normalized = freqValue / 255;
-                        bars[i].targetHeight = Math.max(maxBarHeight * 0.08, normalized * maxBarHeight);
+                        data.push(Math.max(maxBarHeight * 0.08, normalized * maxBarHeight));
                     } else {
-                        // SIMULATED fallback (random with center emphasis)
-                        const centerFactor = 1 - Math.abs(i - numBars/2) / (numBars/2);
-                        const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
-                        bars[i].targetHeight = dynamicHeight;
+                        const centerFactor = 1 - Math.abs(i - barCount/2) / (barCount/2);
+                        data.push((Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5));
                     }
                 } else {
-                    bars[i].targetHeight = canvas.height * 0.04;
+                    data.push(canvas.height * 0.04);
                 }
+            }
+            return data;
+        }
 
-                // Smooth transition toward target
+        // Helper: get average amplitude (0-1) from frequency data
+        function getAvgAmplitude(isPlaying) {
+            if (!useRealAnalyser || !analyser || !isPlaying) return isPlaying ? 0.3 : 0;
+            analyser.getByteFrequencyData(realFreqData);
+            let sum = 0;
+            for (let i = 0; i < realFreqData.length; i++) sum += realFreqData[i];
+            return (sum / realFreqData.length) / 255;
+        }
+
+        // --- BARS VISUALIZER (original) ---
+        function drawBars(ctx, cw, ch, isPlaying, targetBars) {
+            const barWidth = cw / targetBars.length;
+            const maxBarHeight = ch * 0.88;
+            let allBarsSettled = true;
+            for (let i = 0; i < targetBars.length; i++) {
+                bars[i].targetHeight = targetBars[i];
+                if (i >= bars.length) bars.push({ height: 0, targetHeight: 0 });
                 bars[i].height += (bars[i].targetHeight - bars[i].height) * (useRealAnalyser ? 0.25 : 0.15);
-                if (!isPlaying && Math.abs(bars[i].height - bars[i].targetHeight) > 0.5) { allBarsSettled = false; }
-
+                if (!isPlaying && Math.abs(bars[i].height - bars[i].targetHeight) > 0.5) allBarsSettled = false;
                 const x = i * barWidth;
                 const h = Math.max(2, bars[i].height);
-                const y = canvas.height - h;
-
-                // Gradient: church red on top, deep blue on bottom
-                const gradient = ctx.createLinearGradient(x, y, x, canvas.height);
+                const y = ch - h;
+                const gradient = ctx.createLinearGradient(x, y, x, ch);
                 gradient.addColorStop(0, '#C41E3A');
                 gradient.addColorStop(0.4, '#ef4444');
                 gradient.addColorStop(1, '#1e3a8a');
                 ctx.fillStyle = gradient;
-                // Draw bar with rounded top
                 const barRadius = Math.min(barWidth * 0.3, 4);
                 ctx.beginPath();
-                ctx.moveTo(x + 1, canvas.height);
+                ctx.moveTo(x + 1, ch);
                 ctx.lineTo(x + 1, y + barRadius);
                 ctx.quadraticCurveTo(x + 1, y, x + 1 + barRadius, y);
                 ctx.lineTo(x + barWidth - 1 - barRadius, y);
                 ctx.quadraticCurveTo(x + barWidth - 1, y, x + barWidth - 1, y + barRadius);
-                ctx.lineTo(x + barWidth - 1, canvas.height);
+                ctx.lineTo(x + barWidth - 1, ch);
                 ctx.closePath();
                 ctx.fill();
-
-                // Bright highlight on top of each bar
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
                 ctx.fillRect(x + 1, y, barWidth - 2, 2);
             }
+            return allBarsSettled;
+        }
+
+        // --- CIRCULAR VISUALIZER ---
+        function drawCircular(ctx, cw, ch, isPlaying, barCount) {
+            const cx = cw / 2, cy = ch / 2;
+            const radius = Math.min(cw, ch) * 0.3;
+            const amp = getAvgAmplitude(isPlaying);
+            const freqData = [];
+            if (useRealAnalyser && analyser && isPlaying) {
+                for (let i = 0; i < barCount; i++) {
+                    const binIndex = Math.floor(i * realFreqData.length / barCount);
+                    freqData.push((realFreqData[binIndex] || 0) / 255);
+                }
+            } else {
+                for (let i = 0; i < barCount; i++) {
+                    freqData.push(isPlaying ? (Math.random() * 0.6 + 0.3) : 0.05);
+                }
+            }
+            const angleStep = (Math.PI * 2) / barCount;
+            const maxBarLen = Math.min(cw, ch) * 0.18;
+            // Glow
+            if (isPlaying && amp > 0.05) {
+                const glowGrad = ctx.createRadialGradient(cx, cy, radius * 0.5, cx, cy, radius + maxBarLen);
+                glowGrad.addColorStop(0, `rgba(196, 30, 58, ${amp * 0.2})`);
+                glowGrad.addColorStop(1, 'rgba(196, 30, 58, 0)');
+                ctx.fillStyle = glowGrad;
+                ctx.fillRect(0, 0, cw, ch);
+            }
+            // Bars around circle
+            for (let i = 0; i < barCount; i++) {
+                const angle = i * angleStep - Math.PI / 2;
+                const barLen = Math.max(4, freqData[i] * maxBarLen);
+                const x1 = cx + Math.cos(angle) * radius;
+                const y1 = cy + Math.sin(angle) * radius;
+                const x2 = cx + Math.cos(angle) * (radius + barLen);
+                const y2 = cy + Math.sin(angle) * (radius + barLen);
+                const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                gradient.addColorStop(0, '#C41E3A');
+                gradient.addColorStop(1, '#ef4444');
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = Math.max(2, (angleStep * radius) * 0.6);
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+            // Inner ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 0.95, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(196, 30, 58, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+
+        // --- PARTICLES VISUALIZER ---
+        function drawParticles(ctx, cw, ch, isPlaying) {
+            const amp = getAvgAmplitude(isPlaying);
+            const speedMult = isPlaying ? 1 + amp * 4 : 0.3;
+            const sizeMult = isPlaying ? 1 + amp * 2 : 0.5;
+            for (let p of vizParticles) {
+                p.x += p.vx * speedMult;
+                p.y += p.vy * speedMult;
+                // Bounce off edges
+                if (p.x < 0 || p.x > 1) p.vx *= -1;
+                if (p.y < 0 || p.y > 1) p.vy *= -1;
+                p.x = Math.max(0, Math.min(1, p.x));
+                p.y = Math.max(0, Math.min(1, p.y));
+                const px = p.x * cw, py = p.y * ch;
+                const sz = p.size * sizeMult;
+                const alpha = isPlaying ? Math.min(1, p.alpha + amp * 0.5) : p.alpha * 0.3;
+                // Glow
+                const grd = ctx.createRadialGradient(px, py, 0, px, py, sz * 3);
+                grd.addColorStop(0, `rgba(196, 30, 58, ${alpha})`);
+                grd.addColorStop(0.5, `rgba(239, 68, 68, ${alpha * 0.3})`);
+                grd.addColorStop(1, 'rgba(239, 68, 68, 0)');
+                ctx.fillStyle = grd;
+                ctx.fillRect(px - sz * 3, py - sz * 3, sz * 6, sz * 6);
+                // Core dot
+                ctx.beginPath();
+                ctx.arc(px, py, sz, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
+                ctx.fill();
+            }
+            // Connect nearby particles with lines
+            const maxDist = cw * 0.15;
+            for (let i = 0; i < vizParticles.length; i++) {
+                for (let j = i + 1; j < vizParticles.length; j++) {
+                    const dx = (vizParticles[i].x - vizParticles[j].x) * cw;
+                    const dy = (vizParticles[i].y - vizParticles[j].y) * ch;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        const lineAlpha = (1 - dist / maxDist) * (isPlaying ? 0.15 + amp * 0.2 : 0.05);
+                        ctx.beginPath();
+                        ctx.moveTo(vizParticles[i].x * cw, vizParticles[i].y * ch);
+                        ctx.lineTo(vizParticles[j].x * cw, vizParticles[j].y * ch);
+                        ctx.strokeStyle = `rgba(196, 30, 58, ${lineAlpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // --- SPECTRUM VISUALIZER (smooth filled curve) ---
+        function drawSpectrum(ctx, cw, ch, isPlaying, barCount) {
+            const freqData = [];
+            if (useRealAnalyser && analyser && isPlaying) {
+                for (let i = 0; i < barCount; i++) {
+                    const binIndex = Math.floor(i * realFreqData.length / barCount);
+                    freqData.push((realFreqData[binIndex] || 0) / 255);
+                }
+            } else {
+                for (let i = 0; i < barCount; i++) {
+                    const centerFactor = 1 - Math.abs(i - barCount/2) / (barCount/2);
+                    freqData.push(isPlaying ? (centerFactor * 0.5 + 0.3) * (Math.random() * 0.4 + 0.6) : 0.03);
+                }
+            }
+            const maxH = ch * 0.85;
+            // Build smooth curve using bezier
+            const points = [];
+            for (let i = 0; i < barCount; i++) {
+                const x = (i / (barCount - 1)) * cw;
+                const h = freqData[i] * maxH;
+                points.push({ x, y: ch - h });
+            }
+            // Fill area
+            ctx.beginPath();
+            ctx.moveTo(0, ch);
+            ctx.lineTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                const prev = points[i - 1];
+                const curr = points[i];
+                const cpx = (prev.x + curr.x) / 2;
+                ctx.quadraticCurveTo(prev.x, prev.y, cpx, (prev.y + curr.y) / 2);
+            }
+            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+            ctx.lineTo(cw, ch);
+            ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, 0, 0, ch);
+            gradient.addColorStop(0, 'rgba(196, 30, 58, 0.9)');
+            gradient.addColorStop(0.3, 'rgba(239, 68, 68, 0.6)');
+            gradient.addColorStop(0.7, 'rgba(30, 58, 138, 0.3)');
+            gradient.addColorStop(1, 'rgba(30, 58, 138, 0.05)');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            // Top line
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                const prev = points[i - 1];
+                const curr = points[i];
+                const cpx = (prev.x + curr.x) / 2;
+                ctx.quadraticCurveTo(prev.x, prev.y, cpx, (prev.y + curr.y) / 2);
+            }
+            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // ====== MAIN WIDGET DRAW LOOP ======
+        function drawVisualizer() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (canvas.width === 0 || canvas.height === 0) {
+                visualizerRunning = false;
+                return;
+            }
+            const isPlaying = !audio.paused;
+            const cw = canvas.width, ch = canvas.height;
+
+            if (useRealAnalyser && analyser && isPlaying) {
+                analyser.getByteFrequencyData(realFreqData);
+            }
+
+            let allBarsSettled = true;
+            switch (currentViz) {
+                case 'circular':
+                    drawCircular(ctx, cw, ch, isPlaying, 32);
+                    break;
+                case 'particles':
+                    drawParticles(ctx, cw, ch, isPlaying);
+                    break;
+                case 'spectrum':
+                    drawSpectrum(ctx, cw, ch, isPlaying, 24);
+                    break;
+                default: // bars
+                    const targetBars = getFreqData(isPlaying, numBars);
+                    allBarsSettled = drawBars(ctx, cw, ch, isPlaying, targetBars);
+                    break;
+            }
+
             if (isPlaying || !allBarsSettled) { requestAnimationFrame(drawVisualizer); } else { visualizerRunning = false; }
         }
         function startVisualizerLoop() {
@@ -2079,12 +2307,7 @@
         const popupNowPlaying = document.getElementById('popupNowPlaying');
         const popupScreenTitle = document.getElementById('popupScreenTitle');
         const popupVolumeSlider = document.getElementById('popupVolumeSlider');
-        const timerOptions = document.getElementById('timerOptions');
-        const timerCountdown = document.getElementById('timerCountdown');
-        const timerCountdownText = document.getElementById('timerCountdownText');
-        const timerCancelBtn = document.getElementById('timerCancelBtn');
-        const timerCustomInput = document.getElementById('timerCustomInput');
-        const timerCustomGo = document.getElementById('timerCustomGo');
+
 
         // Popup visualizer — responsive bar count
         let popupVisualizerRunning = false;
@@ -2136,37 +2359,8 @@
             if (e.target === radioPopup) closeRadioPopup();
         });
 
-        // Share button — shares website link, not Zeno stream
+        // Share button text reference (handler is below after auto-reconnect section)
         const shareBtnText = document.getElementById('shareBtnText');
-        radioPopupShare.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const shareData = {
-                title: 'ABC Global Church',
-                text: 'Listen to ABC Global Radio — Live worship and the Word of God!',
-                url: window.location.origin + '/'
-            };
-            if (navigator.share) {
-                navigator.share(shareData).then(() => {
-                    // Show success state
-                    radioPopupShare.classList.add('shared');
-                    if (shareBtnText) shareBtnText.textContent = 'Shared!';
-                    setTimeout(() => {
-                        radioPopupShare.classList.remove('shared');
-                        if (shareBtnText) shareBtnText.textContent = 'Share Link';
-                    }, 2500);
-                }).catch(() => {});
-            } else {
-                // Fallback: copy link
-                navigator.clipboard.writeText(shareData.url).then(() => {
-                    radioPopupShare.classList.add('shared');
-                    if (shareBtnText) shareBtnText.textContent = 'Link Copied!';
-                    setTimeout(() => {
-                        radioPopupShare.classList.remove('shared');
-                        if (shareBtnText) shareBtnText.textContent = 'Share Link';
-                    }, 2500);
-                }).catch(() => {});
-            }
-        });
 
         let isConnecting = false;
         function syncPopupStatus() {
@@ -2253,76 +2447,90 @@
                 return;
             }
             const isPlaying = !audio.paused;
-            const barWidth = popupCanvas.width / popupNumBars;
-            const maxBarHeight = popupCanvas.height * 0.88;
-            let allBarsSettled = true;
-            let avgHeight = 0;
+            const cw = popupCanvas.width, ch = popupCanvas.height;
 
             if (useRealAnalyser && analyser && isPlaying) {
                 analyser.getByteFrequencyData(realFreqData);
             }
 
-            // Draw subtle glow behind bars when playing
+            // Draw subtle glow when playing (for all viz types)
             if (isPlaying) {
                 let totalH = 0;
                 for (let i = 0; i < popupNumBars; i++) { totalH += popupBars[i].height; }
-                avgHeight = totalH / popupNumBars;
+                const avgHeight = totalH / popupNumBars;
+                const maxBarHeight = ch * 0.88;
                 const glowIntensity = Math.min(avgHeight / maxBarHeight, 1);
                 if (glowIntensity > 0.1) {
                     const glowGrad = popupCtx.createRadialGradient(
-                        popupCanvas.width / 2, popupCanvas.height, 0,
-                        popupCanvas.width / 2, popupCanvas.height, popupCanvas.height * 0.9
+                        cw / 2, ch, 0,
+                        cw / 2, ch, ch * 0.9
                     );
                     glowGrad.addColorStop(0, `rgba(196, 30, 58, ${glowIntensity * 0.12})`);
                     glowGrad.addColorStop(0.5, `rgba(196, 30, 58, ${glowIntensity * 0.05})`);
                     glowGrad.addColorStop(1, 'rgba(196, 30, 58, 0)');
                     popupCtx.fillStyle = glowGrad;
-                    popupCtx.fillRect(0, 0, popupCanvas.width, popupCanvas.height);
+                    popupCtx.fillRect(0, 0, cw, ch);
                 }
             }
 
-            for (let i = 0; i < popupNumBars; i++) {
-                if (isPlaying) {
-                    if (useRealAnalyser && realFreqData) {
-                        const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / popupNumBars);
-                        const freqValue = realFreqData[binIndex] || 0;
-                        const normalized = freqValue / 255;
-                        popupBars[i].targetHeight = Math.max(maxBarHeight * 0.08, normalized * maxBarHeight);
-                    } else {
-                        const centerFactor = 1 - Math.abs(i - popupNumBars/2) / (popupNumBars/2);
-                        const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
-                        popupBars[i].targetHeight = dynamicHeight;
+            let allBarsSettled = true;
+            switch (currentViz) {
+                case 'circular':
+                    drawCircular(popupCtx, cw, ch, isPlaying, popupNumBars);
+                    break;
+                case 'particles':
+                    drawParticles(popupCtx, cw, ch, isPlaying);
+                    break;
+                case 'spectrum':
+                    drawSpectrum(popupCtx, cw, ch, isPlaying, popupNumBars);
+                    break;
+                default: // bars
+                    const barWidth = cw / popupNumBars;
+                    const maxBarHeight = ch * 0.88;
+                    for (let i = 0; i < popupNumBars; i++) {
+                        if (isPlaying) {
+                            if (useRealAnalyser && realFreqData) {
+                                const binIndex = Math.floor((i + 2) * (realFreqData.length - 2) / popupNumBars);
+                                const freqValue = realFreqData[binIndex] || 0;
+                                const normalized = freqValue / 255;
+                                popupBars[i].targetHeight = Math.max(maxBarHeight * 0.08, normalized * maxBarHeight);
+                            } else {
+                                const centerFactor = 1 - Math.abs(i - popupNumBars/2) / (popupNumBars/2);
+                                const dynamicHeight = (Math.random() * 0.6 + 0.4) * maxBarHeight * (centerFactor * 0.5 + 0.5);
+                                popupBars[i].targetHeight = dynamicHeight;
+                            }
+                        } else {
+                            popupBars[i].targetHeight = ch * 0.04;
+                        }
+
+                        popupBars[i].height += (popupBars[i].targetHeight - popupBars[i].height) * (useRealAnalyser ? 0.25 : 0.15);
+                        if (!isPlaying && Math.abs(popupBars[i].height - popupBars[i].targetHeight) > 0.5) { allBarsSettled = false; }
+
+                        const x = i * barWidth;
+                        const h = Math.max(2, popupBars[i].height);
+                        const y = ch - h;
+
+                        const gradient = popupCtx.createLinearGradient(x, y, x, ch);
+                        gradient.addColorStop(0, '#C41E3A');
+                        gradient.addColorStop(0.4, '#ef4444');
+                        gradient.addColorStop(1, '#1e3a8a');
+                        popupCtx.fillStyle = gradient;
+
+                        const barRadius = Math.min(barWidth * 0.3, 4);
+                        popupCtx.beginPath();
+                        popupCtx.moveTo(x + 1, ch);
+                        popupCtx.lineTo(x + 1, y + barRadius);
+                        popupCtx.quadraticCurveTo(x + 1, y, x + 1 + barRadius, y);
+                        popupCtx.lineTo(x + barWidth - 1 - barRadius, y);
+                        popupCtx.quadraticCurveTo(x + barWidth - 1, y, x + barWidth - 1, y + barRadius);
+                        popupCtx.lineTo(x + barWidth - 1, ch);
+                        popupCtx.closePath();
+                        popupCtx.fill();
+
+                        popupCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                        popupCtx.fillRect(x + 1, y, barWidth - 2, 2);
                     }
-                } else {
-                    popupBars[i].targetHeight = popupCanvas.height * 0.04;
-                }
-
-                popupBars[i].height += (popupBars[i].targetHeight - popupBars[i].height) * (useRealAnalyser ? 0.25 : 0.15);
-                if (!isPlaying && Math.abs(popupBars[i].height - popupBars[i].targetHeight) > 0.5) { allBarsSettled = false; }
-
-                const x = i * barWidth;
-                const h = Math.max(2, popupBars[i].height);
-                const y = popupCanvas.height - h;
-
-                const gradient = popupCtx.createLinearGradient(x, y, x, popupCanvas.height);
-                gradient.addColorStop(0, '#C41E3A');
-                gradient.addColorStop(0.4, '#ef4444');
-                gradient.addColorStop(1, '#1e3a8a');
-                popupCtx.fillStyle = gradient;
-
-                const barRadius = Math.min(barWidth * 0.3, 4);
-                popupCtx.beginPath();
-                popupCtx.moveTo(x + 1, popupCanvas.height);
-                popupCtx.lineTo(x + 1, y + barRadius);
-                popupCtx.quadraticCurveTo(x + 1, y, x + 1 + barRadius, y);
-                popupCtx.lineTo(x + barWidth - 1 - barRadius, y);
-                popupCtx.quadraticCurveTo(x + barWidth - 1, y, x + barWidth - 1, y + barRadius);
-                popupCtx.lineTo(x + barWidth - 1, popupCanvas.height);
-                popupCtx.closePath();
-                popupCtx.fill();
-
-                popupCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-                popupCtx.fillRect(x + 1, y, barWidth - 2, 2);
+                    break;
             }
             if (isPlaying || !allBarsSettled) { requestAnimationFrame(drawPopupVisualizer); } else { popupVisualizerRunning = false; }
         }
@@ -2348,69 +2556,172 @@
         popupResizeObserver.observe(popupScreen);
 
         // ============================================
-        // SLEEP TIMER (preset + custom)
+        // VISUALIZER SELECTOR LOGIC
         // ============================================
-        let sleepTimerId = null;
-        let sleepTimerEnd = null;
-        let sleepCountdownId = null;
-
-        function startSleepTimer(minutes) {
-            clearSleepTimer();
-            if (!minutes || minutes <= 0) return;
-            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
-            sleepTimerEnd = Date.now() + minutes * 60 * 1000;
-            sleepTimerId = setTimeout(() => {
-                pauseRadio();
-                clearSleepTimer();
-            }, minutes * 60 * 1000);
-            timerCountdown.style.display = 'flex';
-            updateCountdown();
-            sleepCountdownId = setInterval(updateCountdown, 1000);
+        const vizSelector = document.getElementById('vizSelector');
+        function setVizType(type) {
+            if (!validVizTypes.includes(type)) type = 'bars';
+            currentViz = type;
+            localStorage.setItem('abc-viz', type);
+            // Update button states
+            if (vizSelector) {
+                vizSelector.querySelectorAll('.viz-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.getAttribute('data-viz') === type);
+                });
+            }
+            // Restart visualizers to apply change
+            if (visualizerRunning) startVisualizerLoop();
+            if (popupVisualizerRunning && radioPopup.classList.contains('active')) startPopupVisualizer();
         }
-
-        timerOptions.addEventListener('click', (e) => {
-            const btn = e.target.closest('.timer-btn');
-            if (!btn) return;
-            const minutes = parseInt(btn.dataset.minutes);
-            if (minutes === 0) { clearSleepTimer(); return; }
-            btn.classList.add('active-timer');
-            startSleepTimer(minutes);
-        });
-
-        // Custom timer
-        timerCustomGo.addEventListener('click', () => {
-            const val = parseInt(timerCustomInput.value);
-            if (!val || val < 1 || val > 720) return;
-            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
-            startSleepTimer(val);
-        });
-        timerCustomInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') timerCustomGo.click();
-        });
-
-        timerCancelBtn.addEventListener('click', clearSleepTimer);
-
-        function clearSleepTimer() {
-            if (sleepTimerId) { clearTimeout(sleepTimerId); sleepTimerId = null; }
-            if (sleepCountdownId) { clearInterval(sleepCountdownId); sleepCountdownId = null; }
-            sleepTimerEnd = null;
-            timerCountdown.style.display = 'none';
-            timerCountdownText.textContent = '--:--';
-            timerOptions.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active-timer'));
-        }
-
-        function updateCountdown() {
-            if (!sleepTimerEnd) return;
-            const remaining = Math.max(0, sleepTimerEnd - Date.now());
-            const mins = Math.floor(remaining / 60000);
-            const secs = Math.floor((remaining % 60000) / 1000);
-            timerCountdownText.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-            if (remaining <= 0) { clearSleepTimer(); }
+        if (vizSelector) {
+            vizSelector.querySelectorAll('.viz-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const vizType = btn.getAttribute('data-viz');
+                    if (vizType) setVizType(vizType);
+                });
+            });
+            // Initialize selector from saved preference
+            setVizType(currentViz);
         }
 
         // ============================================
-        // MEDIA SESSION API (Lock screen controls)
+        // AUTO-RECONNECT LOGIC
         // ============================================
+        let reconnectAttempts = 0;
+        const MAX_RECONNECT_ATTEMPTS = 5;
+        const RECONNECT_DELAY = 3000; // 3 seconds
+        let reconnectTimeout = null;
+        let wasPlayingBeforeDrop = false; // Track if radio was playing before a drop
+
+        function attemptReconnect() {
+            if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+                reconnectAttempts = 0;
+                wasPlayingBeforeDrop = false;
+                return;
+            }
+            reconnectAttempts++;
+            // Show "Reconnecting..." status briefly
+            if (radioPopup.classList.contains('active')) {
+                popupStatusText.parentElement.className = 'radio-popup-status popup-status-reconnecting';
+                const reconnectText = (window.abcI18n && window.abcI18n.t('radio.reconnecting')) || 'Reconnecting...';
+                popupStatusText.textContent = reconnectText;
+            }
+            reconnectTimeout = setTimeout(() => {
+                // Reload audio src and try to play
+                const currentSrc = audio.src;
+                audio.src = '';
+                audio.src = currentSrc; // Force reload
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        reconnectAttempts = 0;
+                        wasPlayingBeforeDrop = false;
+                    }).catch(() => {
+                        // Will retry again if another error event fires
+                    });
+                }
+            }, RECONNECT_DELAY);
+        }
+
+        // Reset reconnect counter on successful playback
+        audio.addEventListener('playing', () => {
+            reconnectAttempts = 0;
+            wasPlayingBeforeDrop = false;
+        });
+
+        // Track when radio was playing (before any drop)
+        audio.addEventListener('playing', () => { wasPlayingBeforeDrop = true; });
+        // User-initiated pause clears the flag
+        const origPauseRadio = pauseRadio;
+        pauseRadio = function() {
+            wasPlayingBeforeDrop = false;
+            origPauseRadio();
+        };
+
+        // Listen for error, stalled, and ended events — only auto-reconnect if radio was playing
+        audio.addEventListener('error', () => {
+            if (wasPlayingBeforeDrop) attemptReconnect();
+        });
+        audio.addEventListener('stalled', () => {
+            if (wasPlayingBeforeDrop) attemptReconnect();
+        });
+        audio.addEventListener('ended', () => {
+            if (wasPlayingBeforeDrop) attemptReconnect();
+        });
+
+        // ============================================
+        // SHARE BUTTON LOGIC (updated with WhatsApp)
+        // ============================================
+        const shareUrl = 'https://abcglobal.co.tz/?autoplay=1';
+
+        // General share button
+        radioPopupShare.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const shareText = (window.abcI18n && window.abcI18n.t('radio.share.text')) || "I'm listening to ABC Global Radio 🎵";
+            const shareData = {
+                title: 'ABC Global Church',
+                text: shareText + ' Listen here: ' + shareUrl,
+                url: shareUrl
+            };
+            if (navigator.share) {
+                navigator.share(shareData).then(() => {
+                    radioPopupShare.classList.add('shared');
+                    if (shareBtnText) shareBtnText.textContent = 'Shared!';
+                    setTimeout(() => {
+                        radioPopupShare.classList.remove('shared');
+                        if (shareBtnText) shareBtnText.textContent = 'Share';
+                    }, 2500);
+                }).catch(() => {});
+            } else {
+                // Fallback: copy to clipboard
+                const fullText = shareText + ' Listen here: ' + shareUrl;
+                navigator.clipboard.writeText(fullText).then(() => {
+                    radioPopupShare.classList.add('shared');
+                    if (shareBtnText) shareBtnText.textContent = 'Copied!';
+                    setTimeout(() => {
+                        radioPopupShare.classList.remove('shared');
+                        if (shareBtnText) shareBtnText.textContent = 'Share';
+                    }, 2500);
+                }).catch(() => {});
+            }
+        });
+
+        // WhatsApp share button
+        const whatsAppBtn = document.getElementById('radioPopupWhatsApp');
+        if (whatsAppBtn) {
+            whatsAppBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const shareText = (window.abcI18n && window.abcI18n.t('radio.share.text')) || "I'm listening to ABC Global Radio 🎵";
+                const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' Listen here: ' + shareUrl);
+                window.open(waUrl, '_blank');
+            });
+        }
+
+        // ============================================
+        // URL AUTO-PLAY (?autoplay=1)
+        // ============================================
+        (function checkAutoplay() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('autoplay') === '1') {
+                // Clean URL immediately so it doesn't re-trigger on refresh
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+                // Wait for DOM to be ready, then auto-play
+                function doAutoplay() {
+                    openRadioPopup();
+                    // Small delay to let popup open, then start playing
+                    setTimeout(() => {
+                        playRadio();
+                    }, 300);
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', doAutoplay);
+                } else {
+                    doAutoplay();
+                }
+            }
+        })();
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: 'ABC Global Radio',
@@ -2627,6 +2938,7 @@
     </script>
 
     <!-- SPA Router (loads last, handles all navigation) -->
+    <script src="i18n.js"></script>
     <script src="spa-router.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

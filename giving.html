@@ -243,7 +243,7 @@
     <!-- Back Button -->
     <a href="/" class="back-nav">
         <i data-lucide="arrow-left" style="width: 20px; height: 20px;"></i>
-        <span>Back</span>
+        <span data-i18n="nav.back">Back</span>
     </a>
 
     <div class="give-container">
@@ -251,13 +251,13 @@
         <img src="images/logo.png" alt="ABC Global Logo" class="top-logo" fetchpriority="high">
 
         <div class="give-header">
-            <h1>Give Cheerfully</h1>
-            <h2>Tithes & Offerings</h2>
+            <h1 data-i18n="giving.heading">Give Cheerfully</h1>
+            <h2 data-i18n="giving.subheading">Tithes & Offerings</h2>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="mobile">Mobile</button>
-            <button class="tab-btn" data-tab="bank">Bank</button>
+            <button class="tab-btn active" data-tab="mobile"><span data-i18n="giving.tab_mobile">Mobile</span></button>
+            <button class="tab-btn" data-tab="bank"><span data-i18n="giving.tab_bank">Bank</span></button>
         </div>
 
         <!-- MOBILE TAB -->
@@ -269,7 +269,7 @@
                     <img src="images/mpesa.png" alt="M-Pesa Logo" class="card-logo" loading="lazy">
                 </div>
                 <div class="payment-info">
-                    <span class="payment-type">Voda / M-Pesa</span>
+                    <span class="payment-type" data-i18n="giving.vodampa">Voda / M-Pesa</span>
                     <span class="payment-number">0799 016 898</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
@@ -278,7 +278,7 @@
                 </div>
                 <div class="copy-toast">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Copied!
+                    <span data-i18n="giving.copied">Copied!</span>
                 </div>
             </div>
 
@@ -288,7 +288,7 @@
                     <img src="images/mix.png" alt="Mixx By Yas Logo" class="card-logo" loading="lazy">
                 </div>
                 <div class="payment-info">
-                    <span class="payment-type">Tigo / Mixx</span>
+                    <span class="payment-type" data-i18n="giving.tigo">Tigo / Mixx</span>
                     <span class="payment-number">0775 887 591</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
@@ -297,7 +297,7 @@
                 </div>
                 <div class="copy-toast">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Copied!
+                    <span data-i18n="giving.copied">Copied!</span>
                 </div>
             </div>
         </div>
@@ -311,7 +311,7 @@
                     <img src="images/crdb.png" alt="CRDB Bank Logo" class="card-logo" loading="lazy">
                 </div>
                 <div class="payment-info">
-                    <span class="payment-type">CRDB Bank</span>
+                    <span class="payment-type" data-i18n="giving.crdb">CRDB Bank</span>
                     <span class="payment-number">1036 9920 068</span>
                     <span class="payment-name">ABC GLOBAL MEDIA</span>
                 </div>
@@ -320,7 +320,7 @@
                 </div>
                 <div class="copy-toast">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Copied!
+                    <span data-i18n="giving.copied">Copied!</span>
                 </div>
             </div>
         </div>
@@ -374,5 +374,6 @@
             });
         });
     </script>
+    <script src="i18n.js"></script>
 </body>
 </html>
