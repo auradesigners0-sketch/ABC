@@ -45,6 +45,18 @@
         }
         body::-webkit-scrollbar { display: none; }
 
+        /* Mobile: constrain to viewport to prevent destructive scrolling */
+        @media (max-width: 767px) {
+            html { height: 100dvh; max-height: 100dvh; overflow: hidden; }
+            body { min-height: 100dvh; max-height: 100dvh; overflow-y: auto; overflow-x: hidden; overscroll-behavior: none; padding: 20px 16px 60px 16px; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 16px 12px 50px 12px; }
+        }
+        @media (max-width: 360px) {
+            body { padding: 12px 10px 40px 10px; }
+        }
+
         /* Subtle ambient glow */
         body::before {
             content: ''; position: fixed; width: 500px; height: 500px;
@@ -127,7 +139,7 @@
             background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6) 100%);
             pointer-events: none; z-index: 1;
         }
-        .founder-card:hover {
+        .founder-card.reveal-done:hover {
             background: rgba(255,255,255,0.06);
             border-color: rgba(255,255,255,0.1);
             transform: translateY(-4px);
@@ -141,7 +153,7 @@
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .founder-card:hover .founder-img-wrapper img {
+        .founder-card.reveal-done:hover .founder-img-wrapper img {
             transform: scale(1.08);
         }
         .founder-info {
@@ -325,7 +337,7 @@
             position: relative;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .photo-item:hover {
+        .photo-item.reveal-done:hover {
             border-color: rgba(255,255,255,0.1);
             transform: scale(1.01);
             box-shadow: 0 12px 40px rgba(0,0,0,0.4);
@@ -345,7 +357,7 @@
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .photo-item:hover img {
+        .photo-item.reveal-done:hover img {
             transform: scale(1.06);
         }
 
@@ -354,6 +366,217 @@
         .scripture-footer {
             text-align: center; margin-top: 20px; color: #374151; font-size: 0.65rem; font-weight: 500;
             font-style: italic; letter-spacing: 0.02em;
+        }
+
+        /* ===== Image Entrance Animations — Elegant One-by-One Reveal ===== */
+
+        /* All image cards start hidden */
+        .founder-card,
+        .photo-item {
+            opacity: 0;
+            transform: translateY(40px) scale(0.92);
+            clip-path: inset(8% 8% 8% 8% round 12px);
+        }
+
+        /* When revealed — smooth multi-property animation */
+        .founder-card.img-revealed,
+        .photo-item.img-revealed {
+            animation: imgRevealElegant 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes imgRevealElegant {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.92);
+                clip-path: inset(8% 8% 8% 8% round 12px);
+                box-shadow: 0 0 0 rgba(196, 30, 58, 0);
+            }
+            40% {
+                opacity: 0.6;
+            }
+            70% {
+                clip-path: inset(0% 0% 0% 0% round 16px);
+            }
+            85% {
+                box-shadow: 0 0 30px rgba(196, 30, 58, 0.08);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                clip-path: inset(0% 0% 0% 0% round 16px);
+                box-shadow: 0 0 0 rgba(196, 30, 58, 0);
+            }
+        }
+
+        /* After animation ends — clear state so hover works */
+        .founder-card.reveal-done {
+            opacity: 1; animation: none; transform: none; clip-path: none;
+        }
+        .photo-item.reveal-done {
+            opacity: 1; animation: none; transform: none; clip-path: none;
+        }
+        /* Hover overrides */
+        .founder-card.reveal-done:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .photo-item.reveal-done:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        /* Inner image: subtle zoom-out reveal with brightness bloom */
+        .founder-card .founder-img-wrapper img,
+        .photo-item img {
+            transform: scale(1.15);
+            filter: brightness(0.5) saturate(0.6);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s ease;
+        }
+        .founder-card.img-revealed .founder-img-wrapper img,
+        .photo-item.img-revealed img {
+            animation: imgBloomReveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes imgBloomReveal {
+            0% {
+                transform: scale(1.15);
+                filter: brightness(0.5) saturate(0.6);
+            }
+            50% {
+                filter: brightness(1.1) saturate(0.85);
+            }
+            100% {
+                transform: scale(1);
+                filter: brightness(1) saturate(1);
+            }
+        }
+        /* Clear inner animation after done so hover zoom works */
+        .founder-card.reveal-done .founder-img-wrapper img,
+        .photo-item.reveal-done img {
+            animation: none; transform: scale(1); filter: brightness(1) saturate(1);
+        }
+        .founder-card.reveal-done:hover .founder-img-wrapper img {
+            transform: scale(1.08);
+        }
+        .photo-item.reveal-done:hover img {
+            transform: scale(1.06);
+        }
+
+        /* Founder card name/title — fade in after card expands */
+        .founder-card .founder-info {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .founder-card.img-revealed .founder-info {
+            opacity: 0; /* stays hidden during card animation */
+        }
+        .founder-card.reveal-done .founder-info {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease 0.1s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+
+        /* Back to Top — Long Arrow + Black Glass Capsule */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 20px;
+            width: 46px;
+            height: 80px;
+            border-radius: 23px;
+            background: rgba(10, 10, 15, 0.78);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.35),
+                        0 0 0 1px rgba(255,255,255,0.03),
+                        inset 0 1px 0 rgba(255,255,255,0.05),
+                        inset 0 -1px 0 rgba(0,0,0,0.2);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.9);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.3s ease,
+                        box-shadow 0.3s ease,
+                        border-color 0.3s ease;
+            z-index: 100;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+            outline: none;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+        .back-to-top:hover {
+            background: rgba(15, 15, 22, 0.92);
+            border-color: rgba(196, 30, 58, 0.45);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45),
+                        0 0 24px rgba(196, 30, 58, 0.1),
+                        inset 0 1px 0 rgba(255,255,255,0.07),
+                        inset 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        .back-to-top:active {
+            transform: scale(0.92) !important;
+            transition-duration: 0.1s;
+        }
+        /* Long arrow SVG */
+        .btt-arrow-svg {
+            width: 20px;
+            height: 38px;
+            color: rgba(255,255,255,0.85);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.3s ease,
+                        filter 0.3s ease;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+        .back-to-top:hover .btt-arrow-svg {
+            color: #C41E3A;
+            transform: translateY(-3px);
+            filter: drop-shadow(0 2px 8px rgba(196, 30, 58, 0.4));
+        }
+        .back-to-top:active .btt-arrow-svg {
+            transform: translateY(-1px);
+            color: #e63950;
+        }
+        /* Ambient glow line at bottom of capsule */
+        .back-to-top::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 2px;
+            border-radius: 1px;
+            background: rgba(255,255,255,0.1);
+            transition: background 0.3s ease, width 0.3s ease, box-shadow 0.3s ease;
+        }
+        .back-to-top:hover::after {
+            background: rgba(196, 30, 58, 0.5);
+            width: 18px;
+            box-shadow: 0 0 8px rgba(196, 30, 58, 0.3);
+        }
+        @media (max-width: 480px) {
+            .back-to-top {
+                width: 42px;
+                height: 72px;
+                bottom: 22px;
+                right: 16px;
+                border-radius: 21px;
+            }
+            .btt-arrow-svg { width: 18px; height: 34px; }
         }
     </style>
 </head>
@@ -471,6 +694,130 @@
         <div class="scripture-footer" data-i18n="history.verse">"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11</div>
     </div>
 
+    <!-- Back to Top — Long Arrow + Black Glass Capsule -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg class="btt-arrow-svg" viewBox="0 0 24 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L5 11"/><path d="M12 2L19 11"/><path d="M12 2V42"/>
+        </svg>
+    </button>
+
 <script src="i18n.js"></script>
+<script>
+    // Scroll-triggered image entrance — elegant one-by-one reveal
+    (function() {
+        const STAGGER_DELAY = 200; // ms between each image (smooth cascade)
+        const founders = document.querySelectorAll('.founder-card');
+        const photos = document.querySelectorAll('.photo-item');
+        const allImages = [...founders, ...photos]; // founders first, then gallery
+        let revealQueue = [];
+        let isProcessing = false;
+
+        function revealElement(el, delay) {
+            setTimeout(() => {
+                el.classList.add('img-revealed');
+                // After the card's animation ends, clean up so hover works
+                el.addEventListener('animationend', function handler(e) {
+                    if (e.animationName === 'imgRevealElegant') {
+                        el.classList.add('reveal-done');
+                        el.removeEventListener('animationend', handler);
+                    }
+                });
+            }, delay);
+        }
+
+        function processQueue() {
+            if (isProcessing || revealQueue.length === 0) return;
+            isProcessing = true;
+            // Snapshot the current batch and clear the queue so new arrivals
+            // go into a fresh queue instead of being orphaned
+            const currentBatch = [...revealQueue];
+            revealQueue = [];
+            currentBatch.forEach((el, i) => {
+                revealElement(el, i * STAGGER_DELAY);
+            });
+            // After this batch finishes, process any items that arrived in the meantime
+            setTimeout(() => {
+                isProcessing = false;
+                if (revealQueue.length > 0) {
+                    processQueue();
+                }
+            }, currentBatch.length * STAGGER_DELAY + 1200);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    revealQueue.push(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+            // Process the queue — items that entered viewport in this frame
+            processQueue();
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        allImages.forEach(el => observer.observe(el));
+    })();
+
+    // Back to Top — Long Arrow + Black Glass Capsule
+    // Appears only after 500px scroll
+    (function() {
+        var btn = document.getElementById('backToTop');
+        if (!btn) return;
+        var rafId = null;
+        var destroyed = false;
+        var isVisible = false;
+        var THRESHOLD = 500;
+
+        function getEffectiveScroll() {
+            return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        }
+
+        function updateVisibility() {
+            if (destroyed) return;
+            var effectiveScroll = getEffectiveScroll();
+            var shouldShow = effectiveScroll > THRESHOLD;
+
+            if (shouldShow && !isVisible) {
+                btn.classList.add('visible');
+                isVisible = true;
+            } else if (!shouldShow && isVisible) {
+                btn.classList.remove('visible');
+                isVisible = false;
+            }
+        }
+
+        function onScroll() {
+            if (rafId || destroyed) return;
+            rafId = requestAnimationFrame(function() {
+                updateVisibility();
+                rafId = null;
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        document.body.addEventListener('scroll', onScroll, { passive: true });
+
+        updateVisibility();
+
+        btn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.body.scrollTo({ top: 0, behavior: 'smooth' });
+            document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        var observer = new MutationObserver(function() {
+            if (!document.body.contains(btn)) {
+                destroyed = true;
+                window.removeEventListener('scroll', onScroll);
+                document.body.removeEventListener('scroll', onScroll);
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    })();
+</script>
 </body>
 </html>

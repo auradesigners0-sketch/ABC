@@ -445,9 +445,9 @@
             left: 4px;
             height: calc(100% - 8px);
             width: calc(50% - 4px);
-            background: linear-gradient(135deg, #b71c1c, #d32f2f);
+            background: linear-gradient(135deg, #C41E3A, #a1182e);
             border-radius: 50px;
-            box-shadow: 0 2px 8px rgba(183, 28, 28, 0.35);
+            box-shadow: 0 2px 8px rgba(196, 30, 58, 0.35);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
         }

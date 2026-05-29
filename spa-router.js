@@ -243,6 +243,9 @@
             }
         });
 
+        // Remove back-to-top buttons from fetched pages (main button persists in index.html)
+        temp.querySelectorAll('.back-to-top').forEach(el => el.remove());
+
         return temp.innerHTML;
     }
 
@@ -362,6 +365,13 @@
                 });
             });
 
+            // Clear transform after transition to restore position:fixed behavior
+            // (CSS spec: transform creates containing block for fixed descendants)
+            setTimeout(function() {
+                contentArea.style.transform = '';
+                contentArea.style.transition = '';
+            }, 400);
+
         } else if (isHome) {
             // === ARRIVING AT HOME ===
             // Smooth fade-out of sub-page, then show home
@@ -393,6 +403,12 @@
             contentArea.style.opacity = '1';
             contentArea.style.transform = 'translateY(0)';
 
+            // Clear transform after transition to restore position:fixed behavior
+            setTimeout(function() {
+                contentArea.style.transform = '';
+                contentArea.style.transition = '';
+            }, 350);
+
         } else {
             // === SUB-PAGE → SUB-PAGE ===
             // Normal cross-fade between sub-pages
@@ -423,6 +439,13 @@
             contentArea.style.opacity = '1';
             contentArea.style.transform = 'translateY(0)';
         }
+
+        // Clear transform after transition to restore position:fixed behavior
+        // (CSS spec: transform creates containing block for fixed descendants)
+        setTimeout(function() {
+            contentArea.style.transform = '';
+            contentArea.style.transition = '';
+        }, 350);
 
         // Update current page
         currentPage = pageName;
@@ -655,20 +678,25 @@
         .back-nav {
             animation: backNavSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both !important;
         }
-        /* Page content entrance animation — smooth slide-up with scale */
+        /* Page content entrance animation — opacity only (NO transform!)
+           transform on #spa-content creates a containing block that breaks
+           position:fixed descendants like back-to-top buttons.
+           The JS router handles the slide-up transform via inline styles
+           and clears it after the transition completes. */
         @keyframes spaPageEnter {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        #spa-content {
+        body:not(.spa-home) #spa-content {
             animation: spaPageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        /* Staggered child entrance for sub-page content */
+        /* Staggered child entrance for sub-page content
+           Exclude .main-logo-wrapper to prevent triple animation conflict on homepage */
         @keyframes spaChildFadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        #spa-content > *:not(.back-nav) {
+        body:not(.spa-home) #spa-content > *:not(.back-nav) {
             animation: spaChildFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
         }
         /* Small screens */
