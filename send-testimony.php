@@ -11,7 +11,7 @@
  */
 
 // ====== CONFIGURE YOUR EMAIL HERE ======
-$YOUR_EMAIL = 'auradesigners0@gmail.com';
+$YOUR_EMAIL = 'abcglobalchurch@gmail.com';
 // ========================================
 
 header('Content-Type: application/json');

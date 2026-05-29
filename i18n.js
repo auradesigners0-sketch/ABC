@@ -190,7 +190,7 @@
 
         sw: {
             // --- Homepage ---
-            'home.tagline.line1': 'KUKUZA KIZAZI CHENYE BIDII, KILICHOTENGWA,',
+            'home.tagline.line1': 'KUINUA KIZAZI CHENYE BIDII, KILICHOTENGWA,',
             'home.tagline.line2': 'KWA KAZI YA MUNGU',
             'home.menu.verse': '"Angalieni, mimi na watoto hawa niliopewa na BWANA tu ishara na ajabu." — Isaya 8:18',
 
